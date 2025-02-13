@@ -1,15 +1,14 @@
 import NextAuth from "next-auth"
 import { authConfig } from "./auth.config"
 import Credentials from "next-auth/providers/credentials"
-import type { User } from "@/app/lib/definitions"
 import { z } from "zod"
 import bcrypt from "bcrypt"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import { prisma } from "@/app/lib/prisma"
 
-async function getUser(email: string): Promise<User | undefined> {
+async function getUser(email: string) {
   try {
-    const user = { email: "baba@email.com", password: "123456" }
+    const user = await prisma.user.findUnique({ where: { email } })
     return user
   } catch (error) {
     console.error("Failed to fetch user:", error)
@@ -31,7 +30,7 @@ export const { auth, signIn, signOut } = NextAuth({
           const { email, password } = parsedCredentials.data
           const user = await getUser(email)
           if (!user) return null
-          const passwordsMatch = true // to be modified
+          const passwordsMatch = await bcrypt.compare(password, user.password)
           if (passwordsMatch) return user
         }
 
