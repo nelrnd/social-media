@@ -4,6 +4,8 @@ import Credentials from "next-auth/providers/credentials"
 import type { User } from "@/app/lib/definitions"
 import { z } from "zod"
 import bcrypt from "bcrypt"
+import { PrismaAdapter } from "@auth/prisma-adapter"
+import { prisma } from "@/app/lib/prisma"
 
 async function getUser(email: string): Promise<User | undefined> {
   try {
@@ -17,6 +19,7 @@ async function getUser(email: string): Promise<User | undefined> {
 
 export const { auth, signIn, signOut } = NextAuth({
   ...authConfig,
+  adapter: PrismaAdapter(prisma),
   providers: [
     Credentials({
       async authorize(credentials) {
