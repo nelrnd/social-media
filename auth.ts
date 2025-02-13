@@ -16,9 +16,10 @@ async function getUser(email: string) {
   }
 }
 
-export const { auth, signIn, signOut } = NextAuth({
+export const { auth, handlers, signIn, signOut } = NextAuth({
   ...authConfig,
   adapter: PrismaAdapter(prisma),
+  session: { strategy: "jwt" },
   providers: [
     Credentials({
       async authorize(credentials) {
