@@ -9,6 +9,7 @@ export default function RegisterForm() {
           name="email"
           id="email"
           className="block w-full p-2 border border-gray-300"
+          autoFocus
         />
       </div>
       <div>
