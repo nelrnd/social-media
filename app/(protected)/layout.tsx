@@ -4,9 +4,11 @@ export default function Layout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <div className="grid grid-cols-[auto_1fr]">
+    <div>
       <SideBar />
-      {children}
+      <div className="max-w-[36rem] m-auto border-r border-l border-gray-200 min-h-screen">
+        {children}
+      </div>
     </div>
   )
 }

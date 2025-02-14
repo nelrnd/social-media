@@ -1,7 +1,9 @@
+import PostForm from "../ui/post-form"
+
 export default function Home() {
   return (
-    <div>
-      <h1>Welcome Home!</h1>
-    </div>
+    <main>
+      <PostForm />
+    </main>
   )
 }
