@@ -5,6 +5,7 @@ import { AuthError } from "next-auth"
 import { prisma } from "@/app/lib/prisma"
 import bcrypt from "bcrypt"
 import { z } from "zod"
+import { revalidatePath } from "next/cache"
 
 export async function authenticate(
   prevState: string | undefined,
@@ -56,8 +57,30 @@ export async function register(
   }
 }
 
-export async function createPost(prevState, formData: FormData) {
-  console.log(formData.get("content"))
+const FormPostSchema = z.object({
+  content: z.string().min(1, "Post content cannot be empty"),
+})
+
+export async function createPost(
+  prevState: string | undefined,
+  formData: FormData
+) {
+  const validatedFields = FormPostSchema.safeParse({
+    content: formData.get("content"),
+  })
+
+  if (!validatedFields.success) {
+    return validatedFields.error.errors[0]?.message
+  }
+
+  const { content } = validatedFields.data
   const session = await auth()
-  console.log(session?.user)
+  const userId = session?.user?.id
+
+  if (!userId) {
+    return "User must be logged in"
+  }
+
+  await prisma.post.create({ data: { content, userId } })
+  revalidatePath("/")
 }
