@@ -1,13 +1,15 @@
 "use client"
 
 import { useActionState } from "react"
-import { register } from "@/app/lib/actions"
+import { authenticate, register } from "@/app/lib/actions"
 
 export default function RegisterForm() {
   const [errorMessage, formAction, isPending] = useActionState(
     register,
+    authenticate,
     undefined
   )
+
   return (
     <form action={formAction} className="space-y-4 mb-8">
       <h1 className="text-xl font-bold">Register</h1>

@@ -7,7 +7,6 @@ export const authConfig = {
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user
-      if (isLoggedIn) console.log("logged in")
       const isOnProtectedRoute = !["/login", "/register"].includes(
         nextUrl.pathname.split("?")[0]
       )

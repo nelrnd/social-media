@@ -52,5 +52,16 @@ export async function register(
     await signIn("credentials", formData)
   } catch (error) {
     console.error(error)
+    throw error
+  }
+}
+
+export async function createUser(
+  prevState: string | undefined,
+  formData: FormData
+) {
+  try {
+  } catch (error) {
+    throw error
   }
 }
