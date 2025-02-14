@@ -1,6 +1,6 @@
 "use server"
 
-import { signIn } from "@/auth"
+import { auth, signIn } from "@/auth"
 import { AuthError } from "next-auth"
 import { prisma } from "@/app/lib/prisma"
 import bcrypt from "bcrypt"
@@ -56,12 +56,8 @@ export async function register(
   }
 }
 
-export async function createUser(
-  prevState: string | undefined,
-  formData: FormData
-) {
-  try {
-  } catch (error) {
-    throw error
-  }
+export async function createPost(prevState, formData: FormData) {
+  console.log(formData.get("content"))
+  const session = await auth()
+  console.log(session?.user)
 }
