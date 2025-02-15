@@ -1,6 +1,7 @@
 import NextAuth from "next-auth"
 import { authConfig } from "./auth.config"
 import Credentials from "next-auth/providers/credentials"
+import GitHub from "next-auth/providers/github"
 import { z } from "zod"
 import bcrypt from "bcrypt"
 import { PrismaAdapter } from "@auth/prisma-adapter"
@@ -31,7 +32,10 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           const { email, password } = parsedCredentials.data
           const user = await getUser(email)
           if (!user) return null
-          const passwordsMatch = await bcrypt.compare(password, user.password)
+          const passwordsMatch = await bcrypt.compare(
+            password,
+            user.password || ""
+          )
           if (passwordsMatch) return user
         }
 
@@ -39,5 +43,6 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         return null
       },
     }),
+    GitHub,
   ],
 })
