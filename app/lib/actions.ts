@@ -6,6 +6,7 @@ import { prisma } from "@/app/lib/prisma"
 import bcrypt from "bcrypt"
 import { z } from "zod"
 import { revalidatePath } from "next/cache"
+import { Prisma } from "@prisma/client"
 
 export async function authenticate(
   prevState: string | undefined,
@@ -27,15 +28,31 @@ export async function authenticate(
 }
 
 const RegisterFormSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(6),
+  email: z
+    .string()
+    .min(1, "Email is required")
+    .email("Email format is invalid")
+    .refine(async (email) => {
+      const user = await prisma.user.findUnique({ where: { email } })
+      return !user
+    }, "Email is already used"),
+  password: z
+    .string()
+    .min(1, "Password is required")
+    .min(6, "Password must be at least 6 characters"),
 })
 
-export async function register(
-  prevState: string | undefined,
-  formData: FormData
-) {
-  const validatedFields = RegisterFormSchema.safeParse({
+export type AuthState = {
+  errors?: {
+    email?: string[]
+    password?: string[]
+  }
+  message?: string | null
+  data?: FormData
+}
+
+export async function register(prevState: AuthState, formData: FormData) {
+  const validatedFields = await RegisterFormSchema.safeParseAsync({
     email: formData.get("email"),
     password: formData.get("password"),
   })
@@ -43,18 +60,25 @@ export async function register(
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
+      data: formData,
     }
   }
 
   const { email, password } = validatedFields.data
   const hashedPassword = await bcrypt.hash(password, 12)
+
   try {
     await prisma.user.create({ data: { email, password: hashedPassword } })
     await signIn("credentials", formData)
   } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      return { message: "Something went wrong" }
+    }
     console.error(error)
     throw error
   }
+
+  return { message: "User registered successfully" }
 }
 
 const FormPostSchema = z.object({
