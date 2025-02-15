@@ -8,7 +8,7 @@ export default function RegisterForm() {
   const [state, formAction, isPending] = useActionState(register, initialState)
 
   return (
-    <form action={formAction} className="space-y-4 mb-8">
+    <form action={formAction} className="space-y-4">
       <h1 className="text-xl font-bold">Register</h1>
       <div>
         <label htmlFor="email">Email</label>

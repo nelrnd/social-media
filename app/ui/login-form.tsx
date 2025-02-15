@@ -14,7 +14,7 @@ export default function LoginForm() {
   )
 
   return (
-    <form action={formAction} className="space-y-4 mb-8">
+    <form action={formAction} className="space-y-4">
       <h1 className="text-xl font-bold">Log in</h1>
       <div>
         <label htmlFor="email">Email</label>

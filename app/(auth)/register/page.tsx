@@ -5,7 +5,7 @@ import SocialLogin from "@/app/ui/social-login"
 export default function RegisterPage() {
   return (
     <main>
-      <div className="max-w-[50rem] m-auto p-4">
+      <div className="max-w-[50rem] m-auto p-4 space-y-8">
         <RegisterForm />
         <SocialLogin />
         <p>
