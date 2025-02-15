@@ -8,23 +8,48 @@ import { z } from "zod"
 import { revalidatePath } from "next/cache"
 import { Prisma } from "@prisma/client"
 
-export async function authenticate(
-  prevState: string | undefined,
-  formData: FormData
-) {
+export type AuthState = {
+  errors?: {
+    email?: string[]
+    password?: string[]
+  }
+  message?: string | null
+  data?: FormData
+}
+
+const LoginFormSchema = z.object({
+  email: z.string().min(1, "Email is required"),
+  password: z.string().min(1, "Password is required"),
+})
+
+export async function authenticate(prevState: AuthState, formData: FormData) {
+  const validatedFields = LoginFormSchema.safeParse({
+    email: formData.get("email"),
+    password: formData.get("password"),
+  })
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      data: formData,
+    }
+  }
+
   try {
     await signIn("credentials", formData)
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":
-          return "Invalid credentials"
+          return { message: "Invalid credentials", data: formData }
         default:
-          return "Something went wrong"
+          return { message: "Something went wrong", data: formData }
       }
     }
     throw error
   }
+
+  return { message: "Logged in with success" }
 }
 
 const RegisterFormSchema = z.object({
@@ -41,15 +66,6 @@ const RegisterFormSchema = z.object({
     .min(1, "Password is required")
     .min(6, "Password must be at least 6 characters"),
 })
-
-export type AuthState = {
-  errors?: {
-    email?: string[]
-    password?: string[]
-  }
-  message?: string | null
-  data?: FormData
-}
 
 export async function register(prevState: AuthState, formData: FormData) {
   const validatedFields = await RegisterFormSchema.safeParseAsync({
@@ -72,16 +88,16 @@ export async function register(prevState: AuthState, formData: FormData) {
     await signIn("credentials", formData)
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      return { message: "Something went wrong" }
+      return { message: "Something went wrong", data: formData }
     }
     console.error(error)
     throw error
   }
 
-  return { message: "User registered successfully" }
+  return { message: "Registered with success" }
 }
 
-const FormPostSchema = z.object({
+const PostFormSchema = z.object({
   content: z.string().min(1, "Post content cannot be empty"),
 })
 
@@ -89,7 +105,7 @@ export async function createPost(
   prevState: string | undefined,
   formData: FormData
 ) {
-  const validatedFields = FormPostSchema.safeParse({
+  const validatedFields = PostFormSchema.safeParse({
     content: formData.get("content"),
   })
 
