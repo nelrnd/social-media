@@ -1,8 +1,16 @@
+import { auth } from "@/auth"
 import SideBar from "../ui/side-bar"
+import { redirect } from "next/navigation"
 
-export default function Layout({
+export default async function Layout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const session = await auth()
+
+  if (!session?.user.profile) {
+    redirect("/profile-setup")
+  }
+
   return (
     <div>
       <SideBar />

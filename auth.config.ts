@@ -3,6 +3,7 @@ import type { NextAuthConfig } from "next-auth"
 export const authConfig = {
   pages: {
     signIn: "/login",
+    newUser: "/profile-setup",
   },
   providers: [],
   callbacks: {
