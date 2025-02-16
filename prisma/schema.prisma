@@ -60,11 +60,12 @@ model VerificationToken {
 }
 
 model Profile {
-  id       String @id @default(cuid())
+  id       String  @id @default(cuid())
   name     String
-  username String @unique
-  userId   String @unique
-  user     User   @relation(fields: [userId], references: [id])
+  username String  @unique
+  bio      String?
+  userId   String  @unique
+  user     User    @relation(fields: [userId], references: [id])
 }
 
 model Post {

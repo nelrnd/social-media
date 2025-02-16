@@ -124,3 +124,45 @@ export async function createPost(
   await prisma.post.create({ data: { content, userId } })
   revalidatePath("/")
 }
+
+const ProfileFormSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  username: z
+    .string()
+    .min(1, "Username is required")
+    .min(4, "Username must be at least 4 characters"),
+  bio: z.string(),
+})
+
+export async function createProfile(
+  prevState: string | undefined,
+  formData: FormData
+) {
+  const validatedFields = await ProfileFormSchema.safeParseAsync({
+    name: formData.get("name"),
+    username: formData.get("username"),
+    bio: formData.get("bio"),
+  })
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      data: formData,
+    }
+  }
+
+  const { name, username, bio } = validatedFields.data
+  const session = await auth()
+  const userId = session?.user?.id as string
+
+  if (!userId) {
+    return "User must be logged in"
+  }
+
+  try {
+    await prisma.profile.create({ data: { name, username, bio, userId } })
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}
