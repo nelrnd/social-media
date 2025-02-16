@@ -5,6 +5,8 @@ export default async function ProfilePage() {
 
   if (!session?.user) return null
 
+  console.log(session)
+
   return (
     <main>
       <h1>Profile</h1>
