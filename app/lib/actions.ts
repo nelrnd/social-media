@@ -125,6 +125,16 @@ export async function createPost(
   revalidatePath("/")
 }
 
+export type ProfileFormState = {
+  errors?: {
+    name?: string[]
+    username?: string[]
+    bio?: string[]
+  }
+  message?: string | null
+  data?: FormData
+}
+
 const ProfileFormSchema = z.object({
   name: z.string().min(1, "Name is required"),
   username: z
@@ -135,7 +145,7 @@ const ProfileFormSchema = z.object({
 })
 
 export async function createProfile(
-  prevState: string | undefined,
+  prevState: ProfileFormState,
   formData: FormData
 ) {
   const validatedFields = await ProfileFormSchema.safeParseAsync({
@@ -156,7 +166,7 @@ export async function createProfile(
   const userId = session?.user?.id as string
 
   if (!userId) {
-    return "User must be logged in"
+    return { message: "User must be logged in" }
   }
 
   try {
@@ -165,4 +175,6 @@ export async function createProfile(
     console.log(error)
     throw error
   }
+
+  return { message: "Profile created successfully" }
 }

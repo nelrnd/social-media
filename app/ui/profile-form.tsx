@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useActionState, useState } from "react"
+import { createProfile, ProfileFormState } from "../lib/actions"
 
 export default function ProfileForm({
   title,
@@ -9,12 +10,17 @@ export default function ProfileForm({
   title?: string
   buttonText?: string
 }) {
-  const [state, setState] = useState({ errors: [] })
-
-  const isPending = false
+  const initialState: ProfileFormState = {
+    message: null,
+    errors: {},
+  }
+  const [state, formAction, isPending] = useActionState(
+    createProfile,
+    initialState
+  )
 
   return (
-    <form className="space-y-4">
+    <form action={formAction} className="space-y-4">
       <h1 className="text-xl font-bold">{title || "Setup profile"}</h1>
       <div>
         <label htmlFor="name">Display name</label>
@@ -55,11 +61,13 @@ export default function ProfileForm({
         </div>
       </div>
       <div>
-        <label htmlFor="bio">Bio (a few words about yourself)</label>
+        <label htmlFor="bio">
+          Bio <span className="text-gray-600">(optional)</span>
+        </label>
         <textarea
           name="bio"
           id="bio"
-          className="block w-full p-2 border border-gray-300"
+          className="block w-full h-[6rem] p-2 border border-gray-300"
           aria-labelledby="bio-error"
           defaultValue={(state?.data?.get("bio") || "") as string}
         ></textarea>
