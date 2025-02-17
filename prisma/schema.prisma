@@ -21,6 +21,7 @@ model User {
   updatedAt     DateTime  @updatedAt
   profile       Profile?
   posts         Post[]
+  likes         Like[]
 }
 
 model Account {
@@ -71,6 +72,16 @@ model Profile {
 model Post {
   id        String   @id @default(cuid())
   content   String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  likes     Like[]
+}
+
+model Like {
+  id        String   @id @default(cuid())
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id])
   userId    String
   user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
