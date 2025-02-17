@@ -178,3 +178,23 @@ export async function createProfile(
 
   return { message: "Profile created successfully" }
 }
+
+export async function likePost(postId: string) {
+  const session = await auth()
+  const userId = session?.user?.id as string
+  if (!session || !postId) {
+    return "User must be logged in and post id must be provided"
+  }
+  const like = await prisma.like.findFirst({
+    where: { userId, postId },
+  })
+  if (!like) {
+    await prisma.like.create({ data: { userId, postId } })
+    revalidatePath("/")
+    return "Liked post successfully"
+  } else {
+    await prisma.like.delete({ where: { id: like.id } })
+    revalidatePath("/")
+    return "Unliked post successfully"
+  }
+}
