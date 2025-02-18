@@ -5,6 +5,7 @@ import moment from "moment"
 import Link from "next/link"
 import { likePost } from "../lib/actions"
 import { useSession } from "next-auth/react"
+import CommentForm from "./comment-form"
 
 export default function PostCard({
   post,
@@ -42,6 +43,9 @@ export default function PostCard({
           {!hasLiked ? "Like" : "Unlike"}
         </button>
       </footer>
+      <section>
+        <CommentForm />
+      </section>
     </article>
   )
 }
