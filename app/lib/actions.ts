@@ -210,6 +210,7 @@ export async function commentPost(
 ) {
   const validatedFields = CommentFormSchema.safeParse({
     content: formData.get("content"),
+    postId: formData.get("postId"),
   })
 
   if (!validatedFields.success) {

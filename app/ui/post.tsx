@@ -1,5 +1,3 @@
-"use client"
-
 import { Prisma } from "@prisma/client"
 import moment from "moment"
 import Link from "next/link"
@@ -7,6 +5,7 @@ import { likePost } from "../lib/actions"
 import { useSession } from "next-auth/react"
 import CommentForm from "./comment-form"
 import PostCommentSection from "./post-comment-section"
+import PostMenu from "./post-menu"
 
 export default function Post({
   post,
@@ -15,10 +14,6 @@ export default function Post({
     include: { user: { select: { profile: true } }; likes: true }
   }>
 }) {
-  const { data: session } = useSession()
-  const userId = session?.user?.id
-  const hasLiked = post.likes.find((like) => like.userId === userId)
-
   return (
     <article className="border-b border-gray-200 space-y-2">
       <div className="p-4">
@@ -39,15 +34,8 @@ export default function Post({
           </time>
         </header>
         <p>{post.content}</p>
-        <footer>
-          <div className="text-gray-600">
-            {post.likes.length} {post.likes.length === 1 ? "like" : "likes"}
-          </div>
-          <button onClick={() => likePost(post.id)}>
-            {!hasLiked ? "Like" : "Unlike"}
-          </button>
-        </footer>
       </div>
+      <PostMenu post={post} />
       <PostCommentSection postId={post.id} />
     </article>
   )
