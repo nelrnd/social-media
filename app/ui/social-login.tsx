@@ -16,7 +16,7 @@ export default function SocialLogin() {
       >
         <button
           type="submit"
-          className="block w-full p-2 border border-gray-200 disabled:opacity-50 hover:bg-gray-100 transition-opacity"
+          className="block w-full p-2 border border-gray-200 disabled:opacity-50 hover:bg-gray-100 transition-colors"
         >
           Sign in with Google
         </button>
@@ -30,7 +30,7 @@ export default function SocialLogin() {
       >
         <button
           type="submit"
-          className="block w-full p-2 border border-gray-200 disabled:opacity-50 hover:bg-gray-100 transition-opacity"
+          className="block w-full p-2 border border-gray-200 disabled:opacity-50 hover:bg-gray-100 transition-colors"
         >
           Sign in with GitHub
         </button>

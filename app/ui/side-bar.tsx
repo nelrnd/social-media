@@ -3,7 +3,7 @@ import { signOut } from "@/auth"
 
 export default function SideBar() {
   return (
-    <nav className="w-[18rem] h-screen p-8 border-r bg-white border-gray-200 fixed">
+    <nav className="lg:w-[18rem] h-screen p-8 border-r bg-white border-gray-200 lg:fixed w-fit">
       <ul className="flex flex-col h-full gap-4">
         <li className="mb-8">
           <Link href="/">
