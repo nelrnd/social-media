@@ -198,3 +198,33 @@ export async function likePost(postId: string) {
     return "Unliked post successfully"
   }
 }
+
+const CommentFormSchema = z.object({
+  content: z.string().min(1, "Your comment cannot be empty"),
+  postId: z.string().min(1, "Post id is required"),
+})
+
+export async function commentPost(
+  prevState: string | undefined,
+  formData: FormData
+) {
+  const validatedFields = CommentFormSchema.safeParse({
+    content: formData.get("content"),
+  })
+
+  if (!validatedFields.success) {
+    return validatedFields.error.errors[0]?.message
+  }
+
+  const session = await auth()
+  const userId = session?.user.id
+
+  if (!userId) {
+    return "User must be logged in"
+  }
+
+  const { content, postId } = validatedFields.data
+
+  await prisma.comment.create({ data: { content, userId, postId } })
+  revalidatePath("/")
+}
