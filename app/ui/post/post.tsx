@@ -1,21 +1,23 @@
 import { Prisma } from "@prisma/client"
 import moment from "moment"
 import Link from "next/link"
-import { likePost } from "../lib/actions"
-import { useSession } from "next-auth/react"
-import CommentForm from "./comment-form"
-import PostCommentSection from "./post-comment-section"
+import CommentForm from "../comment-form"
 import PostMenu from "./post-menu"
+import { fetchComments } from "@/app/lib/data"
+import CommentList from "../comment-list"
+import PostComment from "./post-comment"
 
-export default function Post({
+export default async function Post({
   post,
 }: {
   post: Prisma.PostGetPayload<{
     include: { user: { select: { profile: true } }; likes: true }
   }>
 }) {
+  const comments = await fetchComments(post.id)
+
   return (
-    <article className="border-b border-gray-200 space-y-2">
+    <article className="border-b border-gray-200">
       <div className="p-4">
         <header className="flex items-center justify-between">
           <p>
@@ -35,8 +37,8 @@ export default function Post({
         </header>
         <p>{post.content}</p>
       </div>
-      <PostMenu post={post} />
-      <PostCommentSection postId={post.id} />
+      <PostMenu postId={post.id} likes={post.likes} comments={comments} />
+      <PostComment postId={post.id} comments={comments} />
     </article>
   )
 }

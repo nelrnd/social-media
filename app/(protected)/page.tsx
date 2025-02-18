@@ -1,5 +1,5 @@
-import PostForm from "../ui/post-form"
-import PostList from "../ui/post-list"
+import PostForm from "../ui/post/post-form"
+import PostList from "../ui/post/post-list"
 
 const posts = [
   {

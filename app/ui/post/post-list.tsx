@@ -1,4 +1,4 @@
-import { fetchPosts, fetchUserPosts } from "../lib/data"
+import { fetchPosts, fetchUserPosts } from "@/app/lib/data"
 import Post from "./post"
 
 export default async function PostList({ userId }: { userId?: string }) {

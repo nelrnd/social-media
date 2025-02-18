@@ -1,5 +1,5 @@
 import { fetchProfile, fetchUserPosts } from "@/app/lib/data"
-import PostList from "@/app/ui/post-list"
+import PostList from "@/app/ui/post/post-list"
 
 export default async function ProfilePage({
   params,

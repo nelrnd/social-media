@@ -9,8 +9,8 @@ export default function Comment({
 }) {
   return (
     <div>
-      <header>{comment.user?.profile?.username}</header>
-      <section>{comment.content}</section>
+      <span className="font-bold">{comment.user.profile?.username}</span>:{" "}
+      {comment.content}
     </div>
   )
 }

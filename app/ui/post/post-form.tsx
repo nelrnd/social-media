@@ -1,7 +1,7 @@
 "use client"
 
 import { useActionState } from "react"
-import { createPost } from "../lib/actions"
+import { createPost } from "@/app/lib/actions"
 
 export default function PostForm() {
   const [formError, formAction, isPending] = useActionState(
