@@ -23,3 +23,12 @@ export async function fetchUserPosts(userId: string) {
   })
   return posts
 }
+
+export async function fetchComments(postId: string) {
+  const comments = await prisma.comment.findMany({
+    where: { postId },
+    include: { user: { select: { profile: true } } },
+    orderBy: { createdAt: "desc" },
+  })
+  return comments
+}

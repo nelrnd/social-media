@@ -9,7 +9,7 @@ export default function Comment({
 }) {
   return (
     <div>
-      <header>{comment.user.profile?.username}</header>
+      <header>{comment.user?.profile?.username}</header>
       <section>{comment.content}</section>
     </div>
   )
