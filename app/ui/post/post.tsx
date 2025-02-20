@@ -6,6 +6,7 @@ import PostMenu from "./post-menu"
 import { fetchComments } from "@/app/lib/data"
 import CommentList from "../comment-list"
 import PostComment from "./post-comment"
+import PostLikesModal from "./post-likes-modal"
 
 export default async function Post({
   post,
@@ -38,7 +39,6 @@ export default async function Post({
         <p>{post.content}</p>
       </div>
       <PostMenu postId={post.id} likes={post.likes} comments={comments} />
-      <PostComment postId={post.id} comments={comments} />
     </article>
   )
 }

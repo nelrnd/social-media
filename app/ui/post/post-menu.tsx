@@ -8,6 +8,7 @@ import {
   HeartIcon as HeartIconOutline,
 } from "@heroicons/react/24/outline"
 import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid"
+import PostLikesModal from "./post-likes-modal"
 
 export default function PostMenu({
   postId,
