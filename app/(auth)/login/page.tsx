@@ -5,7 +5,7 @@ import SocialLogin from "@/app/ui/social-login"
 export default function LoginPage() {
   return (
     <main>
-      <div className="max-w-[50rem] m-auto p-4 space-y-8">
+      <div className="max-w-[50rem] m-auto p-4 space-y-6">
         <LoginForm />
         <SocialLogin />
         <p>
