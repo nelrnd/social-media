@@ -1,26 +1,13 @@
+import PageHeader from "../ui/page-header"
 import PostForm from "../ui/post/post-form"
 import PostList from "../ui/post/post-list"
-
-const posts = [
-  {
-    id: 1,
-    content: "Hello World!",
-  },
-  {
-    id: 2,
-    content: "TESTING",
-  },
-  {
-    id: 3,
-    content: "ABCDEF",
-  },
-]
 
 export default function Home() {
   return (
     <main>
+      <PageHeader title="Home" />
       <PostForm />
-      <PostList posts={posts} />
+      <PostList />
     </main>
   )
 }
