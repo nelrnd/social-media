@@ -32,3 +32,12 @@ export async function fetchComments(postId: string) {
   })
   return comments
 }
+
+export async function fetchLikes(postId: string) {
+  const likes = await prisma.like.findMany({
+    where: { postId },
+    include: { user: { select: { profile: true } } },
+    orderBy: { createdAt: "desc" },
+  })
+  return likes
+}
