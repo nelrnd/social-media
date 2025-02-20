@@ -7,6 +7,7 @@ import bcrypt from "bcrypt"
 import { z } from "zod"
 import { revalidatePath } from "next/cache"
 import { Prisma } from "@prisma/client"
+import { redirect } from "next/navigation"
 
 export type AuthState = {
   errors?: {
@@ -140,7 +141,15 @@ const ProfileFormSchema = z.object({
   username: z
     .string()
     .min(1, "Username is required")
-    .min(4, "Username must be at least 4 characters"),
+    .min(4, "Username must be at least 4 characters")
+    .regex(
+      /^[a-zA-Z0-9_-]+$/,
+      'Username must only contain letters, numbers, "-" and "_"'
+    )
+    .refine(async (username) => {
+      const profile = await prisma.profile.findUnique({ where: { username } })
+      return !profile
+    }, "Username is already taken"),
   bio: z.string(),
 })
 
@@ -176,7 +185,7 @@ export async function createProfile(
     throw error
   }
 
-  return { message: "Profile created successfully" }
+  redirect("/")
 }
 
 export async function likePost(postId: string) {
