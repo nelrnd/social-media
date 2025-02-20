@@ -22,6 +22,7 @@ export default function ProfileForm({
   return (
     <form action={formAction} className="space-y-4">
       <h1 className="text-xl font-bold">{title || "Setup profile"}</h1>
+      <p className="text-gray-600">Let's quickly create a profile.</p>
       <div>
         <label htmlFor="name">Display name</label>
         <input
@@ -51,6 +52,9 @@ export default function ProfileForm({
           aria-labelledby="username-error"
           defaultValue={(state?.data?.get("username") || "") as string}
         />
+        <div className="text-sm text-gray-600">
+          Username must only contain letters, numbers, "-" and "_"
+        </div>
         <div className="text-sm text-gray-600">Username must be unique</div>
         <div id="username-error" aria-live="polite" aria-atomic="true">
           {state?.errors?.username && (
