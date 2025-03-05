@@ -1,4 +1,5 @@
-import { fetchProfile } from "@/app/lib/data"
+import { fetchIsFollowing, fetchProfile } from "@/app/lib/data"
+import FollowButton from "@/app/ui/follow-button"
 import PostList from "@/app/ui/post/post-list"
 import { auth } from "@/auth"
 
@@ -11,6 +12,7 @@ export default async function ProfilePage({
   const profile = await fetchProfile(username)
   const session = await auth()
   const sameUser = session?.user?.id === profile?.userId
+  const isFollowing = await fetchIsFollowing(profile?.userId || "") // to be modified
 
   return (
     <main>
@@ -25,9 +27,10 @@ export default async function ProfilePage({
               Edit
             </button>
           ) : (
-            <button className="block w-fit ml-auto py-2 px-6 bg-gray-900 text-white disabled:opacity-50 hover:opacity-95 transition-opacity">
-              Follow
-            </button>
+            <FollowButton
+              isFollowing={isFollowing}
+              userId={profile?.userId || "" /* to be modified */}
+            />
           )}
         </div>
         <p>{profile?.bio}</p>

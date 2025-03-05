@@ -1,5 +1,6 @@
 "use server"
 
+import { auth } from "@/auth"
 import { prisma } from "./prisma"
 
 export async function fetchPosts() {
@@ -40,4 +41,12 @@ export async function fetchLikes(postId: string) {
     orderBy: { createdAt: "desc" },
   })
   return likes
+}
+
+export async function fetchIsFollowing(userId: string) {
+  const session = await auth()
+  const follow = await prisma.follow.findFirst({
+    where: { followingId: userId, followerId: session?.user?.id },
+  })
+  return !!follow
 }
