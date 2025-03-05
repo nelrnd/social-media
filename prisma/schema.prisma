@@ -23,8 +23,6 @@ model User {
   posts         Post[]
   likes         Like[]
   comments      Comment[]
-  followers     Follow[]  @relation("follower")
-  following     Follow[]  @relation("following")
 }
 
 model Account {
@@ -64,12 +62,14 @@ model VerificationToken {
 }
 
 model Profile {
-  id       String  @id @default(cuid())
-  name     String
-  username String  @unique
-  bio      String?
-  userId   String  @unique
-  user     User    @relation(fields: [userId], references: [id])
+  id        String   @id @default(cuid())
+  name      String
+  username  String   @unique
+  bio       String?
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+  followers Follow[] @relation("follower")
+  following Follow[] @relation("following")
 }
 
 model Post {
@@ -106,9 +106,9 @@ model Comment {
 model Follow {
   id          String   @id @default(cuid())
   followingId String
-  following   User     @relation("following", fields: [followingId], references: [id])
+  following   Profile  @relation("following", fields: [followingId], references: [id])
   followerId  String
-  follower    User     @relation("follower", fields: [followerId], references: [id])
+  follower    Profile  @relation("follower", fields: [followerId], references: [id])
   createdAt   DateTime @default(now())
 
   @@unique([followingId, followerId])

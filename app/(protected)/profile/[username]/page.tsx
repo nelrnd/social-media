@@ -12,7 +12,7 @@ export default async function ProfilePage({
   const profile = await fetchProfile(username)
   const session = await auth()
   const sameUser = session?.user?.id === profile?.userId
-  const isFollowing = await fetchIsFollowing(profile?.userId || "") // to be modified
+  const isFollowing = await fetchIsFollowing(profile?.id || "") // to be modified
 
   return (
     <main>
@@ -29,7 +29,7 @@ export default async function ProfilePage({
           ) : (
             <FollowButton
               isFollowing={isFollowing}
-              userId={profile?.userId || "" /* to be modified */}
+              profileId={profile?.id || "" /* to be modified */}
             />
           )}
         </div>

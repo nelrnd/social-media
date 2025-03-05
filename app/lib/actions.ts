@@ -239,27 +239,27 @@ export async function commentPost(
   revalidatePath("/")
 }
 
-export async function followUser(userId: string) {
+export async function followProfile(profileId: string) {
   const session = await auth()
-  const authUserId = session?.user?.id as string
-  if (!session || !userId) {
-    return "User must be logged in and user id must be provided"
+  const authProfileId = session?.user?.profile?.id as string
+  if (!session || !profileId) {
+    return "User must be logged in and profile id must be provided"
   }
-  if (userId === authUserId) {
+  if (profileId === authProfileId) {
     return "User cannot follow himself"
   }
   const follow = await prisma.follow.findFirst({
-    where: { followingId: userId, followerId: authUserId },
+    where: { followingId: profileId, followerId: authProfileId },
   })
   if (!follow) {
     await prisma.follow.create({
-      data: { followingId: userId, followerId: authUserId },
+      data: { followingId: profileId, followerId: authProfileId },
     })
     revalidatePath("/")
-    return "User followed successfully"
+    return "Profile followed successfully"
   } else {
     await prisma.follow.delete({ where: { id: follow.id } })
     revalidatePath("/")
-    return "User unfollowed successfully"
+    return "Profile unfollowed successfully"
   }
 }

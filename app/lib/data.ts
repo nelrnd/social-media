@@ -43,10 +43,10 @@ export async function fetchLikes(postId: string) {
   return likes
 }
 
-export async function fetchIsFollowing(userId: string) {
+export async function fetchIsFollowing(profileId: string) {
   const session = await auth()
   const follow = await prisma.follow.findFirst({
-    where: { followingId: userId, followerId: session?.user?.id },
+    where: { followingId: profileId, followerId: session?.user?.profile?.id },
   })
   return !!follow
 }
