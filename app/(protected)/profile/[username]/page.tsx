@@ -1,5 +1,6 @@
-import { fetchProfile, fetchUserPosts } from "@/app/lib/data"
+import { fetchProfile } from "@/app/lib/data"
 import PostList from "@/app/ui/post/post-list"
+import { auth } from "@/auth"
 
 export default async function ProfilePage({
   params,
@@ -8,6 +9,8 @@ export default async function ProfilePage({
 }) {
   const username = (await params).username
   const profile = await fetchProfile(username)
+  const session = await auth()
+  const sameUser = session?.user?.id === profile?.userId
 
   return (
     <main>
@@ -17,9 +20,15 @@ export default async function ProfilePage({
             <h1 className="text-4xl font-bold">{profile?.name}</h1>
             <p className="text-gray-600">{profile?.username}</p>
           </div>
-          <button className="block w-fit ml-auto py-2 px-6 bg-gray-900 text-white disabled:opacity-50 hover:opacity-95 transition-opacity">
-            Follow
-          </button>
+          {sameUser ? (
+            <button className="block w-fit ml-auto py-2 px-6 border border-gray-200 disabled:opacity-50 hover:bg-gray-100 transition-colors">
+              Edit
+            </button>
+          ) : (
+            <button className="block w-fit ml-auto py-2 px-6 bg-gray-900 text-white disabled:opacity-50 hover:opacity-95 transition-opacity">
+              Follow
+            </button>
+          )}
         </div>
         <p>{profile?.bio}</p>
       </header>
