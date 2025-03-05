@@ -68,8 +68,8 @@ model Profile {
   bio       String?
   userId    String   @unique
   user      User     @relation(fields: [userId], references: [id])
-  followers Follow[] @relation("follower")
-  following Follow[] @relation("following")
+  followers Follow[] @relation("following")
+  following Follow[] @relation("follower")
 }
 
 model Post {

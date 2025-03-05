@@ -34,6 +34,10 @@ export default async function ProfilePage({
           )}
         </div>
         <p>{profile?.bio}</p>
+        <div className="flex items-center gap-8">
+          <p>{profile?.following.length} following</p>
+          <p>{profile?.followers.length} followers</p>
+        </div>
       </header>
       <section>
         <PostList userId={profile?.userId} />

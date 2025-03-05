@@ -12,7 +12,10 @@ export async function fetchPosts() {
 }
 
 export async function fetchProfile(username: string) {
-  const profile = await prisma.profile.findUnique({ where: { username } })
+  const profile = await prisma.profile.findUnique({
+    where: { username },
+    include: { following: true, followers: true },
+  })
   return profile
 }
 
