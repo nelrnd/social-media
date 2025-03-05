@@ -53,3 +53,19 @@ export async function fetchIsFollowing(profileId: string) {
   })
   return !!follow
 }
+
+export async function fetchFollowings(profileId: string) {
+  const followings = await prisma.follow.findMany({
+    where: { followerId: profileId },
+    include: { following: true },
+  })
+  return followings
+}
+
+export async function fetchFollowers(profileId: string) {
+  const followers = await prisma.follow.findMany({
+    where: { followingId: profileId },
+    include: { follower: true },
+  })
+  return followers
+}

@@ -34,9 +34,19 @@ export default async function ProfilePage({
           )}
         </div>
         <p>{profile?.bio}</p>
-        <div className="flex items-center gap-8">
-          <p>{profile?.following.length} following</p>
-          <p>{profile?.followers.length} followers</p>
+        <div className="flex items-center gap-8 text-gray-600">
+          <p>
+            <span className="text-black font-bold">
+              {profile?.following.length}
+            </span>{" "}
+            following
+          </p>
+          <p>
+            <span className="text-black font-bold">
+              {profile?.followers.length}
+            </span>{" "}
+            followers
+          </p>
         </div>
       </header>
       <section>
