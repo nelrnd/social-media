@@ -10,7 +10,7 @@ import {
 import { Prisma, Profile } from "@prisma/client"
 import { DialogDescription } from "@radix-ui/react-dialog"
 import { useEffect, useState } from "react"
-import { fetchFollowers } from "../lib/data"
+import { fetchFollowers, fetchFollowings } from "../lib/data"
 import Link from "next/link"
 
 export default function FollowBar({
@@ -45,8 +45,25 @@ function FollowingDialog({
   profileId: string
   username: string
 }) {
+  const [open, setOpen] = useState(false)
+  const [followings, setFollowings] = useState<Profile[]>([])
+  const [loading, setLoading] = useState(true)
+
+  async function fetch() {
+    setLoading(true)
+    const followings = await fetchFollowings(profileId)
+    setFollowings(followings.map((follow) => follow.following))
+    setLoading(false)
+  }
+
+  useEffect(() => {
+    if (open) {
+      fetch()
+    }
+  }, [open])
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="hover:underline">
         <span className="text-black font-bold">{count}</span> following
       </DialogTrigger>
@@ -57,6 +74,11 @@ function FollowingDialog({
             Followings of {username}
           </DialogDescription>
         </DialogHeader>
+        <div>
+          {followings.map((profile) => (
+            <ProfileCard key={profile.id} profile={profile} />
+          ))}
+        </div>
       </DialogContent>
     </Dialog>
   )
