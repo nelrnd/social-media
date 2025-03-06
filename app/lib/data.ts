@@ -58,6 +58,7 @@ export async function fetchFollowings(profileId: string) {
   const followings = await prisma.follow.findMany({
     where: { followerId: profileId },
     include: { following: true },
+    orderBy: { createdAt: "desc" },
   })
   return followings
 }
@@ -66,6 +67,7 @@ export async function fetchFollowers(profileId: string) {
   const followers = await prisma.follow.findMany({
     where: { followingId: profileId },
     include: { follower: true },
+    orderBy: { createdAt: "desc" },
   })
   return followers
 }
