@@ -1,4 +1,5 @@
 import { fetchIsFollowing, fetchProfile } from "@/app/lib/data"
+import FollowBar from "@/app/ui/follow-bar"
 import FollowButton from "@/app/ui/follow-button"
 import PostList from "@/app/ui/post/post-list"
 import { auth } from "@/auth"
@@ -34,20 +35,7 @@ export default async function ProfilePage({
           )}
         </div>
         <p>{profile?.bio}</p>
-        <div className="flex items-center gap-8 text-gray-600">
-          <p>
-            <span className="text-black font-bold">
-              {profile?.following.length}
-            </span>{" "}
-            following
-          </p>
-          <p>
-            <span className="text-black font-bold">
-              {profile?.followers.length}
-            </span>{" "}
-            followers
-          </p>
-        </div>
+        <FollowBar profile={profile} />
       </header>
       <section>
         <PostList userId={profile?.userId} />
