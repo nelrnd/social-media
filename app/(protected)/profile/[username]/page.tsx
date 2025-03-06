@@ -3,6 +3,7 @@ import FollowBar from "@/app/ui/follow-bar"
 import FollowButton from "@/app/ui/follow-button"
 import PostList from "@/app/ui/post/post-list"
 import { auth } from "@/auth"
+import Link from "next/link"
 
 export default async function ProfilePage({
   params,
@@ -24,9 +25,12 @@ export default async function ProfilePage({
             <p className="text-gray-600">{profile?.username}</p>
           </div>
           {sameUser ? (
-            <button className="block w-fit ml-auto py-2 px-6 border border-gray-200 disabled:opacity-50 hover:bg-gray-100 transition-colors">
+            <Link
+              href="/settings/profile"
+              className="block w-fit ml-auto py-2 px-6 border border-gray-200 disabled:opacity-50 hover:bg-gray-100 transition-colors"
+            >
               Edit
-            </button>
+            </Link>
           ) : (
             <FollowButton
               isFollowing={isFollowing}

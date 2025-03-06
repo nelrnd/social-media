@@ -3,13 +3,7 @@
 import { useActionState } from "react"
 import { createProfile, ProfileFormState } from "../lib/actions"
 
-export default function ProfileForm({
-  title,
-  buttonText,
-}: {
-  title?: string
-  buttonText?: string
-}) {
+export default function ProfileForm({ buttonText }: { buttonText?: string }) {
   const initialState: ProfileFormState = {
     message: null,
     errors: {},
@@ -20,10 +14,8 @@ export default function ProfileForm({
   )
 
   return (
-    <form action={formAction} className="space-y-4">
-      <h1 className="text-xl font-bold">{title || "Setup profile"}</h1>
-      <p className="text-gray-600">Let's quickly create a profile.</p>
-      <div>
+    <form action={formAction} className="flex flex-col gap-4">
+      <div className="mt-0">
         <label htmlFor="name">Display name</label>
         <input
           type="text"
