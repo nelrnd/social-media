@@ -75,9 +75,15 @@ function FollowingDialog({
           </DialogDescription>
         </DialogHeader>
         <div>
-          {followings.map((profile) => (
-            <ProfileCard key={profile.id} profile={profile} />
-          ))}
+          {loading ? (
+            <p>Loading...</p>
+          ) : followings.length ? (
+            followings.map((profile) => (
+              <ProfileCard key={profile.id} profile={profile} />
+            ))
+          ) : (
+            <p className="text-center text-gray-600">No following for now</p>
+          )}
         </div>
       </DialogContent>
     </Dialog>
@@ -123,11 +129,15 @@ function FollowersDialog({
             Followers of {username}
           </DialogDescription>
         </DialogHeader>
-        <div>
-          {followers.map((profile) => (
+        {loading ? (
+          <p>Loading...</p>
+        ) : followers.length ? (
+          followers.map((profile) => (
             <ProfileCard key={profile.id} profile={profile} />
-          ))}
-        </div>
+          ))
+        ) : (
+          <p className="text-center text-gray-600">No followers for now</p>
+        )}
       </DialogContent>
     </Dialog>
   )
