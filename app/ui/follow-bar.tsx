@@ -49,18 +49,18 @@ function FollowingDialog({
   const [followings, setFollowings] = useState<Profile[]>([])
   const [loading, setLoading] = useState(true)
 
-  async function fetch() {
-    setLoading(true)
-    const followings = await fetchFollowings(profileId)
-    setFollowings(followings.map((follow) => follow.following))
-    setLoading(false)
-  }
-
   useEffect(() => {
     if (open) {
+      async function fetch() {
+        setLoading(true)
+        const followings = await fetchFollowings(profileId)
+        setFollowings(followings.map((follow) => follow.following))
+        setLoading(false)
+      }
+
       fetch()
     }
-  }, [open])
+  }, [open, profileId])
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -103,18 +103,18 @@ function FollowersDialog({
   const [followers, setFollowers] = useState<Profile[]>([])
   const [loading, setLoading] = useState(true)
 
-  async function fetch() {
-    setLoading(true)
-    const followers = await fetchFollowers(profileId)
-    setFollowers(followers.map((follow) => follow.follower))
-    setLoading(false)
-  }
-
   useEffect(() => {
     if (open) {
+      async function fetch() {
+        setLoading(true)
+        const followers = await fetchFollowers(profileId)
+        setFollowers(followers.map((follow) => follow.follower))
+        setLoading(false)
+      }
+
       fetch()
     }
-  }, [open])
+  }, [open, profileId])
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

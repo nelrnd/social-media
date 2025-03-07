@@ -1,12 +1,8 @@
 import { Prisma } from "@prisma/client"
 import moment from "moment"
 import Link from "next/link"
-import CommentForm from "../comment-form"
 import PostMenu from "./post-menu"
 import { fetchComments } from "@/app/lib/data"
-import CommentList from "../comment-list"
-import PostComment from "./post-comment"
-import PostLikesModal from "./post-likes-modal"
 
 export default async function Post({
   post,

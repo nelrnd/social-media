@@ -45,7 +45,8 @@ export default function ProfileForm({ buttonText }: { buttonText?: string }) {
           defaultValue={(state?.data?.get("username") || "") as string}
         />
         <div className="text-sm text-gray-600">
-          Username must only contain letters, numbers, "-" and "_"
+          Username must only contain letters, numbers, &quot;-&quot; and
+          &quot;_&quot;
         </div>
         <div className="text-sm text-gray-600">Username must be unique</div>
         <div id="username-error" aria-live="polite" aria-atomic="true">

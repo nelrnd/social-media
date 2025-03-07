@@ -9,7 +9,7 @@ export default function LoginPage() {
         <LoginForm />
         <SocialLogin />
         <p>
-          You don't have an account yet?{" "}
+          You don&apos;t have an account yet?{" "}
           <Link href="/register" className="text-blue-600 hover:underline">
             Register
           </Link>

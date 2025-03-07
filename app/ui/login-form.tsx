@@ -1,6 +1,6 @@
 "use client"
 
-import { useActionState, useRef } from "react"
+import { useActionState } from "react"
 import { authenticate, AuthState } from "@/app/lib/actions"
 import { useSearchParams } from "next/navigation"
 

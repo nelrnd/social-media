@@ -13,7 +13,7 @@ export default async function ProfileSetupPage() {
     <main>
       <div className="max-w-[32rem] m-auto py-8">
         <h1 className="text-xl font-bold">Setup profile</h1>
-        <p className="text-gray-600">Let's quickly create a profile.</p>
+        <p className="text-gray-600">Let&apos;s quickly create a profile.</p>
         <ProfileForm buttonText="Continue" />
       </div>
     </main>

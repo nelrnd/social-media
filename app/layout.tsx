@@ -1,7 +1,6 @@
 import type { Metadata } from "next"
 import { Space_Grotesk } from "next/font/google"
 import "./globals.css"
-import NavBar from "./ui/nav-bar"
 
 const spaceGrotesk = Space_Grotesk({
   weight: ["400", "600", "700"],
