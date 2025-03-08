@@ -2,6 +2,7 @@
 
 import { useActionState } from "react"
 import { register, AuthState } from "@/app/lib/actions"
+import { LoaderCircleIcon } from "lucide-react"
 
 export default function RegisterForm() {
   const initialState: AuthState = { message: null, errors: {} }
@@ -52,10 +53,17 @@ export default function RegisterForm() {
       </div>
       <input type="hidden" name="redirectTo" value="/" />
       <button
-        className="block w-full p-2 bg-gray-900 text-white disabled:opacity-50 hover:opacity-95 transition-opacity"
+        className="w-full h-[2.625rem] p-2 flex items-center justify-center bg-gray-900 text-white disabled:opacity-50 hover:opacity-95 transition-opacity"
         disabled={isPending}
       >
-        {isPending ? "Loading..." : "Register"}
+        {isPending ? (
+          <LoaderCircleIcon
+            className="size-4 animate-spin"
+            aria-label="Loading..."
+          />
+        ) : (
+          "Register"
+        )}
       </button>
     </form>
   )

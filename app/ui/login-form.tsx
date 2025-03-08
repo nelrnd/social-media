@@ -3,6 +3,7 @@
 import { useActionState } from "react"
 import { authenticate, AuthState } from "@/app/lib/actions"
 import { useSearchParams } from "next/navigation"
+import { LoaderCircleIcon } from "lucide-react"
 
 export default function LoginForm() {
   const searchParams = useSearchParams()
@@ -58,10 +59,17 @@ export default function LoginForm() {
       </div>
       <input type="hidden" name="redirectTo" value={callbackUrl} />
       <button
-        className="block w-full p-2 bg-gray-900 text-white disabled:opacity-50 hover:opacity-95 transition-opacity"
+        className="w-full h-[2.625rem] p-2 flex items-center justify-center bg-gray-900 text-white disabled:opacity-50 hover:opacity-95 transition-opacity"
         disabled={isPending}
       >
-        {isPending ? "Loading..." : "Log in"}
+        {isPending ? (
+          <LoaderCircleIcon
+            className="size-4 animate-spin"
+            aria-label="Loading..."
+          />
+        ) : (
+          "Log in"
+        )}
       </button>
     </form>
   )
