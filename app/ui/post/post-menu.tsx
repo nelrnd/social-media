@@ -23,7 +23,7 @@ export default function PostMenu({
   const hasLiked = likes.find((like) => like.userId === userId)
 
   return (
-    <div className="p-4 pt-0 space-y-2">
+    <div className="p-4 pt-0 space-y-2 relative z-10 w-fit">
       <div className="text-gray-600 text-sm flex items-center gap-4">
         <div>
           {likes.length} {likes.length === 1 ? "like" : "likes"}

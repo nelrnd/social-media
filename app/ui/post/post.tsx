@@ -14,10 +14,10 @@ export default async function Post({
   const comments = await fetchComments(post.id)
 
   return (
-    <article className="border-b border-gray-200">
-      <div className="p-4">
+    <article className="border-b border-gray-200 relative hover:bg-gray-50 transition-colors">
+      <div className="p-4 ">
         <header className="flex items-center justify-between">
-          <p>
+          <p className="relative z-10 w-fit">
             <Link
               href={`/profile/${post.user.profile?.username}`}
               className="hover:underline"
@@ -35,6 +35,7 @@ export default async function Post({
         <p>{post.content}</p>
       </div>
       <PostMenu postId={post.id} likes={post.likes} comments={comments} />
+      <Link href={`/post/${post.id}`} className="absolute inset-0 z-0"></Link>
     </article>
   )
 }
