@@ -40,7 +40,11 @@ export async function fetchFollowingPosts() {
 export async function fetchPostById(id: string) {
   const post = await prisma.post.findUnique({
     where: { id },
-    include: { user: { select: { profile: true } }, likes: true },
+    include: {
+      user: { select: { profile: true } },
+      likes: { select: { id: true, userId: true } },
+      comments: { select: { id: true } },
+    },
   })
   return post
 }
@@ -56,7 +60,11 @@ export async function fetchProfile(username: string) {
 export async function fetchUserPosts(userId: string) {
   const posts = await prisma.post.findMany({
     where: { userId },
-    include: { user: { select: { profile: true } }, likes: true },
+    include: {
+      user: { select: { profile: true } },
+      likes: { select: { id: true, userId: true } },
+      comments: { select: { id: true } },
+    },
     orderBy: { createdAt: "desc" },
   })
   return posts

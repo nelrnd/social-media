@@ -1,5 +1,5 @@
 import { fetchPosts, fetchUserPosts } from "@/app/lib/data"
-import Post from "./post"
+import Post from "../post"
 
 export default async function PostList({ userId }: { userId?: string }) {
   const posts = userId ? await fetchUserPosts(userId) : await fetchPosts()
