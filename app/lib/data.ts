@@ -11,6 +11,11 @@ export async function fetchPosts() {
   return posts
 }
 
+export async function fetchPostById(id: string) {
+  const post = await prisma.post.findUnique({ where: { id } })
+  return post
+}
+
 export async function fetchProfile(username: string) {
   const profile = await prisma.profile.findUnique({
     where: { username },
