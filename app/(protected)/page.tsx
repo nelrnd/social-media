@@ -8,7 +8,7 @@ export default function Home() {
     <main>
       <PageHeader title="Home" />
       <PostForm />
-      <HomeFeed />
+      <PostList />
     </main>
   )
 }

@@ -5,7 +5,11 @@ import { prisma } from "./prisma"
 
 export async function fetchPosts() {
   const posts = await prisma.post.findMany({
-    include: { user: { select: { profile: true } }, likes: true },
+    include: {
+      user: { select: { profile: true } },
+      likes: { select: { id: true, userId: true } },
+      comments: { select: { id: true } },
+    },
     orderBy: { createdAt: "desc" },
   })
   return posts
@@ -23,7 +27,11 @@ export async function fetchFollowingPosts() {
     where: {
       userId: { in: following.map((follow) => follow.following.user.id) },
     },
-    include: { user: { select: { profile: true } }, likes: true },
+    include: {
+      user: { select: { profile: true } },
+      likes: { select: { id: true, userId: true } },
+      comments: { select: { id: true } },
+    },
     orderBy: { createdAt: "desc" },
   })
   return posts
