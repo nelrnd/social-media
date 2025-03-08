@@ -16,6 +16,10 @@ export default async function ProfilePage({
   const sameUser = session?.user?.id === profile?.userId
   const isFollowing = await fetchIsFollowing(profile?.id || "") // to be modified
 
+  if (!profile) {
+    return <p>Profile not found</p>
+  }
+
   return (
     <main>
       <header className="p-4 space-y-4 border-b border-gray-200">
