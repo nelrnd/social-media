@@ -8,7 +8,7 @@ export default function Comment({
   }>
 }) {
   return (
-    <div>
+    <div className="border-b border-gray-200">
       <span className="font-bold">{comment.user.profile?.username}</span>:{" "}
       {comment.content}
     </div>

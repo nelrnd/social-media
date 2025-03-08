@@ -20,12 +20,14 @@ export default async function PostPage({
     <main>
       <PageHeader title="Post" allowBack={true} />
       <Post post={post} />
-      <div className="flex items-center justify-between">
-        <h3>Comments</h3>
-        <PostLikes />
+      <div className="p-6 space-y-2">
+        <div className="flex items-center justify-between">
+          <h3 className="font-bold">Comments</h3>
+          <PostLikes postId={post.id} />
+        </div>
+        <CommentForm postId={post.id} />
+        <CommentList comments={comments} />
       </div>
-      <CommentList comments={comments} />
-      <CommentForm postId={post.id} />
     </main>
   )
 }

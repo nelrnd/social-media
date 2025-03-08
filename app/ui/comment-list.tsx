@@ -9,8 +9,7 @@ export default async function CommentList({
   }>[]
 }) {
   return (
-    <div className="p-4">
-      <h2 className="font-bold">Comments</h2>
+    <div>
       {comments.map((comment) => (
         <Comment key={comment.id} comment={comment} />
       ))}
