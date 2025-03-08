@@ -12,7 +12,10 @@ export async function fetchPosts() {
 }
 
 export async function fetchPostById(id: string) {
-  const post = await prisma.post.findUnique({ where: { id } })
+  const post = await prisma.post.findUnique({
+    where: { id },
+    include: { user: { select: { profile: true } }, likes: true },
+  })
   return post
 }
 

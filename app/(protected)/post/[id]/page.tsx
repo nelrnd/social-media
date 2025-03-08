@@ -1,4 +1,6 @@
 import { fetchPostById } from "@/app/lib/data"
+import PageHeader from "@/app/ui/page-header"
+import Post from "@/app/ui/post/post"
 
 export default async function PostPage({
   params,
@@ -8,5 +10,12 @@ export default async function PostPage({
   const id = (await params).id
   const post = await fetchPostById(id)
 
-  return <main>{post.content}</main>
+  if (!post) return null
+
+  return (
+    <main>
+      <PageHeader title="Post" allowBack={true} />
+      <Post post={post} />
+    </main>
+  )
 }
