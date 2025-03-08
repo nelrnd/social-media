@@ -8,7 +8,12 @@ export default async function CommentList({
     include: { user: { select: { profile: true } } }
   }>[]
 }) {
-  return comments.map((comment) => (
-    <Comment key={comment.id} comment={comment} />
-  ))
+  return (
+    <div className="p-4">
+      <h2 className="font-bold">Comments</h2>
+      {comments.map((comment) => (
+        <Comment key={comment.id} comment={comment} />
+      ))}
+    </div>
+  )
 }
