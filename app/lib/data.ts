@@ -11,6 +11,24 @@ export async function fetchPosts() {
   return posts
 }
 
+export async function fetchFollowingPosts() {
+  const session = await auth()
+  const profileId = session?.user?.profile?.id
+  const following = await prisma.follow.findMany({
+    where: { followerId: profileId },
+    select: { following: { select: { user: true } } },
+  })
+  console.log(following)
+  const posts = await prisma.post.findMany({
+    where: {
+      userId: { in: following.map((follow) => follow.following.user.id) },
+    },
+    include: { user: { select: { profile: true } }, likes: true },
+    orderBy: { createdAt: "desc" },
+  })
+  return posts
+}
+
 export async function fetchPostById(id: string) {
   const post = await prisma.post.findUnique({
     where: { id },
