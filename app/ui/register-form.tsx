@@ -12,15 +12,18 @@ export default function RegisterForm() {
     <form action={formAction} className="space-y-4">
       <h1 className="text-xl font-bold">Register</h1>
       <div>
-        <label htmlFor="email">Email</label>
+        <label htmlFor="email" className="text-gray-600">
+          Email
+        </label>
         <input
           type="email"
           name="email"
           id="email"
-          className="block w-full p-2 border border-gray-300"
+          className="block w-full mt-1 p-3 border rounded-sm border-gray-200 focus:outline-black"
           autoFocus
           aria-labelledby="email-error"
           defaultValue={(state?.data?.get("email") || "") as string}
+          spellCheck="false"
         />
         <div id="email-error" aria-live="polite" aria-atomic="true">
           {state?.errors?.email && (
@@ -31,14 +34,17 @@ export default function RegisterForm() {
         </div>
       </div>
       <div>
-        <label htmlFor="password">Password</label>
+        <label htmlFor="password" className="text-gray-600">
+          Password
+        </label>
         <input
           type="password"
           name="password"
           id="password"
-          className="block w-full p-2 border border-gray-300"
+          className="block w-full mt-1 p-3 border rounded-sm border-gray-200 focus:outline-black"
           aria-labelledby="password-error"
           defaultValue={(state?.data?.get("password") || "") as string}
+          spellCheck="false"
         />
         <div id="password-error" aria-live="polite" aria-atomic="true">
           {state?.errors?.password && (
@@ -53,7 +59,7 @@ export default function RegisterForm() {
       </div>
       <input type="hidden" name="redirectTo" value="/" />
       <button
-        className="w-full h-[2.625rem] p-2 flex items-center justify-center bg-gray-900 text-white disabled:opacity-50 hover:opacity-95 transition-opacity"
+        className="w-full h-[3.125rem] p-3 flex items-center justify-center bg-gray-900 text-white disabled:opacity-50 hover:opacity-95 transition-opacity rounded-sm"
         disabled={isPending}
       >
         {isPending ? (

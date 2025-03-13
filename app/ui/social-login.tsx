@@ -3,7 +3,7 @@ import { JSX } from "react"
 
 export default function SocialLogin() {
   return (
-    <div className="space-y-2">
+    <div className="space-y-3">
       <div className="relative select-none mb-6">
         <div className="text-gray-600 w-fit bg-white px-4 m-auto">or</div>
         <div className="h-[1px] w-full bg-gray-200 absolute top-1/2 -z-10"></div>
@@ -17,7 +17,7 @@ export default function SocialLogin() {
       >
         <button
           type="submit"
-          className="flex items-center gap-4 justify-center w-full p-2 border border-gray-200 disabled:opacity-50 hover:bg-gray-100 transition-colors"
+          className="flex items-center gap-4 justify-center w-full p-3 border border-gray-200 disabled:opacity-50 hover:bg-gray-100 transition-colors rounded-sm"
         >
           <GoogleIcon />
           Sign in with Google
@@ -32,7 +32,7 @@ export default function SocialLogin() {
       >
         <button
           type="submit"
-          className="flex items-center gap-4 justify-center w-full p-2 border border-gray-200 disabled:opacity-50 hover:bg-gray-100 transition-colors"
+          className="flex items-center gap-4 justify-center w-full p-3 border border-gray-200 disabled:opacity-50 hover:bg-gray-100 transition-colors rounded-sm"
         >
           <GithubIcon />
           Sign in with GitHub
