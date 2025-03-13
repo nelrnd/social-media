@@ -1,9 +1,8 @@
 "use client"
 
-import { useActionState, useEffect } from "react"
+import { useActionState } from "react"
 import { ProfileFormState } from "../lib/actions"
 import { Profile } from "@prisma/client"
-import { useSession } from "next-auth/react"
 
 export default function ProfileForm({
   action,

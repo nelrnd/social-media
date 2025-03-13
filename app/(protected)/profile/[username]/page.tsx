@@ -1,7 +1,7 @@
 import { fetchIsFollowing, fetchProfile } from "@/app/lib/data"
 import FollowBar from "@/app/ui/follow-bar"
 import FollowButton from "@/app/ui/follow-button"
-import PostList from "@/app/ui/post/post-list"
+import PostList from "@/app/ui/post-list"
 import { auth } from "@/auth"
 import Link from "next/link"
 

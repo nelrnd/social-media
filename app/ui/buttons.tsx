@@ -66,6 +66,9 @@ export function CommentButton({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Comment post</DialogTitle>
+          <DialogDescription className="sr-only">
+            Post a comment to post
+          </DialogDescription>
         </DialogHeader>
         <CommentForm postId={postId} />
       </DialogContent>
