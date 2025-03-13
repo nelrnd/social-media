@@ -1,5 +1,5 @@
 import { signIn } from "@/auth"
-import { JSX } from "react"
+import { JSX, Suspense } from "react"
 import SocialLoginError from "./social-login-error"
 
 export default function SocialLogin() {
@@ -40,7 +40,9 @@ export default function SocialLogin() {
         </button>
       </form>
 
-      <SocialLoginError />
+      <Suspense>
+        <SocialLoginError />
+      </Suspense>
     </div>
   )
 }
