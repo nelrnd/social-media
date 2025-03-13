@@ -136,7 +136,7 @@ export type ProfileFormState = {
   data?: FormData
 }
 
-const ProfileFormSchema = z.object({
+const CreateProfileFormSchema = z.object({
   name: z.string().min(1, "Name is required"),
   username: z
     .string()
@@ -157,7 +157,7 @@ export async function createProfile(
   prevState: ProfileFormState,
   formData: FormData
 ) {
-  const validatedFields = await ProfileFormSchema.safeParseAsync({
+  const validatedFields = await CreateProfileFormSchema.safeParseAsync({
     name: formData.get("name"),
     username: formData.get("username"),
     bio: formData.get("bio"),
@@ -186,6 +186,70 @@ export async function createProfile(
   }
 
   redirect("/")
+}
+
+const UpdateProfileFormSchema = CreateProfileFormSchema.extend({
+  id: z.string().min(1, "Profile id is required"),
+  username: z
+    .string()
+    .min(1, "Username is required")
+    .min(4, "Username must be at least 4 characters")
+    .regex(
+      /^[a-zA-Z0-9_-]+$/,
+      'Username must only contain letters, numbers, "-" and "_"'
+    ),
+}).superRefine(async (data, ctx) => {
+  const profile = await prisma.profile.findUnique({
+    where: { username: data.username, NOT: { id: data.id } },
+  })
+
+  if (profile) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Username is already taken",
+      path: ["username"],
+    })
+  }
+})
+
+export async function updateProfile(
+  prevState: ProfileFormState,
+  formData: FormData
+) {
+  const validatedFields = await UpdateProfileFormSchema.safeParseAsync({
+    id: formData.get("id"),
+    name: formData.get("name"),
+    username: formData.get("username"),
+    bio: formData.get("bio"),
+  })
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      data: formData,
+    }
+  }
+
+  const { id, name, username, bio } = validatedFields.data
+  const session = await auth()
+  const userId = session?.user?.id as string
+
+  if (!userId) {
+    return { message: "User must be logged in" }
+  }
+
+  try {
+    await prisma.profile.update({
+      where: { id, userId },
+      data: { name, username, bio },
+    })
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+
+  revalidatePath("/")
+  redirect(`/profile/${username}`)
 }
 
 export async function likePost(postId: string) {

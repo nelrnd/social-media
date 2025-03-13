@@ -74,10 +74,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     async session({ session, token }) {
       if (token.id) {
         session.user.id = token.id as string
-        if (!token.profile) {
-          const profile = await getProfile(session.user.id)
-          token.profile = profile
-        }
+        const profile = await getProfile(session.user.id)
+        token.profile = profile
       }
 
       session.user.profile = token.profile as Profile | null

@@ -1,6 +1,7 @@
 import { auth } from "@/auth"
 import ProfileForm from "../ui/profile-form"
 import { redirect } from "next/navigation"
+import { createProfile } from "../lib/actions"
 
 export default async function ProfileSetupPage() {
   const session = await auth()
@@ -16,7 +17,7 @@ export default async function ProfileSetupPage() {
         <p className="text-gray-600 mb-4">
           Let&apos;s quickly create a profile.
         </p>
-        <ProfileForm buttonText="Continue" />
+        <ProfileForm action={createProfile} buttonText="Continue" />
       </div>
     </main>
   )

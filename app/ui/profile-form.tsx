@@ -1,20 +1,29 @@
 "use client"
 
-import { useActionState } from "react"
-import { createProfile, ProfileFormState } from "../lib/actions"
+import { useActionState, useEffect } from "react"
+import { ProfileFormState } from "../lib/actions"
+import { Profile } from "@prisma/client"
+import { useSession } from "next-auth/react"
 
-export default function ProfileForm({ buttonText }: { buttonText?: string }) {
+export default function ProfileForm({
+  action,
+  buttonText,
+  profile,
+}: {
+  action: (...args: any[]) => any
+  buttonText?: string
+  profile?: Profile
+}) {
   const initialState: ProfileFormState = {
     message: null,
     errors: {},
   }
-  const [state, formAction, isPending] = useActionState(
-    createProfile,
-    initialState
-  )
+  const [state, formAction, isPending] = useActionState(action, initialState)
 
   return (
     <form action={formAction} className="flex flex-col gap-4">
+      {profile && <input type="hidden" name="id" value={profile.id} />}
+
       <div className="mt-0">
         <label htmlFor="name">Display name</label>
         <input
@@ -24,7 +33,9 @@ export default function ProfileForm({ buttonText }: { buttonText?: string }) {
           className="block w-full p-2 border border-gray-300"
           autoFocus
           aria-labelledby="name-error"
-          defaultValue={(state?.data?.get("name") || "") as string}
+          defaultValue={
+            (state?.data?.get("name") || profile?.name || "") as string
+          }
         />
         <div id="name-error" aria-live="polite" aria-atomic="true">
           {state?.errors?.name && (
@@ -42,7 +53,9 @@ export default function ProfileForm({ buttonText }: { buttonText?: string }) {
           id="username"
           className="block w-full p-2 border border-gray-300"
           aria-labelledby="username-error"
-          defaultValue={(state?.data?.get("username") || "") as string}
+          defaultValue={
+            (state?.data?.get("username") || profile?.username || "") as string
+          }
         />
         <div className="text-sm text-gray-600">
           Username must only contain letters, numbers, &quot;-&quot; and
@@ -66,7 +79,9 @@ export default function ProfileForm({ buttonText }: { buttonText?: string }) {
           id="bio"
           className="block w-full h-[6rem] p-2 border border-gray-300"
           aria-labelledby="bio-error"
-          defaultValue={(state?.data?.get("bio") || "") as string}
+          defaultValue={
+            (state?.data?.get("bio") || profile?.bio || "") as string
+          }
         ></textarea>
         <div id="bio-error" aria-live="polite" aria-atomic="true">
           {state?.errors?.bio && (
