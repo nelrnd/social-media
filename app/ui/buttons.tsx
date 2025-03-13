@@ -15,6 +15,7 @@ import {
 } from "@/app/ui/dialog"
 import { DialogDescription } from "@radix-ui/react-dialog"
 import CommentForm from "./comment-form"
+import Post, { PostMinimized } from "./post"
 
 export function LikeButton({
   postId,
@@ -45,10 +46,12 @@ export function LikeButton({
 }
 
 export function CommentButton({
-  postId,
+  post,
   comments,
 }: {
-  postId: string
+  post: Prisma.PostGetPayload<{
+    include: { user: { select: { profile: true } } }
+  }>
   comments: Prisma.CommentGetPayload<{ select: { id: true } }>[]
 }) {
   return (
@@ -65,12 +68,13 @@ export function CommentButton({
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Comment post</DialogTitle>
+          <DialogTitle>Comment</DialogTitle>
           <DialogDescription className="sr-only">
             Post a comment to post
           </DialogDescription>
         </DialogHeader>
-        <CommentForm postId={postId} />
+        <PostMinimized post={post} />
+        <CommentForm postId={post.id} />
       </DialogContent>
     </Dialog>
   )
