@@ -6,6 +6,15 @@ import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid"
 import { HeartIcon as HeartIconOutline } from "@heroicons/react/24/outline"
 import { ChatBubbleLeftIcon } from "@heroicons/react/24/outline"
 import { Prisma } from "@prisma/client"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/app/ui/dialog"
+import { DialogDescription } from "@radix-ui/react-dialog"
+import CommentForm from "./comment-form"
 
 export function LikeButton({
   postId,
@@ -43,13 +52,23 @@ export function CommentButton({
   comments: Prisma.CommentGetPayload<{ select: { id: true } }>[]
 }) {
   return (
-    <button
-      className="py-2 px-4 flex items-center gap-2 w-fit bg-white border border-gray-200 disabled:opacity-50 hover:bg-gray-100 transition-colors relative z-10"
-      aria-label="Comment post"
-      title="Comment"
-    >
-      <ChatBubbleLeftIcon className="size-4" />
-      <p className="text-sm">{comments.length}</p>
-    </button>
+    <Dialog>
+      <DialogTrigger asChild>
+        <button
+          className="py-2 px-4 flex items-center gap-2 w-fit bg-white border border-gray-200 disabled:opacity-50 hover:bg-gray-100 transition-colors relative z-10"
+          aria-label="Comment post"
+          title="Comment"
+        >
+          <ChatBubbleLeftIcon className="size-4" />
+          <p className="text-sm">{comments.length}</p>
+        </button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Comment post</DialogTitle>
+        </DialogHeader>
+        <CommentForm postId={postId} />
+      </DialogContent>
+    </Dialog>
   )
 }
