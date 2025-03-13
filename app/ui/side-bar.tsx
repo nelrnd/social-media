@@ -9,9 +9,9 @@ export default async function SideBar() {
   const username = session?.user.profile?.username
 
   return (
-    <nav className="lg:w-[18rem] h-screen p-8 border-r bg-white border-gray-200 lg:fixed w-fit">
-      <ul className="flex flex-col gap-3 h-full">
-        <li className="mb-8">
+    <nav className="w-full md:w-[18rem] md:h-screen p-4 md:p-8 border-t md:border-r md:border-t-0 bg-white border-gray-200 bottom-0 md:bottom-auto fixed z-20">
+      <ul className="flex md:flex-col gap-3 h-full">
+        <li className="mb-8 hidden md:block">
           <Link href="/">
             <span className="text-2xl font-bold hover:underline">AHSI</span>
           </Link>
@@ -19,7 +19,7 @@ export default async function SideBar() {
 
         <NavLinks username={username} />
 
-        <li className="mt-auto -m-3">
+        <li className="mt-auto -m-3 hidden md:block">
           <form
             action={async () => {
               "use server"

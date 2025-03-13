@@ -64,16 +64,16 @@ export default function NavLinks({ username }: { username?: string }) {
       {links.map((link) => {
         const isActive = checkIfActive(pathname, link.href)
         return (
-          <li key={link.href}>
+          <li key={link.href} className="flex-1 md:flex-initial">
             <Link
               href={link.href}
-              className="p-3 -mx-3 hover:bg-gray-50 rounded-full font-semibold flex items-center gap-2"
+              className="p-3 md:-mx-3 hover:bg-gray-50 rounded-full font-semibold flex justify-center md:justify-start items-center gap-2"
             >
               {React.cloneElement(
                 isActive ? link.icons.active : link.icons.default,
                 { className: "size-6" }
               )}
-              {link.text}
+              <span className="sr-only md:not-sr-only">{link.text}</span>
             </Link>
           </li>
         )
