@@ -1,5 +1,6 @@
 import { signIn } from "@/auth"
 import { JSX } from "react"
+import SocialLoginError from "./social-login-error"
 
 export default function SocialLogin() {
   return (
@@ -38,6 +39,8 @@ export default function SocialLogin() {
           Sign in with GitHub
         </button>
       </form>
+
+      <SocialLoginError />
     </div>
   )
 }
