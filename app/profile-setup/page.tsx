@@ -12,11 +12,11 @@ export default async function ProfileSetupPage() {
 
   return (
     <main>
-      <div className="max-w-[32rem] m-auto py-8">
-        <h1 className="text-xl font-bold mb-1">Setup profile</h1>
-        <p className="text-gray-600 mb-4">
-          Let&apos;s quickly create a profile.
-        </p>
+      <div className="max-w-[32rem] m-auto p-4 pt-8">
+        <header className="space-y-1 mb-4">
+          <h1 className="text-xl font-bold">Setup profile</h1>
+          <p className="text-gray-600">Let&apos;s quickly create a profile.</p>
+        </header>
         <ProfileForm action={createProfile} buttonText="Continue" />
       </div>
     </main>

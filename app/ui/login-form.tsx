@@ -70,7 +70,7 @@ export default function LoginForm() {
         {isPending ? (
           <LoaderCircleIcon
             className="size-4 animate-spin"
-            aria-label="Loading..."
+            aria-label="Loading"
           />
         ) : (
           "Log in"

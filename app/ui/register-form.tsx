@@ -65,7 +65,7 @@ export default function RegisterForm() {
         {isPending ? (
           <LoaderCircleIcon
             className="size-4 animate-spin"
-            aria-label="Loading..."
+            aria-label="Loading"
           />
         ) : (
           "Register"

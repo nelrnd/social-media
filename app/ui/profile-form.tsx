@@ -3,6 +3,7 @@
 import { useActionState } from "react"
 import { ProfileFormState } from "../lib/actions"
 import { Profile } from "@prisma/client"
+import { LoaderCircleIcon } from "lucide-react"
 
 export default function ProfileForm({
   action,
@@ -24,17 +25,20 @@ export default function ProfileForm({
       {profile && <input type="hidden" name="id" value={profile.id} />}
 
       <div className="mt-0">
-        <label htmlFor="name">Display name</label>
+        <label htmlFor="name" className="text-gray-600">
+          Display name
+        </label>
         <input
           type="text"
           name="name"
           id="name"
-          className="block w-full p-2 border border-gray-300"
+          className="block w-full mt-1 p-3 border rounded-sm border-gray-200 focus:outline-black"
           autoFocus
           aria-labelledby="name-error"
           defaultValue={
             (state?.data?.get("name") || profile?.name || "") as string
           }
+          spellCheck="false"
         />
         <div id="name-error" aria-live="polite" aria-atomic="true">
           {state?.errors?.name && (
@@ -45,22 +49,27 @@ export default function ProfileForm({
         </div>
       </div>
       <div>
-        <label htmlFor="username">Username</label>
+        <label htmlFor="username" className="text-gray-600">
+          Username
+        </label>
         <input
           type="text"
           name="username"
           id="username"
-          className="block w-full p-2 border border-gray-300"
+          className="block w-full mt-1 p-3 border rounded-sm border-gray-200 focus:outline-black"
           aria-labelledby="username-error"
           defaultValue={
             (state?.data?.get("username") || profile?.username || "") as string
           }
+          spellCheck="false"
         />
-        <div className="text-sm text-gray-600">
-          Username must only contain letters, numbers, &quot;-&quot; and
-          &quot;_&quot;
-        </div>
-        <div className="text-sm text-gray-600">Username must be unique</div>
+        <ul className="text-sm text-gray-600 mt-1 pl-4 ml-1">
+          <li className="list-disc">
+            Username must only contain letters, numbers, &quot;-&quot; and
+            &quot;_&quot;
+          </li>
+          <li className="list-disc">Username must be unique</li>
+        </ul>
         <div id="username-error" aria-live="polite" aria-atomic="true">
           {state?.errors?.username && (
             <p className="text-red-500 text-sm mt-1">
@@ -70,17 +79,18 @@ export default function ProfileForm({
         </div>
       </div>
       <div>
-        <label htmlFor="bio">
+        <label htmlFor="bio" className="text-gray-600">
           Bio <span className="text-gray-600">(optional)</span>
         </label>
         <textarea
           name="bio"
           id="bio"
-          className="block w-full h-[6rem] p-2 border border-gray-300"
+          className="block w-full mt-1 p-3 h-[6rem] border rounded-sm border-gray-200 focus:outline-black resize-none"
           aria-labelledby="bio-error"
           defaultValue={
             (state?.data?.get("bio") || profile?.bio || "") as string
           }
+          spellCheck="false"
         ></textarea>
         <div id="bio-error" aria-live="polite" aria-atomic="true">
           {state?.errors?.bio && (
@@ -91,10 +101,18 @@ export default function ProfileForm({
         </div>
       </div>
       <button
-        className="block w-fit ml-auto py-2 px-6 bg-gray-900 text-white disabled:opacity-50 hover:opacity-95 transition-opacity"
+        className="w-fit h-[3.125rem] py-3 px-6 flex items-center justify-center bg-gray-900 text-white disabled:opacity-50 hover:opacity-95 transition-opacity rounded-sm ml-auto relative"
         disabled={isPending}
       >
-        {isPending ? "Loading..." : buttonText || "Save"}
+        <span className={isPending ? "invisible" : ""}>
+          {buttonText || "Save"}
+        </span>
+        {isPending && (
+          <LoaderCircleIcon
+            className="size-4 animate-spin absolute object-center"
+            aria-label="Loading"
+          />
+        )}
       </button>
     </form>
   )
