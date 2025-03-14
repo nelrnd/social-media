@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client"
-import moment from "moment"
 import Link from "next/link"
+import Date from "./date"
 
 export default function Comment({
   comment,
@@ -23,9 +23,7 @@ export default function Comment({
             </span>
           </Link>
         </p>
-        <time className="text-gray-600 text-sm">
-          {moment(comment.createdAt).format("LT")}
-        </time>
+        <Date date={comment.createdAt} />
       </header>
 
       <section>

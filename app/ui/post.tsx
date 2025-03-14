@@ -1,11 +1,12 @@
 "use client"
 
 import { Prisma } from "@prisma/client"
-import moment from "moment"
 import Link from "next/link"
 import clsx from "clsx"
 import { LikeButton, CommentButton } from "./buttons"
 import { usePathname } from "next/navigation"
+import { getDate } from "../lib/utils"
+import Date from "./date"
 
 export default function Post({
   post,
@@ -40,9 +41,7 @@ export default function Post({
             <span className="text-gray-600">{post.user.profile?.username}</span>
           </Link>
         </p>
-        <time className="text-gray-600 text-sm">
-          {moment(post.createdAt).format("LT")}
-        </time>
+        <Date date={post.createdAt} />
       </header>
 
       <section>
@@ -82,9 +81,7 @@ export function PostMinimized({
             <span className="text-gray-600">{post.user.profile?.username}</span>
           </Link>
         </p>
-        <time className="text-gray-600 text-sm">
-          {moment(post.createdAt).format("LT")}
-        </time>
+        <Date date={post.createdAt} />
       </header>
 
       <section>
