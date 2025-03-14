@@ -272,13 +272,18 @@ export async function likePost(postId: string) {
   }
 }
 
+export type CommentFormState = {
+  message?: string | null
+  success?: boolean | null
+}
+
 const CommentFormSchema = z.object({
   content: z.string().min(1, "Your comment cannot be empty"),
   postId: z.string().min(1, "Post id is required"),
 })
 
 export async function commentPost(
-  prevState: string | undefined,
+  prevState: CommentFormState,
   formData: FormData
 ) {
   const validatedFields = CommentFormSchema.safeParse({
@@ -287,20 +292,21 @@ export async function commentPost(
   })
 
   if (!validatedFields.success) {
-    return validatedFields.error.errors[0]?.message
+    return { message: validatedFields.error.errors[0]?.message, success: false }
   }
 
   const session = await auth()
   const userId = session?.user.id
 
   if (!userId) {
-    return "User must be logged in"
+    return { message: "User must be logged in", success: false }
   }
 
   const { content, postId } = validatedFields.data
 
   await prisma.comment.create({ data: { content, userId, postId } })
   revalidatePath("/")
+  return { message: "", success: true }
 }
 
 export async function followProfile(profileId: string) {

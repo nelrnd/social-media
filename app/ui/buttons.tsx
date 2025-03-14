@@ -16,6 +16,7 @@ import {
 import { DialogDescription } from "@radix-ui/react-dialog"
 import CommentForm from "./comment-form"
 import Post, { PostMinimized } from "./post"
+import { useEffect, useRef, useState } from "react"
 
 export function LikeButton({
   postId,
@@ -54,8 +55,10 @@ export function CommentButton({
   }>
   comments: Prisma.CommentGetPayload<{ select: { id: true } }>[]
 }) {
+  const [open, setOpen] = useState(false)
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <button
           className="py-2 px-4 flex items-center gap-2 w-fit bg-white border border-gray-200 disabled:opacity-50 hover:bg-gray-100 transition-colors relative z-10"
@@ -74,7 +77,7 @@ export function CommentButton({
           </DialogDescription>
         </DialogHeader>
         <PostMinimized post={post} />
-        <CommentForm postId={post.id} />
+        <CommentForm postId={post.id} cb={() => setOpen(false)} />
       </DialogContent>
     </Dialog>
   )
