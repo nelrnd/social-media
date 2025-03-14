@@ -1,4 +1,5 @@
 import { fetchIsFollowing, fetchProfile } from "@/app/lib/data"
+import Avatar from "@/app/ui/avatar"
 import FollowBar from "@/app/ui/follow-bar"
 import FollowButton from "@/app/ui/follow-button"
 import PostList from "@/app/ui/post-list"
@@ -23,6 +24,7 @@ export default async function ProfilePage({
   return (
     <main>
       <header className="p-4 space-y-4 border-b border-gray-200">
+        <Avatar src="" size="lg" />
         <div className="grid grid-cols-2 items-center">
           <div>
             <h1 className="text-4xl font-bold">{profile?.name}</h1>
