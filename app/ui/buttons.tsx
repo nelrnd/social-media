@@ -15,8 +15,8 @@ import {
 } from "@/app/ui/dialog"
 import { DialogDescription } from "@radix-ui/react-dialog"
 import CommentForm from "./comment-form"
-import Post, { PostMinimized } from "./post"
-import { useEffect, useRef, useState } from "react"
+import { PostMinimized } from "./post"
+import { useState } from "react"
 
 export function LikeButton({
   postId,
