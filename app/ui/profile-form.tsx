@@ -25,23 +25,7 @@ export default function ProfileForm({
   return (
     <form action={formAction} className="flex flex-col gap-4">
       {profile && <input type="hidden" name="id" value={profile.id} />}
-
       <AvatarUploader initialImage={profile?.imageUrl} />
-
-      <div>
-        <input
-          type="file"
-          accept="image/*"
-          name="image"
-          id="image"
-          className="hidden"
-        />
-        <label htmlFor="image" aria-label="Upload avatar">
-          <span className="text-gray-600">Avatar</span>
-          <Avatar src="" size="lg" />
-        </label>
-      </div>
-
       <div>
         <label htmlFor="name" className="text-gray-600">
           Display name

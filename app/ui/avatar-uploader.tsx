@@ -1,10 +1,17 @@
+"use client"
+
+import { useState } from "react"
 import Avatar from "./avatar"
+import { CameraIcon } from "@heroicons/react/24/outline"
 
 export default function AvatarUploader({
   initialImage,
 }: {
-  initialImage?: string
+  initialImage?: string | null
 }) {
+  const [files, setFiles] = useState<FileList | null>(null)
+  const url = files && files.length ? URL.createObjectURL(files[0]) : null
+
   return (
     <div>
       <input
@@ -13,9 +20,19 @@ export default function AvatarUploader({
         id="image"
         name="image"
         className="hidden"
+        onChange={(e) => setFiles(e.target.files || null)}
       />
-      <label htmlFor="image" className="rounded-full">
-        <Avatar src={initialImage} size="lg" />
+      <label
+        htmlFor="image"
+        className="rounded-full overflow-hidden block w-fit h-fit relative"
+      >
+        <div
+          className="cursor-pointer bg-black/20 hover:bg-black/40 absolute inset-0 transition-colors grid place-content-center"
+          title="Upload image"
+        >
+          <CameraIcon className="size-10 text-white" />
+        </div>
+        <Avatar src={url || initialImage} size="lg" />
       </label>
     </div>
   )

@@ -5,7 +5,7 @@ export default function Avatar({
   size,
   username,
 }: {
-  src?: string
+  src?: string | null
   size?: string
   username?: string
 }) {
@@ -24,12 +24,13 @@ export default function Avatar({
   }
 
   return (
-    <div className="rounded-full w-fit h-fit overflow-hidden">
+    <div className="rounded-full w-fit h-fit overflow-hidden outline outline-gray-50">
       <Image
         src={src || "/avatar-fallback.jpg"}
         alt={username ? username + "'s avatar" : "avatar"}
         width={getSize(size)}
         height={getSize(size)}
+        className="aspect-square object-cover"
       />
     </div>
   )
