@@ -8,6 +8,13 @@ import { z } from "zod"
 import { revalidatePath } from "next/cache"
 import { Prisma } from "@prisma/client"
 import { redirect } from "next/navigation"
+import { v2 as cloudinary } from "cloudinary"
+
+cloudinary.config({
+  cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+})
 
 export type AuthState = {
   errors?: {
@@ -332,4 +339,23 @@ export async function followProfile(profileId: string) {
     revalidatePath("/")
     return "Profile unfollowed successfully"
   }
+}
+
+export async function uploadImage(formData: FormData) {
+  const image = formData.get("image") as File
+  const arrayBuffer = await image.arrayBuffer()
+  const buffer = new Uint8Array(arrayBuffer)
+  const result = await new Promise((resolve, reject) => {
+    cloudinary.uploader
+      .upload_stream({}, (error, result) => {
+        if (error) {
+          reject(error)
+          return
+        }
+        resolve(result)
+      })
+      .end(buffer)
+  })
+  console.log(result)
+  return result
 }
