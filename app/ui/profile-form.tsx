@@ -5,6 +5,7 @@ import { ProfileFormState } from "../lib/actions"
 import { Profile } from "@prisma/client"
 import { LoaderCircleIcon } from "lucide-react"
 import Avatar from "./avatar"
+import AvatarUploader from "./avatar-uploader"
 
 export default function ProfileForm({
   action,
@@ -24,6 +25,8 @@ export default function ProfileForm({
   return (
     <form action={formAction} className="flex flex-col gap-4">
       {profile && <input type="hidden" name="id" value={profile.id} />}
+
+      <AvatarUploader initialImage={profile?.imageUrl} />
 
       <div>
         <input
