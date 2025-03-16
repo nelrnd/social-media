@@ -8,7 +8,7 @@ import { z } from "zod"
 import { revalidatePath } from "next/cache"
 import { Prisma } from "@prisma/client"
 import { redirect } from "next/navigation"
-import { v2 as cloudinary } from "cloudinary"
+import { v2 as cloudinary, UploadApiResponse } from "cloudinary"
 
 cloudinary.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
@@ -138,10 +138,19 @@ export type ProfileFormState = {
     name?: string[]
     username?: string[]
     bio?: string[]
+    image?: string[]
   }
   message?: string | null
   data?: FormData
 }
+
+const MAX_FILE_SIZE = 20000000
+const ACCEPTED_IMAGE_TYPES = [
+  "image/jpeg",
+  "image/jpg",
+  "image/png",
+  "image/webp",
+]
 
 const CreateProfileFormSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -158,6 +167,17 @@ const CreateProfileFormSchema = z.object({
       return !profile
     }, "Username is already taken"),
   bio: z.string(),
+  image: z
+    .any()
+    .refine(
+      (file) => file.size <= MAX_FILE_SIZE,
+      "Cannot upload images bigger than 2MB"
+    )
+    .transform((file) => (file.size ? file : null))
+    .refine(
+      (file) => !file || ACCEPTED_IMAGE_TYPES.includes(file?.type),
+      "Image format is not supported (only .jpg, .jpeg, .png and .webp are valid."
+    ),
 })
 
 export async function createProfile(
@@ -168,6 +188,7 @@ export async function createProfile(
     name: formData.get("name"),
     username: formData.get("username"),
     bio: formData.get("bio"),
+    image: formData.get("image"),
   })
 
   if (!validatedFields.success) {
@@ -177,16 +198,19 @@ export async function createProfile(
     }
   }
 
-  const { name, username, bio } = validatedFields.data
+  const { name, username, bio, image } = validatedFields.data
   const session = await auth()
   const userId = session?.user?.id as string
+  const imageUrl = await uploadImage(image)
 
   if (!userId) {
     return { message: "User must be logged in" }
   }
 
   try {
-    await prisma.profile.create({ data: { name, username, bio, userId } })
+    await prisma.profile.create({
+      data: { name, username, bio, imageUrl, userId },
+    })
   } catch (error) {
     console.log(error)
     throw error
@@ -228,7 +252,9 @@ export async function updateProfile(
     name: formData.get("name"),
     username: formData.get("username"),
     bio: formData.get("bio"),
+    image: formData.get("image"),
   })
+  console.log(validatedFields.data?.image)
 
   if (!validatedFields.success) {
     return {
@@ -237,7 +263,7 @@ export async function updateProfile(
     }
   }
 
-  const { id, name, username, bio } = validatedFields.data
+  const { id, name, username, bio, image } = validatedFields.data
   const session = await auth()
   const userId = session?.user?.id as string
 
@@ -341,11 +367,11 @@ export async function followProfile(profileId: string) {
   }
 }
 
-export async function uploadImage(formData: FormData) {
-  const image = formData.get("image") as File
+async function uploadImage(image: File): Promise<string | undefined> {
+  if (!image) return
   const arrayBuffer = await image.arrayBuffer()
   const buffer = new Uint8Array(arrayBuffer)
-  const result = await new Promise((resolve, reject) => {
+  const result = (await new Promise((resolve, reject) => {
     cloudinary.uploader
       .upload_stream({}, (error, result) => {
         if (error) {
@@ -355,7 +381,6 @@ export async function uploadImage(formData: FormData) {
         resolve(result)
       })
       .end(buffer)
-  })
-  console.log(result)
-  return result
+  })) as UploadApiResponse | undefined
+  return result?.url
 }

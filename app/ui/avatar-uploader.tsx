@@ -6,8 +6,10 @@ import { CameraIcon } from "@heroicons/react/24/outline"
 
 export default function AvatarUploader({
   initialImage,
+  errors,
 }: {
   initialImage?: string | null
+  errors?: string[]
 }) {
   const [files, setFiles] = useState<FileList | null>(null)
   const url = files && files.length ? URL.createObjectURL(files[0]) : null
@@ -34,6 +36,9 @@ export default function AvatarUploader({
         </div>
         <Avatar src={url || initialImage} size="lg" />
       </label>
+      <div id="image-error" aria-live="polite" aria-atomic="true">
+        {errors && <p className="text-red-500 text-sm mt-1">{errors.at(0)}</p>}
+      </div>
     </div>
   )
 }
