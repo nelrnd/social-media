@@ -81,6 +81,7 @@ model Post {
   createdAt DateTime  @default(now())
   likes     Like[]
   comments  Comment[]
+  images    String[]
 }
 
 model Like {
