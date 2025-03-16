@@ -266,6 +266,7 @@ export async function updateProfile(
   const { id, name, username, bio, image } = validatedFields.data
   const session = await auth()
   const userId = session?.user?.id as string
+  const imageUrl = await uploadImage(image)
 
   if (!userId) {
     return { message: "User must be logged in" }
@@ -274,7 +275,7 @@ export async function updateProfile(
   try {
     await prisma.profile.update({
       where: { id, userId },
-      data: { name, username, bio },
+      data: { name, username, bio, imageUrl },
     })
   } catch (error) {
     console.log(error)
