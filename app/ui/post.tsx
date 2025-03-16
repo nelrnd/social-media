@@ -32,7 +32,12 @@ export default function Post({
         }
       )}
     >
-      <Avatar src={post.user.profile?.imageUrl} size="md" />
+      <Link
+        href={`/profile/${post.user.profile?.username}`}
+        className="relative z-10 w-fit h-fit rounded-full hover:brightness-90 transition-all"
+      >
+        <Avatar src={post.user.profile?.imageUrl} size="md" />
+      </Link>
       <div className="space-y-2">
         <header className="flex items-center justify-between">
           <p className="relative z-10 w-fit">
