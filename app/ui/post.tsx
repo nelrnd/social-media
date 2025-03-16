@@ -32,7 +32,7 @@ export default function Post({
         }
       )}
     >
-      <Avatar src="" size="md" />
+      <Avatar src={post.user.profile?.imageUrl} size="md" />
       <div className="space-y-2">
         <header className="flex items-center justify-between">
           <p className="relative z-10 w-fit">
@@ -75,7 +75,7 @@ export function PostMinimized({
 }) {
   return (
     <article className="p-4 border border-gray-200 rounded-md grid grid-cols-[auto_1fr] gap-3">
-      <Avatar src="" size="md" />
+      <Avatar src={post.user.profile?.imageUrl} size="md" />
       <div className="space-y-2">
         <header className="flex items-center justify-between">
           <p className="relative z-10 w-fit">

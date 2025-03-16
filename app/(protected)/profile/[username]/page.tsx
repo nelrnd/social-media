@@ -24,7 +24,7 @@ export default async function ProfilePage({
   return (
     <main>
       <header className="p-4 space-y-4 border-b border-gray-200">
-        <Avatar src={profile.imageUrl} size="lg" />
+        <Avatar src={profile.imageUrl} size="xl" />
         <div className="grid grid-cols-2 items-center">
           <div>
             <h1 className="text-4xl font-bold">{profile?.name}</h1>
