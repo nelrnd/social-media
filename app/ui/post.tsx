@@ -5,7 +5,6 @@ import Link from "next/link"
 import clsx from "clsx"
 import { LikeButton, CommentButton } from "./buttons"
 import { usePathname } from "next/navigation"
-import { getDate } from "../lib/utils"
 import Date from "./date"
 import Avatar from "./avatar"
 
