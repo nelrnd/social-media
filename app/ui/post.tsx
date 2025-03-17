@@ -35,6 +35,7 @@ export default function Post({
         href={`/profile/${post.user.profile?.username}`}
         className="relative z-10 w-fit h-fit rounded-full hover:brightness-90 transition-all"
       >
+        {post.images.length}
         <Avatar src={post.user.profile?.imageUrl} size="md" />
       </Link>
       <div className="space-y-2">

@@ -107,6 +107,7 @@ export async function register(prevState: AuthState, formData: FormData) {
 
 const PostFormSchema = z.object({
   content: z.string().min(1, "Post content cannot be empty"),
+  images: z.any(),
 })
 
 export async function createPost(
@@ -115,21 +116,25 @@ export async function createPost(
 ) {
   const validatedFields = PostFormSchema.safeParse({
     content: formData.get("content"),
+    images: formData.getAll("images"),
   })
 
   if (!validatedFields.success) {
     return validatedFields.error.errors[0]?.message
   }
 
-  const { content } = validatedFields.data
+  const { content, images } = validatedFields.data
   const session = await auth()
   const userId = session?.user?.id
+  const imageUrls = await Promise.all(
+    images.map(async (image: File) => uploadImage(image))
+  )
 
   if (!userId) {
     return "User must be logged in"
   }
 
-  await prisma.post.create({ data: { content, userId } })
+  await prisma.post.create({ data: { content, userId, images: imageUrls } })
   revalidatePath("/")
 }
 

@@ -51,11 +51,11 @@ export default function PostForm() {
             multiple={true}
             onChange={(e) => setImages(e.target.files)}
             className="hidden"
-            name="image"
-            id="image"
+            name="images"
+            id="images"
           />
           <label
-            htmlFor="image"
+            htmlFor="images"
             className="cursor-pointer size-12 bg-white hover:bg-gray-100 flex items-center justify-center rounded-full transition-all"
           >
             <PhotoIcon className="size-5 text-gray-600" />
