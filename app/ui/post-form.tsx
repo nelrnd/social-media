@@ -6,6 +6,7 @@ import { LoaderCircleIcon } from "lucide-react"
 import { PhotoIcon } from "@heroicons/react/24/outline"
 import Image from "next/image"
 import clsx from "clsx"
+import ImagePreview from "./preview-image"
 
 export default function PostForm() {
   const [formError, formAction, isPending] = useActionState(
@@ -28,7 +29,7 @@ export default function PostForm() {
 
       {formError && <p className="text-red-500">{formError}</p>}
 
-      {images && images.length && (
+      {images && !!images.length && (
         <div
           className={clsx("grid gap-2", {
             "grid-cols-1": images.length === 1,
@@ -76,19 +77,5 @@ export default function PostForm() {
         </button>
       </div>
     </form>
-  )
-}
-
-function ImagePreview({ src }: { src: string }) {
-  return (
-    <div className="w-full aspect-square relative border border-gray-100 rounded-xl overflow-hidden">
-      <Image
-        src={src}
-        alt=""
-        layout="fill"
-        objectFit="contain"
-        className="absolute inset-0"
-      />
-    </div>
   )
 }

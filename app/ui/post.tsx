@@ -7,6 +7,7 @@ import { LikeButton, CommentButton } from "./buttons"
 import { usePathname } from "next/navigation"
 import Date from "./date"
 import Avatar from "./avatar"
+import ImagePreview from "./preview-image"
 
 export default function Post({
   post,
@@ -35,7 +36,6 @@ export default function Post({
         href={`/profile/${post.user.profile?.username}`}
         className="relative z-10 w-fit h-fit rounded-full hover:brightness-90 transition-all"
       >
-        {post.images.length}
         <Avatar src={post.user.profile?.imageUrl} size="md" />
       </Link>
       <div className="space-y-2">
@@ -56,6 +56,18 @@ export default function Post({
         <section>
           <p>{post.content}</p>
         </section>
+        {post.images && !!post.images.length && (
+          <div
+            className={clsx("grid gap-2", {
+              "grid-cols-1": post.images.length === 1,
+              "grid-cols-2": post.images.length > 1,
+            })}
+          >
+            {post.images.map((image) => (
+              <ImagePreview key={image} src={image} />
+            ))}
+          </div>
+        )}
         <footer className="flex items-center gap-4">
           <LikeButton postId={post.id} likes={post.likes} />
           <CommentButton post={post} comments={post.comments} />
@@ -93,6 +105,19 @@ export function PostMinimized({
         <section>
           <p>{post.content}</p>
         </section>
+
+        {post.images && !!post.images.length && (
+          <div
+            className={clsx("grid gap-2", {
+              "grid-cols-1": post.images.length === 1,
+              "grid-cols-2": post.images.length > 1,
+            })}
+          >
+            {post.images.map((image) => (
+              <ImagePreview key={image} src={image} />
+            ))}
+          </div>
+        )}
       </div>
     </article>
   )
