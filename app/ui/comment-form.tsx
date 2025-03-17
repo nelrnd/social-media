@@ -27,11 +27,12 @@ export default function CommentForm({
   }, [cb, state])
 
   return (
-    <form action={formAction} className="space-y-4">
+    <form action={formAction}>
       <textarea
         name="content"
-        className="w-full h-[4rem] outline-none"
+        className="w-full h-[4rem] mb-4 outline-none bg-transparent"
         placeholder="What do you have to say?"
+        spellCheck="false"
       ></textarea>
       <input type="hidden" name="postId" value={postId} />
       <div aria-live="polite" aria-atomic="true">
