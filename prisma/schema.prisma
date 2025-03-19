@@ -9,20 +9,22 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String    @unique
-  emailVerified DateTime?
-  image         String?
-  password      String?
-  accounts      Account[]
-  sessions      Session[]
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  profile       Profile?
-  posts         Post[]
-  likes         Like[]
-  comments      Comment[]
+  id                String         @id @default(cuid())
+  name              String?
+  email             String         @unique
+  emailVerified     DateTime?
+  image             String?
+  password          String?
+  accounts          Account[]
+  sessions          Session[]
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+  profile           Profile?
+  posts             Post[]
+  likes             Like[]
+  comments          Comment[]
+  notificationsFrom Notification[] @relation("to")
+  notificationsTo   Notification[] @relation("from")
 }
 
 model Account {
@@ -114,4 +116,21 @@ model Follow {
   createdAt   DateTime @default(now())
 
   @@unique([followingId, followerId])
+}
+
+enum NotificationType {
+  FOLLOW
+  LIKE
+  COMMENT
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  type      NotificationType
+  from      User             @relation("from", fields: [fromId], references: [id])
+  fromId    String
+  to        User             @relation("to", fields: [toId], references: [id])
+  toId      String
+  isRead    Boolean          @default(false)
+  createdAt DateTime         @default(now())
 }
