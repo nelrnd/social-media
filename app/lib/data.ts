@@ -126,6 +126,7 @@ export async function fetchNotifications() {
       post: { include: { user: { select: { profile: true } } } },
       comment: { include: { user: { select: { profile: true } } } },
     },
+    orderBy: { createdAt: "desc" },
   })
   return notifications
 }

@@ -25,6 +25,16 @@ const ACCEPTED_IMAGE_TYPES = [
   "image/webp",
 ]
 
+async function getUserData() {
+  const session = await auth()
+  const userId = session?.user.id
+  const profileId = session?.user.profile?.id
+  if (!userId || !profileId) {
+    throw new Error("User must be logged in")
+  }
+  return { userId, profileId }
+}
+
 export type AuthState = {
   errors?: {
     email?: string[]
@@ -417,12 +427,7 @@ export async function commentPost(
 }
 
 export async function followProfile(profileId: string) {
-  const session = await auth()
-  const userId = session?.user.id as string
-  const authProfileId = session?.user.profile?.id as string
-  if (!userId) {
-    return "User must be logged in"
-  }
+  const { userId, profileId: authProfileId } = await getUserData()
   if (!profileId) {
     return "Profile id is required"
   }
@@ -504,13 +509,24 @@ async function createNotification({
 }
 
 export async function readAllNotifications() {
-  const session = await auth()
-  const userId = session?.user?.id as string
-  if (!userId) {
-    return "User must be logged in"
-  }
+  const { userId } = await getUserData()
   await prisma.notification.updateMany({
     where: { toId: userId },
     data: { isRead: true },
   })
 }
+
+export async function deleteUser() {
+  const { userId, profileId } = await getUserData()
+
+  await prisma.like.deleteMany({ where: { userId } })
+  await prisma.comment.deleteMany({ where: { userId } })
+  await prisma.follow.deleteMany({ where: { followerId: profileId } })
+  await prisma.post.deleteMany({ where: { userId } })
+  await prisma.notification.deleteMany({ where: { fromId: userId } })
+  await prisma.profile.delete({ where: { userId } })
+  await prisma.user.delete({ where: { id: userId } })
+
+  redirect("/")
+}
+540
