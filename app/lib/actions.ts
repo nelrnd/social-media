@@ -329,8 +329,11 @@ export async function updateProfile(
 export async function likePost(postId: string) {
   const session = await auth()
   const userId = session?.user?.id as string
-  if (!session || !postId) {
-    return "User must be logged in and post id must be provided"
+  if (!session) {
+    return "User must be logged in"
+  }
+  if (!postId) {
+    return "Post id is required"
   }
   const like = await prisma.like.findFirst({
     where: { userId, postId },
@@ -338,11 +341,32 @@ export async function likePost(postId: string) {
   if (!like) {
     await prisma.like.create({ data: { userId, postId } })
     revalidatePath("/")
-    return "Liked post successfully"
+    return "Post liked successfully"
   } else {
     await prisma.like.delete({ where: { id: like.id } })
     revalidatePath("/")
-    return "Unliked post successfully"
+    return "Post unliked successfully"
+  }
+}
+
+export async function likeComment(commentId: string) {
+  const session = await auth()
+  const userId = session?.user?.id as string
+  if (!session) {
+    return "User must be logged in"
+  }
+  if (!commentId) {
+    return "Comment id is required"
+  }
+  const like = await prisma.like.findFirst({ where: { userId, commentId } })
+  if (!like) {
+    await prisma.like.create({ data: { userId, commentId } })
+    revalidatePath("/")
+    return "Comment liked successfully"
+  } else {
+    await prisma.like.delete({ where: { id: like.id } })
+    revalidatePath("/")
+    return "Comment unliked successfully"
   }
 }
 

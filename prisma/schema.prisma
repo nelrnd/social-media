@@ -88,13 +88,13 @@ model Post {
 
 model Like {
   id        String   @id @default(cuid())
-  postId    String
-  post      Post     @relation(fields: [postId], references: [id])
+  postId    String?
+  post      Post?    @relation(fields: [postId], references: [id])
+  commentId String?
+  comment   Comment? @relation(fields: [commentId], references: [id])
   userId    String
   user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
-
-  @@unique([postId, userId])
 }
 
 model Comment {
@@ -104,6 +104,7 @@ model Comment {
   post      Post     @relation(fields: [postId], references: [id])
   userId    String
   user      User     @relation(fields: [userId], references: [id])
+  likes     Like[]
   createdAt DateTime @default(now())
 }
 
