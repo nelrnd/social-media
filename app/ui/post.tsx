@@ -102,8 +102,8 @@ export function PostMinimized({
 }) {
   return (
     <article className="p-4 border border-gray-200 rounded-md grid grid-cols-[auto_1fr] gap-3">
-      <Avatar src={post.user.profile?.imageUrl} size="md" />
-      <div className="space-y-2">
+      <Avatar src={post.user.profile?.imageUrl} size="sm" />
+      <div className="flex flex-col gap-2">
         <header className="flex items-center justify-between">
           <p className="relative z-10 w-fit">
             <span className="font-bold">{post.user.profile?.name}</span>{" "}
@@ -112,9 +112,11 @@ export function PostMinimized({
           <Date date={post.createdAt} />
         </header>
 
-        <section>
-          <p>{post.content}</p>
-        </section>
+        {post.content && (
+          <section className="-mt-2">
+            <p>{post.content}</p>
+          </section>
+        )}
 
         {post.images && !!post.images.length && (
           <div

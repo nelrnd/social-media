@@ -403,16 +403,28 @@ export async function commentPost(
 
   const { content, postId } = validatedFields.data
 
-  await prisma.comment.create({ data: { content, userId, postId } })
+  const comment = await prisma.comment.create({
+    data: { content, userId, postId },
+  })
+  createNotification({
+    type: "COMMENT",
+    fromId: userId,
+    postId,
+    commentId: comment.id,
+  })
   revalidatePath("/")
   return { message: "", success: true }
 }
 
 export async function followProfile(profileId: string) {
   const session = await auth()
-  const authProfileId = session?.user?.profile?.id as string
-  if (!session || !profileId) {
-    return "User must be logged in and profile id must be provided"
+  const userId = session?.user.id as string
+  const authProfileId = session?.user.profile?.id as string
+  if (!userId) {
+    return "User must be logged in"
+  }
+  if (!profileId) {
+    return "Profile id is required"
   }
   if (profileId === authProfileId) {
     return "User cannot follow himself"
@@ -421,8 +433,14 @@ export async function followProfile(profileId: string) {
     where: { followingId: profileId, followerId: authProfileId },
   })
   if (!follow) {
-    await prisma.follow.create({
+    const newFollow = await prisma.follow.create({
       data: { followingId: profileId, followerId: authProfileId },
+      select: { following: { select: { user: { select: { id: true } } } } },
+    })
+    createNotification({
+      type: "FOLLOW",
+      fromId: userId,
+      toId: newFollow.following.user.id,
     })
     revalidatePath("/")
     return "Profile followed successfully"
