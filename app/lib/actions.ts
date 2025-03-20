@@ -6,7 +6,7 @@ import { prisma } from "@/app/lib/prisma"
 import bcrypt from "bcrypt"
 import { z } from "zod"
 import { revalidatePath } from "next/cache"
-import { Prisma } from "@prisma/client"
+import { NotificationType, Prisma } from "@prisma/client"
 import { redirect } from "next/navigation"
 import { v2 as cloudinary, UploadApiResponse } from "cloudinary"
 
@@ -448,4 +448,12 @@ async function uploadImage(image: File): Promise<string | undefined> {
       .end(buffer)
   })) as UploadApiResponse | undefined
   return result?.url
+}
+
+async function createNotification(
+  type: NotificationType,
+  fromId: string,
+  toId: string
+) {
+  await prisma.notification.create({ data: { type, fromId, toId } })
 }
