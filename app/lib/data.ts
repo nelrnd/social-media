@@ -115,3 +115,23 @@ export async function fetchFollowers(profileId: string) {
   })
   return followers
 }
+
+export async function fetchNotifications() {
+  const session = await auth()
+  const userId = session?.user?.id
+  const notifications = await prisma.notification.findMany({
+    where: { toId: userId },
+    include: { from: { select: { profile: true } } },
+  })
+  return notifications
+}
+
+export async function fetchUnreadNotificationsCount() {
+  const session = await auth()
+  const userId = session?.user?.id
+  const notifications = await prisma.notification.findMany({
+    where: { toId: userId, isRead: false },
+    select: { id: true },
+  })
+  return notifications.length
+}

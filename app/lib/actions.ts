@@ -340,6 +340,7 @@ export async function likePost(postId: string) {
   })
   if (!like) {
     await prisma.like.create({ data: { userId, postId } })
+    createNotification({ type: "LIKE", fromId: userId, postId })
     revalidatePath("/")
     return "Post liked successfully"
   } else {
@@ -450,13 +451,27 @@ async function uploadImage(image: File): Promise<string | undefined> {
   return result?.url
 }
 
-async function createNotification(
-  type: NotificationType,
-  fromId: string,
-  toId: string,
-  postId?: string,
+async function createNotification({
+  type,
+  fromId,
+  toId,
+  postId,
+  commentId,
+}: {
+  type: NotificationType
+  fromId: string
+  toId?: string
+  postId?: string
   commentId?: string
-) {
+}) {
+  if (!toId && postId) {
+    const post = await prisma.post.findUnique({ where: { id: postId } })
+    if (!post) return
+    toId = post.userId
+  }
+  if (fromId === toId || !fromId || !toId) {
+    return
+  }
   if (["FOLLOW", "LIKE"].includes(type)) {
     // notification should be unique
     const notification = await prisma.notification.findFirst({
@@ -467,6 +482,7 @@ async function createNotification(
   await prisma.notification.create({
     data: { type, fromId, toId, postId, commentId },
   })
+  console.log("Creating notification")
 }
 
 export async function readAllNotifications() {
