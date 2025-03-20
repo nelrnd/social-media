@@ -16,6 +16,15 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 })
 
+const MAX_FILE_SIZE = 2000000 // 2mb
+
+const ACCEPTED_IMAGE_TYPES = [
+  "image/jpeg",
+  "image/jpg",
+  "image/png",
+  "image/webp",
+]
+
 export type AuthState = {
   errors?: {
     email?: string[]
@@ -105,18 +114,35 @@ export async function register(prevState: AuthState, formData: FormData) {
   return { message: "Registered with success" }
 }
 
+export interface Image {
+  file: File
+  id: string
+  url: string
+}
+
 const PostFormSchema = z.object({
-  content: z.string().min(1, "Post content cannot be empty"),
-  images: z.any(),
+  content: z.string(),
+  images: z
+    .custom<Image[]>()
+    .refine(
+      (images) => images.every((image) => image.file.size <= MAX_FILE_SIZE),
+      "Cannot upload images bigger than 2MB"
+    )
+    .refine(
+      (images) =>
+        images.every((image) => ACCEPTED_IMAGE_TYPES.includes(image.file.type)),
+      "Image format is not supported (only .jpg, .jpeg, .png and .webp are valid."
+    ),
 })
 
 export async function createPost(
+  imageFiles: Image[],
   prevState: string | undefined,
   formData: FormData
 ) {
   const validatedFields = PostFormSchema.safeParse({
     content: formData.get("content"),
-    images: formData.getAll("images"),
+    images: imageFiles,
   })
 
   if (!validatedFields.success) {
@@ -124,17 +150,29 @@ export async function createPost(
   }
 
   const { content, images } = validatedFields.data
+
+  if (!content && !images.length) {
+    return "Post cannot be empty"
+  }
+
   const session = await auth()
   const userId = session?.user?.id
-  const imageUrls = await Promise.all(
-    images.map(async (image: File) => uploadImage(image))
-  )
 
   if (!userId) {
     return "User must be logged in"
   }
 
-  await prisma.post.create({ data: { content, userId, images: imageUrls } })
+  const imageUrls = await Promise.all(
+    images.map(async (image) => uploadImage(image.file))
+  )
+
+  await prisma.post.create({
+    data: {
+      content,
+      userId,
+      images: imageUrls.filter((url) => typeof url === "string"),
+    },
+  })
   revalidatePath("/")
 }
 
@@ -148,14 +186,6 @@ export type ProfileFormState = {
   message?: string | null
   data?: FormData
 }
-
-const MAX_FILE_SIZE = 20000000
-const ACCEPTED_IMAGE_TYPES = [
-  "image/jpeg",
-  "image/jpg",
-  "image/png",
-  "image/webp",
-]
 
 const CreateProfileFormSchema = z.object({
   name: z.string().min(1, "Name is required"),

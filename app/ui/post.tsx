@@ -7,7 +7,7 @@ import { LikeButton, CommentButton } from "./buttons"
 import { usePathname } from "next/navigation"
 import Date from "./date"
 import Avatar from "./avatar"
-import ImagePreview from "./preview-image"
+import ImagePreview from "./image-preview"
 
 export default function Post({
   post,
