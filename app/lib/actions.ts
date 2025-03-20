@@ -329,7 +329,7 @@ export async function updateProfile(
 export async function likePost(postId: string) {
   const session = await auth()
   const userId = session?.user?.id as string
-  if (!session) {
+  if (!userId) {
     return "User must be logged in"
   }
   if (!postId) {
@@ -352,7 +352,7 @@ export async function likePost(postId: string) {
 export async function likeComment(commentId: string) {
   const session = await auth()
   const userId = session?.user?.id as string
-  if (!session) {
+  if (!userId) {
     return "User must be logged in"
   }
   if (!commentId) {
@@ -453,7 +453,30 @@ async function uploadImage(image: File): Promise<string | undefined> {
 async function createNotification(
   type: NotificationType,
   fromId: string,
-  toId: string
+  toId: string,
+  postId?: string,
+  commentId?: string
 ) {
-  await prisma.notification.create({ data: { type, fromId, toId } })
+  if (["FOLLOW", "LIKE"].includes(type)) {
+    // notification should be unique
+    const notification = await prisma.notification.findFirst({
+      where: { type, fromId, toId, postId, commentId },
+    })
+    if (notification) return
+  }
+  await prisma.notification.create({
+    data: { type, fromId, toId, postId, commentId },
+  })
+}
+
+export async function readAllNotifications() {
+  const session = await auth()
+  const userId = session?.user?.id as string
+  if (!userId) {
+    return "User must be logged in"
+  }
+  await prisma.notification.updateMany({
+    where: { toId: userId },
+    data: { isRead: true },
+  })
 }
