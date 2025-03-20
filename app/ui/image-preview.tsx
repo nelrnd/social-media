@@ -25,6 +25,7 @@ export default function ImagePreview({
         src={src}
         alt=""
         fill={true}
+        sizes="(max-width: 770px) 100vw, 446px"
         className="absolute inset-0 object-cover"
       />
     </div>
