@@ -1,7 +1,7 @@
 "use client"
 
 import { useSession } from "next-auth/react"
-import { likePost } from "../lib/actions"
+import { likeComment, likePost } from "../lib/actions"
 import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid"
 import { HeartIcon as HeartIconOutline } from "@heroicons/react/24/outline"
 import { ChatBubbleLeftIcon } from "@heroicons/react/24/outline"
@@ -27,7 +27,7 @@ export function LikeButton({
 }) {
   const { data: session } = useSession()
   const userId = session?.user?.id
-  const active = likes.find((like) => like.userId === userId)
+  const active = !!likes.find((like) => like.userId === userId)
 
   return (
     <button
@@ -80,5 +80,33 @@ export function CommentButton({
         <CommentForm postId={post.id} cb={() => setOpen(false)} />
       </DialogContent>
     </Dialog>
+  )
+}
+
+export function LikeCommentButton({
+  commentId,
+  likes,
+}: {
+  commentId: string
+  likes: Prisma.LikeGetPayload<{ select: { id: true; userId: true } }>[]
+}) {
+  const { data: session } = useSession()
+  const userId = session?.user?.id
+  const active = !!likes.find((like) => like.userId === userId)
+
+  return (
+    <button
+      onClick={() => likeComment(commentId)}
+      className="py-2 px-3 flex items-center gap-2 w-fit bg-white border border-gray-200 disabled:opacity-50 hover:bg-gray-100 transition-colors relative z-10"
+      aria-label={active ? "Unlike comment" : "Like comment"}
+      title="Like"
+    >
+      {active ? (
+        <HeartIconSolid className="size-4" />
+      ) : (
+        <HeartIconOutline className="size-4" />
+      )}
+      <p className="text-sm">{likes.length}</p>
+    </button>
   )
 }

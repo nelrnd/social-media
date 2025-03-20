@@ -72,7 +72,10 @@ export async function fetchUserPosts(userId: string) {
 export async function fetchComments(postId: string) {
   const comments = await prisma.comment.findMany({
     where: { postId },
-    include: { user: { select: { profile: true } } },
+    include: {
+      user: { select: { profile: true } },
+      likes: { select: { id: true, userId: true } },
+    },
     orderBy: { createdAt: "desc" },
   })
   return comments

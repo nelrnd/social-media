@@ -2,12 +2,16 @@ import { Prisma } from "@prisma/client"
 import Link from "next/link"
 import Date from "./date"
 import Avatar from "./avatar"
+import { LikeCommentButton } from "./buttons"
 
 export default function Comment({
   comment,
 }: {
   comment: Prisma.CommentGetPayload<{
-    include: { user: { select: { profile: true } } }
+    include: {
+      user: { select: { profile: true } }
+      likes: { select: { id: true; userId: true } }
+    }
   }>
 }) {
   return (
@@ -34,9 +38,13 @@ export default function Comment({
           <Date date={comment.createdAt} />
         </header>
 
-        <section>
+        <section className="mb-2">
           <p>{comment.content}</p>
         </section>
+
+        <footer>
+          <LikeCommentButton commentId={comment.id} likes={comment.likes} />
+        </footer>
       </div>
     </div>
   )
