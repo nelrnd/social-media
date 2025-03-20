@@ -18,7 +18,7 @@ export default function AvatarUploader({
     <div>
       <input
         type="file"
-        accept="image/*"
+        accept="image/jpeg, image/jpg, image/png, image/webp"
         id="image"
         name="image"
         className="hidden"
