@@ -17,6 +17,7 @@ import { DialogDescription } from "@radix-ui/react-dialog"
 import CommentForm from "./comment-form"
 import { PostMinimized } from "./post"
 import { useState } from "react"
+import { spaceMono } from "../fonts"
 
 export function LikeButton({
   postId,
@@ -41,7 +42,7 @@ export function LikeButton({
       ) : (
         <HeartIconOutline className="size-4" />
       )}
-      <p className="text-sm">{likes.length}</p>
+      <p className={`text-sm ${spaceMono.className}`}>{likes.length}</p>
     </button>
   )
 }
@@ -66,7 +67,7 @@ export function CommentButton({
           title="Comment"
         >
           <ChatBubbleLeftIcon className="size-4" />
-          <p className="text-sm">{comments.length}</p>
+          <p className={`text-sm ${spaceMono.className}`}>{comments.length}</p>
         </button>
       </DialogTrigger>
       <DialogContent>
@@ -106,7 +107,7 @@ export function LikeCommentButton({
       ) : (
         <HeartIconOutline className="size-4" />
       )}
-      <p className="text-sm">{likes.length}</p>
+      <p className={`text-sm ${spaceMono.className}`}>{likes.length}</p>
     </button>
   )
 }

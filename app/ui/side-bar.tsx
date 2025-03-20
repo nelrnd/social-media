@@ -3,6 +3,7 @@ import Link from "next/link"
 import { auth, signOut } from "@/auth"
 import { ArrowLeftStartOnRectangleIcon } from "@heroicons/react/24/outline"
 import NavLinks from "./nav-links"
+import { spaceMono } from "../fonts"
 
 export default async function SideBar() {
   const session = await auth()
@@ -13,7 +14,11 @@ export default async function SideBar() {
       <ul className="flex md:flex-col gap-3 h-full">
         <li className="mb-8 hidden md:block">
           <Link href="/">
-            <span className="text-2xl font-bold hover:underline">AHSI</span>
+            <span
+              className={`text-2xl font-bold hover:underline ${spaceMono.className}`}
+            >
+              AHSI
+            </span>
           </Link>
         </li>
 

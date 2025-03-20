@@ -1,11 +1,6 @@
 import type { Metadata } from "next"
-import { Space_Grotesk } from "next/font/google"
 import "./globals.css"
-
-const spaceGrotesk = Space_Grotesk({
-  weight: ["400", "600", "700"],
-  subsets: ["latin"],
-})
+import { spaceGrotesk } from "./fonts"
 
 export const metadata: Metadata = {
   title: "AHSI - Social Media",
