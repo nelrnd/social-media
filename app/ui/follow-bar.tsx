@@ -12,6 +12,8 @@ import { DialogDescription } from "@radix-ui/react-dialog"
 import { useEffect, useState } from "react"
 import { fetchFollowers, fetchFollowings } from "../lib/data"
 import Link from "next/link"
+import ProfileCard, { ProfileCardSkeleton } from "./profile-card"
+import { spaceMono } from "../fonts"
 
 export default function FollowBar({
   profile,
@@ -21,7 +23,7 @@ export default function FollowBar({
   }>
 }) {
   return (
-    <div className="flex items-center gap-8 text-gray-600">
+    <div className="flex items-center gap-8">
       <FollowingDialog
         count={profile.following.length}
         profileId={profile.id}
@@ -37,16 +39,16 @@ export default function FollowBar({
 }
 
 function FollowingDialog({
-  count,
   profileId,
+  count,
   username,
 }: {
-  count: number
   profileId: string
+  count?: number
   username: string
 }) {
   const [open, setOpen] = useState(false)
-  const [followings, setFollowings] = useState<Profile[]>([])
+  const [profiles, setProfiles] = useState<Profile[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -54,10 +56,9 @@ function FollowingDialog({
       async function fetch() {
         setLoading(true)
         const followings = await fetchFollowings(profileId)
-        setFollowings(followings.map((follow) => follow.following))
+        setProfiles(followings.map((follow) => follow.following))
         setLoading(false)
       }
-
       fetch()
     }
   }, [open, profileId])
@@ -65,7 +66,10 @@ function FollowingDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="hover:underline">
-        <span className="text-black font-bold">{count}</span> following
+        <span className={`text-black font-bold ${spaceMono.className}`}>
+          {count}
+        </span>{" "}
+        <span className="text-gray-600">following</span>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -74,15 +78,20 @@ function FollowingDialog({
             Followings of {username}
           </DialogDescription>
         </DialogHeader>
+
         <div>
           {loading ? (
-            <p>Loading...</p>
-          ) : followings.length ? (
-            followings.map((profile) => (
+            [...Array(count || 3).keys()].map((item) => (
+              <ProfileCardSkeleton key={item} />
+            ))
+          ) : profiles.length ? (
+            profiles.map((profile) => (
               <ProfileCard key={profile.id} profile={profile} />
             ))
           ) : (
-            <p className="text-center text-gray-600">No following for now</p>
+            <p className="py-4 text-gray-600 text-center">
+              No following for now
+            </p>
           )}
         </div>
       </DialogContent>
@@ -91,16 +100,16 @@ function FollowingDialog({
 }
 
 function FollowersDialog({
-  count,
   profileId,
+  count,
   username,
 }: {
-  count: number
   profileId: string
+  count?: number
   username: string
 }) {
   const [open, setOpen] = useState(false)
-  const [followers, setFollowers] = useState<Profile[]>([])
+  const [profiles, setProfiles] = useState<Profile[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -108,10 +117,9 @@ function FollowersDialog({
       async function fetch() {
         setLoading(true)
         const followers = await fetchFollowers(profileId)
-        setFollowers(followers.map((follow) => follow.follower))
+        setProfiles(followers.map((follow) => follow.follower))
         setLoading(false)
       }
-
       fetch()
     }
   }, [open, profileId])
@@ -119,8 +127,12 @@ function FollowersDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="hover:underline">
-        <span className="text-black font-bold">{count}</span>{" "}
-        {count === 1 ? "follower" : "followers"}
+        <span className={`text-black font-bold ${spaceMono.className}`}>
+          {count}
+        </span>{" "}
+        <span className="text-gray-600">
+          {count === 1 ? "follower" : "followers"}
+        </span>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -129,28 +141,23 @@ function FollowersDialog({
             Followers of {username}
           </DialogDescription>
         </DialogHeader>
-        {loading ? (
-          <p>Loading...</p>
-        ) : followers.length ? (
-          followers.map((profile) => (
-            <ProfileCard key={profile.id} profile={profile} />
-          ))
-        ) : (
-          <p className="text-center text-gray-600">No followers for now</p>
-        )}
+
+        <div>
+          {loading ? (
+            [...Array(count || 3).keys()].map((item) => (
+              <ProfileCardSkeleton key={item} />
+            ))
+          ) : profiles.length ? (
+            profiles.map((profile) => (
+              <ProfileCard key={profile.id} profile={profile} />
+            ))
+          ) : (
+            <p className="py-4 text-gray-600 text-center">
+              No followers for now
+            </p>
+          )}
+        </div>
       </DialogContent>
     </Dialog>
-  )
-}
-
-function ProfileCard({ profile }: { profile: Profile }) {
-  return (
-    <Link
-      href={`/profile/${profile.username}`}
-      className="block p-4 hover:bg-gray-50 hover:underline transition-colors"
-    >
-      <span className="font-bold">{profile.name}</span>{" "}
-      <span className="text-gray-600">{profile.username}</span>
-    </Link>
   )
 }
