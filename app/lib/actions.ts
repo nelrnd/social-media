@@ -295,7 +295,6 @@ export async function updateProfile(
     bio: formData.get("bio"),
     image: formData.get("image"),
   })
-  console.log(validatedFields.data?.image)
 
   if (!validatedFields.success) {
     return {

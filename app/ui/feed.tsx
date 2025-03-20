@@ -1,13 +1,21 @@
 "use client"
 
-import { Post as PostType } from "@prisma/client"
+import { Prisma } from "@prisma/client"
 import { useEffect, useState } from "react"
 import { fetchFollowingPosts, fetchPosts } from "../lib/data"
 import Post from "./post"
 
 export default function Feed() {
   const [feedType, setFeedType] = useState("discover")
-  const [posts, setPosts] = useState<PostType[]>()
+  const [posts, setPosts] = useState<
+    Prisma.PostGetPayload<{
+      include: {
+        user: { select: { profile: true } }
+        likes: { select: { id: true; userId: true } }
+        comments: { select: { id: true } }
+      }
+    }>[]
+  >()
 
   function changeFeedType(e: React.ChangeEvent<HTMLInputElement>) {
     setFeedType(e.target.value)
