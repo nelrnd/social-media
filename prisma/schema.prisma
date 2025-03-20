@@ -76,14 +76,15 @@ model Profile {
 }
 
 model Post {
-  id        String    @id @default(cuid())
-  content   String?
-  userId    String
-  user      User      @relation(fields: [userId], references: [id])
-  createdAt DateTime  @default(now())
-  likes     Like[]
-  comments  Comment[]
-  images    String[]
+  id            String         @id @default(cuid())
+  content       String?
+  userId        String
+  user          User           @relation(fields: [userId], references: [id])
+  likes         Like[]
+  comments      Comment[]
+  images        String[]
+  notifications Notification[]
+  createdAt     DateTime       @default(now())
 }
 
 model Like {
@@ -98,14 +99,15 @@ model Like {
 }
 
 model Comment {
-  id        String   @id @default(cuid())
-  content   String
-  postId    String
-  post      Post     @relation(fields: [postId], references: [id])
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  likes     Like[]
-  createdAt DateTime @default(now())
+  id            String         @id @default(cuid())
+  content       String
+  postId        String
+  post          Post           @relation(fields: [postId], references: [id])
+  userId        String
+  user          User           @relation(fields: [userId], references: [id])
+  likes         Like[]
+  notifications Notification[]
+  createdAt     DateTime       @default(now())
 }
 
 model Follow {
@@ -132,6 +134,10 @@ model Notification {
   fromId    String
   to        User             @relation("to", fields: [toId], references: [id])
   toId      String
+  post      Post?            @relation(fields: [postId], references: [id])
+  postId    String?
+  comment   Comment?         @relation(fields: [commentId], references: [id])
+  commentId String?
   isRead    Boolean          @default(false)
   createdAt DateTime         @default(now())
 }
