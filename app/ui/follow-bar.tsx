@@ -11,7 +11,6 @@ import { Prisma, Profile } from "@prisma/client"
 import { DialogDescription } from "@radix-ui/react-dialog"
 import { useEffect, useState } from "react"
 import { fetchFollowers, fetchFollowings } from "../lib/data"
-import Link from "next/link"
 import ProfileCard, { ProfileCardSkeleton } from "./profile-card"
 import { spaceMono } from "../fonts"
 
