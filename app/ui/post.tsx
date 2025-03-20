@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation"
 import Date from "./date"
 import Avatar from "./avatar"
 import ImagePreview from "./image-preview"
+import PostLikes from "./post-likes"
 
 export default function Post({
   post,
@@ -73,6 +74,7 @@ export default function Post({
         <footer className="flex items-center gap-4">
           <LikeButton postId={post.id} likes={post.likes} />
           <CommentButton post={post} comments={post.comments} />
+          {onPage && <PostLikes postId={post.id} className="ml-auto" />}
         </footer>
       </div>
 

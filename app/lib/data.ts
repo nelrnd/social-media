@@ -22,7 +22,6 @@ export async function fetchFollowingPosts() {
     where: { followerId: profileId },
     select: { following: { select: { user: true } } },
   })
-  console.log(following)
   const posts = await prisma.post.findMany({
     where: {
       userId: { in: following.map((follow) => follow.following.user.id) },

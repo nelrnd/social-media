@@ -12,8 +12,15 @@ import { useEffect, useState } from "react"
 import { fetchLikes } from "../lib/data"
 import ProfileCard from "./profile-card"
 import { Profile } from "@prisma/client"
+import clsx from "clsx"
 
-export default function PostLikes({ postId }: { postId: string }) {
+export default function PostLikes({
+  postId,
+  className,
+}: {
+  postId: string
+  className?: string
+}) {
   const [open, setOpen] = useState(false)
   const [profiles, setProfiles] = useState<Profile[]>([])
   const [loading, setLoading] = useState(true)
@@ -33,7 +40,9 @@ export default function PostLikes({ postId }: { postId: string }) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className="text-gray-600 hover:underline">
+      <DialogTrigger
+        className={clsx("text-gray-600 hover:underline", className)}
+      >
         See likes
       </DialogTrigger>
       <DialogContent>

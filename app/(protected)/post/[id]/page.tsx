@@ -3,7 +3,6 @@ import CommentForm from "@/app/ui/comment-form"
 import CommentList from "@/app/ui/comment-list"
 import PageHeader from "@/app/ui/page-header"
 import Post from "@/app/ui/post"
-import PostLikes from "@/app/ui/post-likes"
 
 export default async function PostPage({
   params,
@@ -23,11 +22,8 @@ export default async function PostPage({
       <div className="p-6 fixed w-[calc(36rem_-_2px)] bottom-0 border-t border-gray-200 bg-white/70 backdrop-blur-md z-20">
         <CommentForm postId={post.id} />
       </div>
-      <div className="p-6 space-y-2">
-        <div className="flex items-center justify-between">
-          <h3 className="font-bold">Comments</h3>
-          <PostLikes postId={post.id} />
-        </div>
+      <div className="p-6">
+        <h3 className="font-bold leading-none mb-2">Comments</h3>
         <CommentList comments={comments} />
       </div>
     </main>

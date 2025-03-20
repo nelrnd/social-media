@@ -12,7 +12,7 @@ export default function Avatar({
   function getSize(size?: string) {
     switch (size) {
       case "sm":
-        return 32
+        return 48
       case "md":
         return 64
       case "lg":
@@ -35,12 +35,3 @@ export default function Avatar({
     </div>
   )
 }
-
-/*
-const sizes = {
-  "w-[2rem] h-[2rem]": size === "sm",
-  "w-[4rem] h-[4rem]": size === "md",
-  "w-[6rem] h-[6rem]": size === "lg",
-  "w-[8rem] h-[8rem]": size === "xl",
-}
-*/
