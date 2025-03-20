@@ -74,7 +74,13 @@ export default function Post({
         <footer className="flex items-center gap-4">
           <LikeButton postId={post.id} likes={post.likes} />
           <CommentButton post={post} comments={post.comments} />
-          {onPage && <PostLikes postId={post.id} className="ml-auto" />}
+          {onPage && (
+            <PostLikes
+              postId={post.id}
+              count={post.likes.length}
+              className="ml-auto"
+            />
+          )}
         </footer>
       </div>
 

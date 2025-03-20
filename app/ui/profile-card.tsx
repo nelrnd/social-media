@@ -1,14 +1,31 @@
 import { Profile } from "@prisma/client"
 import Link from "next/link"
+import Avatar from "./avatar"
+import { Skeleton } from "./skeleton"
 
 export default function ProfileCard({ profile }: { profile: Profile }) {
   return (
     <Link
       href={`/profile/${profile.username}`}
-      className="block p-4 hover:bg-gray-50 hover:underline transition-colors"
+      className="p-4 bg-white hover:bg-gray-50 grid grid-cols-[auto_1fr] items-center gap-4 hover:underline transition-colors"
     >
-      <span className="font-bold">{profile.name}</span>{" "}
-      <span className="text-gray-600">{profile.username}</span>
+      <Avatar src={profile.imageUrl} size="sm" />
+      <div className="flex flex-col gap-1 leading-none">
+        <span className="font-bold">{profile.name}</span>{" "}
+        <span className="text-gray-600">{profile.username}</span>
+      </div>
     </Link>
+  )
+}
+
+export function ProfileCardSkeleton() {
+  return (
+    <div className="p-4 bg-white grid grid-cols-[auto_1fr] items-center gap-4">
+      <Skeleton className="w-12 h-12 rounded-full" />
+      <div className="flex flex-col gap-1 leading-none">
+        <Skeleton className="h-4 w-[50px]" />
+        <Skeleton className="h-4 w-[75px]" />
+      </div>
+    </div>
   )
 }

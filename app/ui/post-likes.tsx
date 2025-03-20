@@ -10,15 +10,17 @@ import {
 import { DialogDescription } from "@radix-ui/react-dialog"
 import { useEffect, useState } from "react"
 import { fetchLikes } from "../lib/data"
-import ProfileCard from "./profile-card"
+import ProfileCard, { ProfileCardSkeleton } from "./profile-card"
 import { Profile } from "@prisma/client"
 import clsx from "clsx"
 
 export default function PostLikes({
   postId,
+  count,
   className,
 }: {
   postId: string
+  count?: number
   className?: string
 }) {
   const [open, setOpen] = useState(false)
@@ -52,15 +54,18 @@ export default function PostLikes({
             People who liked this post
           </DialogDescription>
         </DialogHeader>
+
         <div>
           {loading ? (
-            <p>Loading...</p>
+            [...Array(count || 3).keys()].map((item) => (
+              <ProfileCardSkeleton key={item} />
+            ))
           ) : profiles.length ? (
             profiles.map((profile) => (
-              <ProfileCard key={profile?.id} profile={profile} />
+              <ProfileCard key={profile.id} profile={profile} />
             ))
           ) : (
-            <p>No likes for now</p>
+            <p className="py-4 text-gray-600 text-center">No likes for now</p>
           )}
         </div>
       </DialogContent>
