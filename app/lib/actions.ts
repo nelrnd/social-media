@@ -135,9 +135,14 @@ const PostFormSchema = z.object({
     ),
 })
 
+export type PostFormState = {
+  error?: string | null
+  success?: boolean | null
+}
+
 export async function createPost(
   imageFiles: Image[],
-  prevState: string | undefined,
+  prevState: PostFormState,
   formData: FormData
 ) {
   const validatedFields = PostFormSchema.safeParse({
@@ -146,20 +151,20 @@ export async function createPost(
   })
 
   if (!validatedFields.success) {
-    return validatedFields.error.errors[0]?.message
+    return { error: validatedFields.error.errors[0]?.message, success: false }
   }
 
   const { content, images } = validatedFields.data
 
   if (!content && !images.length) {
-    return "Post cannot be empty"
+    return { error: "Post cannot be empty", success: false }
   }
 
   const session = await auth()
   const userId = session?.user?.id
 
   if (!userId) {
-    return "User must be logged in"
+    return { error: "User must be logged in", success: false }
   }
 
   const imageUrls = await Promise.all(
@@ -174,6 +179,7 @@ export async function createPost(
     },
   })
   revalidatePath("/")
+  return { success: true }
 }
 
 export type ProfileFormState = {

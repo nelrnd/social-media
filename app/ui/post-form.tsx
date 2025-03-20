@@ -1,7 +1,7 @@
 "use client"
 
-import { useActionState, useState } from "react"
-import { createPost, Image } from "@/app/lib/actions"
+import { useActionState, useEffect, useState } from "react"
+import { createPost, Image, PostFormState } from "@/app/lib/actions"
 import { LoaderCircleIcon } from "lucide-react"
 import { PhotoIcon } from "@heroicons/react/24/outline"
 import clsx from "clsx"
@@ -13,9 +13,14 @@ const MAX_IMAGES = 4
 export default function PostForm() {
   const [images, setImages] = useState<Image[]>([])
 
-  const [error, action, isPending] = useActionState(
+  const initialState: PostFormState = {
+    error: null,
+    success: false,
+  }
+
+  const [state, action, isPending] = useActionState(
     createPost.bind(null, images),
-    undefined
+    initialState
   )
 
   function addImages(images: File[]) {
@@ -36,6 +41,12 @@ export default function PostForm() {
       [...prevImages].filter((image) => image.id !== id)
     )
   }
+
+  useEffect(() => {
+    if (state.success) {
+      setImages([])
+    }
+  }, [state])
 
   return (
     <form action={action} className="p-6 border-b border-gray-200 space-y-2">
@@ -62,7 +73,7 @@ export default function PostForm() {
         </div>
       )}
 
-      {error && <p className="text-red-500">{error}</p>}
+      {state?.error && <p className="text-red-500">{state.error}</p>}
 
       <div className="flex justify-between items-center">
         <div>
