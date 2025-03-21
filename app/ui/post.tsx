@@ -9,6 +9,13 @@ import Date from "./date"
 import Avatar from "./avatar"
 import ImagePreview from "./image-preview"
 import PostLikes from "./post-likes"
+import { useSession } from "next-auth/react"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "./dropdown-menu"
 
 export default function Post({
   post,
@@ -23,6 +30,9 @@ export default function Post({
 }) {
   const pathname = usePathname()
   const onPage = pathname.startsWith(`/post/${post.id}`)
+  const session = useSession()
+  const userId = session.data?.user.id
+  const fromMe = post.userId === userId
 
   return (
     <article
@@ -40,18 +50,14 @@ export default function Post({
         <Avatar src={post.user.profile?.imageUrl} size="md" />
       </Link>
       <div className="flex flex-col gap-2">
-        <header className="flex items-center justify-between">
-          <p className="relative z-10 w-fit">
-            <Link
-              href={`/profile/${post.user.profile?.username}`}
-              className="hover:underline"
-            >
-              <span className="font-bold">{post.user.profile?.name}</span>{" "}
-              <span className="text-gray-600">
-                {post.user.profile?.username}
-              </span>
-            </Link>
-          </p>
+        <header className="flex items-center gap-2">
+          <Link
+            href={`/profile/${post.user.profile?.username}`}
+            className="relative z-10 w-fit hover:underline"
+          >
+            <span className="font-bold">{post.user.profile?.name}</span>{" "}
+            <span className="text-gray-600">{post.user.profile?.username}</span>
+          </Link>
           <Date date={post.createdAt} />
         </header>
         {post.content && (
@@ -86,6 +92,15 @@ export default function Post({
 
       {!onPage && (
         <Link href={`/post/${post.id}`} className="absolute inset-0 z-0"></Link>
+      )}
+
+      {fromMe && (
+        <DropdownMenu>
+          <DropdownMenuTrigger>Open</DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem>Delete post</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       )}
     </article>
   )

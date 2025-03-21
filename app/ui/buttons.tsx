@@ -18,6 +18,8 @@ import CommentForm from "./comment-form"
 import { PostMinimized } from "./post"
 import { useState } from "react"
 import { spaceMono } from "../fonts"
+import clsx from "clsx"
+import { LoaderCircleIcon } from "lucide-react"
 
 export function LikeButton({
   postId,
@@ -108,6 +110,47 @@ export function LikeCommentButton({
         <HeartIconOutline className="size-4" />
       )}
       <p className={`text-sm ${spaceMono.className}`}>{likes.length}</p>
+    </button>
+  )
+}
+
+export function Button({
+  children,
+  onClick,
+  className,
+  disabled = false,
+  isLoading = false,
+}: {
+  children: React.ReactNode
+  onClick?: () => void
+  className?: string
+  disabled?: boolean
+  isLoading?: boolean
+}) {
+  return (
+    <button
+      type={onClick ? "button" : "submit"}
+      onClick={onClick}
+      className={clsx(
+        "w-fit h-[3.125rem] py-3 px-6 flex items-center justify-center bg-gray-900 text-white disabled:opacity-50 hover:bg-gray-800 transition-all rounded-sm relative",
+        className
+      )}
+      disabled={disabled || isLoading}
+    >
+      <div
+        className={clsx(
+          "flex items-center justify-center",
+          isLoading && "invisible"
+        )}
+      >
+        {children}
+      </div>
+      {isLoading && (
+        <LoaderCircleIcon
+          className="size-4 animate-spin absolute object-center"
+          aria-label="Loading"
+        />
+      )}
     </button>
   )
 }

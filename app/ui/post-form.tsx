@@ -2,11 +2,11 @@
 
 import { useActionState, useEffect, useState } from "react"
 import { createPost, Image, PostFormState } from "@/app/lib/actions"
-import { LoaderCircleIcon } from "lucide-react"
 import { PhotoIcon } from "@heroicons/react/24/outline"
 import clsx from "clsx"
 import { v4 as uuidv4 } from "uuid"
 import ImagePreview from "./image-preview"
+import { Button } from "./buttons"
 
 const MAX_IMAGES = 4
 
@@ -95,18 +95,8 @@ export default function PostForm() {
             </div>
           </label>
         </div>
-        <button
-          className="w-fit h-[3.125rem] py-3 px-6 flex items-center justify-center bg-gray-900 text-white disabled:opacity-50 hover:opacity-95 transition-opacity rounded-sm relative"
-          disabled={isPending}
-        >
-          <span className={isPending ? "invisible" : "inline"}>Post</span>
-          {isPending && (
-            <LoaderCircleIcon
-              className="size-4 animate-spin absolute object-center"
-              aria-label="Loading"
-            />
-          )}
-        </button>
+
+        <Button isLoading={isPending}>Post</Button>
       </div>
     </form>
   )

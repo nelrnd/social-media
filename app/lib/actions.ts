@@ -529,4 +529,3 @@ export async function deleteUser() {
 
   redirect("/")
 }
-540
