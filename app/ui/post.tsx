@@ -18,6 +18,7 @@ import {
 } from "./dropdown-menu"
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline"
 import { useState } from "react"
+import { Skeleton } from "./skeleton"
 
 export default function Post({
   post,
@@ -97,6 +98,22 @@ export default function Post({
       )}
 
       {fromMe && <PostMenu />}
+    </article>
+  )
+}
+
+export function PostSkeleton() {
+  return (
+    <article className="p-6 border-b border-gray-200 grid grid-cols-[auto_1fr] gap-4">
+      <Skeleton className="size-16 rounded-full" />
+      <div className="flex flex-col gap-2">
+        <Skeleton className="h-4 w-[100px] my-[2px]" />
+        <Skeleton className="h-4 w-[200px] my-[2px]" />
+        <div className="flex items-center gap-4">
+          <Skeleton className="h-[37px] w-[66px]" />
+          <Skeleton className="h-[37px] w-[66px]" />
+        </div>
+      </div>
     </article>
   )
 }

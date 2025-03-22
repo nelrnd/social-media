@@ -4,7 +4,7 @@ import { auth } from "@/auth"
 import { prisma } from "./prisma"
 import { Prisma } from "@prisma/client"
 
-const ITEMS_PER_FETCH = 2
+const ITEMS_PER_FETCH = 4
 
 export async function fetchPosts(cursor?: string) {
   const options: Prisma.PostFindManyArgs = {
@@ -37,49 +37,6 @@ export async function fetchPosts(cursor?: string) {
   }
   return { posts, hasMorePosts }
 }
-
-/*
-
-export async function fetchInitialPosts() {
-  const posts = await prisma.post.findMany({
-    include: {
-      user: { select: { profile: true } },
-      likes: { select: { id: true, userId: true } },
-      comments: { select: { id: true } },
-    },
-    orderBy: { createdAt: "desc" },
-    take: ITEMS_PER_FETCH,
-  })
-  return posts
-}
-
-export async function fetchMorePosts(cursor: string) {
-  const posts = await prisma.post.findMany({
-    include: {
-      user: { select: { profile: true } },
-      likes: { select: { id: true, userId: true } },
-      comments: { select: { id: true } },
-    },
-    orderBy: { createdAt: "desc" },
-    take: ITEMS_PER_FETCH,
-    skip: 1,
-    cursor: { id: cursor },
-  })
-  return posts
-}
-
-export async function fetchPosts() {
-  const posts = await prisma.post.findMany({
-    include: {
-      user: { select: { profile: true } },
-      likes: { select: { id: true, userId: true } },
-      comments: { select: { id: true } },
-    },
-    orderBy: { createdAt: "desc" },
-  })
-  return posts
-}
-  */
 
 export async function fetchFollowingPosts() {
   const session = await auth()

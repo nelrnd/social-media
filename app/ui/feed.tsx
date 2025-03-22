@@ -4,7 +4,7 @@ import { Prisma } from "@prisma/client"
 import { useEffect, useState } from "react"
 import { fetchPosts } from "../lib/data"
 import { useInView } from "react-intersection-observer"
-import Post from "./post"
+import Post, { PostSkeleton } from "./post"
 
 export default function Feed({
   initialPosts,
@@ -50,8 +50,14 @@ export default function Feed({
       {posts.map((post) => (
         <Post key={post.id} post={post} />
       ))}
-      {isLoading && <p className="text-4xl">LOADING!</p>}
       <div ref={ref} className="h-[1px]" />
+      {isLoading &&
+        [...Array(3).keys()].map((item) => <PostSkeleton key={item} />)}
+      {!hasMorePosts && (
+        <div className="p-6 border-b border-gray-200 text-center text-gray-600">
+          {posts.length ? "You've reached the end" : "No posts for now"}
+        </div>
+      )}
     </div>
   )
 }
