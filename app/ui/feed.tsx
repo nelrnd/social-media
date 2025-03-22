@@ -72,7 +72,7 @@ export default function Feed() {
         </label>
       </div>
 
-      {posts?.map((post) => <Post key={post.id} post={post} />)}
+      {posts?.map((post) => <Post key={post.id} initialPost={post} />)}
     </div>
   )
 }
