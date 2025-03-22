@@ -1,8 +1,11 @@
+"use client"
+
 import { Prisma } from "@prisma/client"
 import Link from "next/link"
 import Date from "./date"
 import Avatar from "./avatar"
 import { LikeCommentButton } from "./buttons"
+import { useSession } from "next-auth/react"
 
 export default function Comment({
   comment,
@@ -14,6 +17,10 @@ export default function Comment({
     }
   }>
 }) {
+  const session = useSession()
+  const userId = session.data?.user.id
+  const fromMe = comment.userId === userId
+
   return (
     <div className="py-3 border-b border-gray-200 last:border-b-0 grid grid-cols-[auto_1fr] gap-4">
       <Link
@@ -43,7 +50,11 @@ export default function Comment({
         </section>
 
         <footer>
-          <LikeCommentButton commentId={comment.id} likes={comment.likes} />
+          <LikeCommentButton
+            commentId={comment.id}
+            userId={userId}
+            initialLikes={comment.likes}
+          />
         </footer>
       </div>
     </div>

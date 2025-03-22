@@ -46,7 +46,7 @@ export function LikeButton({
         setLikes((prevLikes) =>
           hasLiked
             ? prevLikes.filter((like) => like.userId !== userId)
-            : [...prevLikes, { id: uuidv4(), userId: userId }]
+            : [...prevLikes, { id: uuidv4(), userId }]
         )
         const { likes } = await likePost(postId)
         if (likes && actionId === currentActionId) {
@@ -113,24 +113,41 @@ export function CommentButton({
 
 export function LikeCommentButton({
   commentId,
-  likes,
+  userId,
+  initialLikes,
 }: {
   commentId: string
-  likes: Prisma.LikeGetPayload<{ select: { id: true; userId: true } }>[]
+  userId?: string
+  initialLikes: Prisma.LikeGetPayload<{ select: { id: true; userId: true } }>[]
 }) {
-  const { data: session } = useSession()
-  const userId = session?.user?.id
+  const [likes, setLikes] = useState(initialLikes)
   const hasLiked = !!likes.find((like) => like.userId === userId)
+  const [actionId, setActionId] = useState<string | null>(null)
 
   return (
     <button
-      onClick={() => likeComment(commentId)}
+      onClick={async () => {
+        if (!userId) return
+        const currentActionId = uuidv4()
+        setActionId(currentActionId)
+        setLikes((prevLikes) =>
+          hasLiked
+            ? prevLikes.filter((like) => like.userId !== userId)
+            : [...prevLikes, { id: uuidv4(), userId }]
+        )
+        const { likes } = await likeComment(commentId)
+        if (likes && actionId === currentActionId) {
+          setLikes(likes)
+        }
+      }}
       className="py-2 px-3 flex items-center gap-2 w-fit bg-white border border-gray-200 disabled:opacity-50 hover:bg-gray-100 transition-colors relative z-10"
       aria-label={hasLiked ? "Unlike comment" : "Like comment"}
       title="Like"
     >
-      {hasLiked ? (
-        <HeartIconSolid className="size-4" />
+      {!userId ? (
+        <Skeleton className="size-4 rounded-sm" />
+      ) : hasLiked ? (
+        <HeartIconSolid className="size-4 fill-red-500" />
       ) : (
         <HeartIconOutline className="size-4" />
       )}

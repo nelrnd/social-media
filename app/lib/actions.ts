@@ -360,24 +360,25 @@ export async function likePost(postId: PostId) {
 }
 
 export async function likeComment(commentId: string) {
-  const session = await auth()
-  const userId = session?.user?.id as string
-  if (!userId) {
-    return "User must be logged in"
-  }
-  if (!commentId) {
-    return "Comment id is required"
-  }
-  const like = await prisma.like.findFirst({ where: { userId, commentId } })
-  if (!like) {
-    await prisma.like.create({ data: { userId, commentId } })
-    revalidatePath("/")
-    return "Comment liked successfully"
+  if (!commentId) return { error: "Comment id is required" }
+  const { userId } = await getUserData()
+  const existingLike = await prisma.like.findFirst({
+    where: { userId, commentId },
+  })
+  if (!existingLike) {
+    await prisma.like.create({ data: { commentId, userId } })
   } else {
-    await prisma.like.delete({ where: { id: like.id } })
-    revalidatePath("/")
-    return "Comment unliked successfully"
+    await prisma.like.delete({ where: { id: existingLike.id } })
   }
+  revalidatePath("/")
+  const message = !existingLike
+    ? "Comment liked successfully"
+    : "Comment unliked successfully"
+  const likes = await prisma.like.findMany({
+    where: { commentId },
+    select: { id: true, userId: true },
+  })
+  return { message, likes }
 }
 
 export type CommentFormState = {
