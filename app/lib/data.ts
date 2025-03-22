@@ -4,7 +4,7 @@ import { auth } from "@/auth"
 import { prisma } from "./prisma"
 import { Prisma } from "@prisma/client"
 
-const ITEMS_PER_FETCH = 4
+const ITEMS_PER_FETCH = 8
 
 export async function fetchPosts(cursor?: string) {
   const options: Prisma.PostFindManyArgs = {
