@@ -18,7 +18,7 @@ export default async function PostPage({
   return (
     <main className="relative h-[200vh]">
       <PageHeader title="Post" allowBack={true} />
-      <Post initialPost={post} />
+      <Post post={post} />
       <div className="p-6 fixed w-[calc(36rem_-_2px)] bottom-0 border-t border-gray-200 bg-white/70 backdrop-blur-md z-20">
         <CommentForm postId={post.id} />
       </div>

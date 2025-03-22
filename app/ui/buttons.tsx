@@ -21,6 +21,7 @@ import { useState } from "react"
 import { spaceMono } from "../fonts"
 import clsx from "clsx"
 import { LoaderCircleIcon } from "lucide-react"
+import { Skeleton } from "./skeleton"
 
 export function LikeButton({
   postId,
@@ -33,17 +34,20 @@ export function LikeButton({
 }) {
   const [likes, setLikes] = useState(initialLikes)
   const hasLiked = !!likes.find((like) => like.userId === userId)
+  const [actionId, setActionId] = useState<string | null>(null)
 
   return (
     <button
       onClick={async () => {
+        const currentActionId = uuidv4()
+        setActionId(currentActionId)
         setLikes((prevLikes) =>
           hasLiked
             ? prevLikes.filter((like) => like.userId !== userId)
             : [...prevLikes, { id: uuidv4(), userId }]
         )
         const { likes } = await likePost(postId)
-        if (likes) {
+        if (likes && actionId === currentActionId) {
           setLikes(likes)
         }
       }}
@@ -51,8 +55,10 @@ export function LikeButton({
       aria-label={hasLiked ? "Unlike post" : "Like post"}
       title="Like"
     >
-      {hasLiked ? (
-        <HeartIconSolid className="size-4" />
+      {!userId ? (
+        <Skeleton className="size-4 rounded-sm" />
+      ) : hasLiked ? (
+        <HeartIconSolid className="size-4 fill-red-500" />
       ) : (
         <HeartIconOutline className="size-4" />
       )}

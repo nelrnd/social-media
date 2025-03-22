@@ -27,10 +27,6 @@ export default function Post({ post }: { post: PostWithRelations }) {
   const userId = session.data?.user.id
   const fromMe = post.userId === userId
 
-  if (!userId) {
-    return <PostSkeleton />
-  }
-
   return (
     <article
       className={clsx(
