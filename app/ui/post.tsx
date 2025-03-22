@@ -16,11 +16,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./dropdown-menu"
+import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline"
+import { useState } from "react"
 
 export default function Post({
-  post,
+  initialPost,
 }: {
-  post: Prisma.PostGetPayload<{
+  initialPost: Prisma.PostGetPayload<{
     include: {
       user: { select: { profile: true } }
       likes: { select: { id: true; userId: true } }
@@ -28,6 +30,7 @@ export default function Post({
     }
   }>
 }) {
+  const [post, setPost] = useState(initialPost)
   const pathname = usePathname()
   const onPage = pathname.startsWith(`/post/${post.id}`)
   const session = useSession()
@@ -94,15 +97,26 @@ export default function Post({
         <Link href={`/post/${post.id}`} className="absolute inset-0 z-0"></Link>
       )}
 
-      {fromMe && (
-        <DropdownMenu>
-          <DropdownMenuTrigger>Open</DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem>Delete post</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )}
+      {fromMe && <PostMenu />}
     </article>
+  )
+}
+
+function PostMenu() {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button className="absolute top-2 right-2 cursor-pointer size-10 bg-white hover:bg-gray-100 border border-gray-100 flex items-center justify-center rounded-full transition-colors peer-disabled:opacity-50 peer-disabled:cursor-default peer-disabled:hover:bg-white">
+          <span className="sr-only">Add images</span>
+          <EllipsisHorizontalIcon className="size-5 text-gray-600" />
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem onClick={() => console.log("delete")}>
+          Delete post
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }
 
