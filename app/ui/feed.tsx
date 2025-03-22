@@ -5,24 +5,26 @@ import { useEffect, useState } from "react"
 import { fetchPosts } from "../lib/data"
 import { useInView } from "react-intersection-observer"
 import Post, { PostSkeleton } from "./post"
+import { PostWithRelations } from "../lib/definitions"
+import PostForm from "./post-form"
 
 export default function Feed({
   initialPosts,
   initialHasMorePosts,
+  withForm = false,
 }: {
-  initialPosts: Prisma.PostGetPayload<{
-    include: {
-      user: { select: { profile: true } }
-      likes: { select: { id: true; userId: true } }
-      comments: { select: { id: true } }
-    }
-  }>[]
+  initialPosts: PostWithRelations[]
   initialHasMorePosts: boolean
+  withForm?: boolean
 }) {
   const { ref, inView } = useInView()
   const [posts, setPosts] = useState(initialPosts)
   const [hasMorePosts, setHasMorePosts] = useState(initialHasMorePosts)
   const [isLoading, setIsLoading] = useState(inView && hasMorePosts)
+
+  function addPost(post: PostWithRelations) {
+    setPosts((prevPosts) => [post, ...prevPosts])
+  }
 
   useEffect(() => {
     let ignore = false
@@ -47,6 +49,7 @@ export default function Feed({
 
   return (
     <div>
+      {withForm && <PostForm handleAdd={addPost} />}
       {posts.map((post) => (
         <Post key={post.id} post={post} />
       ))}

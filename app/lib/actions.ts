@@ -9,6 +9,7 @@ import { revalidatePath } from "next/cache"
 import { NotificationType, Prisma } from "@prisma/client"
 import { redirect } from "next/navigation"
 import { v2 as cloudinary, UploadApiResponse } from "cloudinary"
+import { PostWithRelations } from "./definitions"
 
 cloudinary.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
@@ -148,6 +149,7 @@ const PostFormSchema = z.object({
 export type PostFormState = {
   error?: string | null
   success?: boolean | null
+  post?: PostWithRelations | null
 }
 
 export async function createPost(
@@ -181,15 +183,20 @@ export async function createPost(
     images.map(async (image) => uploadImage(image.file))
   )
 
-  await prisma.post.create({
+  const post = await prisma.post.create({
     data: {
       content,
       userId,
       images: imageUrls.filter((url) => typeof url === "string"),
     },
+    include: {
+      user: { select: { profile: true } },
+      likes: { select: { id: true, userId: true } },
+      comments: { select: { id: true } },
+    },
   })
   revalidatePath("/")
-  return { success: true }
+  return { success: true, post }
 }
 
 export type ProfileFormState = {

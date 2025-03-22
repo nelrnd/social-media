@@ -7,15 +7,21 @@ import clsx from "clsx"
 import { v4 as uuidv4 } from "uuid"
 import ImagePreview from "./image-preview"
 import { Button } from "./buttons"
+import { PostWithRelations } from "../lib/definitions"
 
 const MAX_IMAGES = 4
 
-export default function PostForm() {
+export default function PostForm({
+  handleAdd,
+}: {
+  handleAdd?: (post: PostWithRelations) => void
+}) {
   const [images, setImages] = useState<Image[]>([])
 
   const initialState: PostFormState = {
     error: null,
     success: false,
+    post: null,
   }
 
   const [state, action, isPending] = useActionState(
@@ -47,6 +53,13 @@ export default function PostForm() {
       setImages([])
     }
   }, [state])
+
+  useEffect(() => {
+    if (handleAdd && state.post) {
+      handleAdd(state.post)
+      state.post = null
+    }
+  }, [handleAdd, state])
 
   return (
     <form action={action} className="p-6 border-b border-gray-200 space-y-2">
