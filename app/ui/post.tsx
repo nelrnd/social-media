@@ -80,7 +80,7 @@ export default function Post({ post }: { post: PostWithRelations }) {
             userId={userId}
             initialLikes={post.likes}
           />
-          <CommentButton post={post} comments={post.comments} />
+          <CommentButton post={post} initialComments={post.comments} />
           {onPage && (
             <PostLikes
               postId={post.id}

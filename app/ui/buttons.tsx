@@ -22,6 +22,7 @@ import { spaceMono } from "../fonts"
 import clsx from "clsx"
 import { LoaderCircleIcon } from "lucide-react"
 import { Skeleton } from "./skeleton"
+import { PostWithRelations } from "../lib/definitions"
 
 export function LikeButton({
   postId,
@@ -29,7 +30,7 @@ export function LikeButton({
   initialLikes,
 }: {
   postId: string
-  userId: string
+  userId?: string
   initialLikes: Prisma.LikeGetPayload<{ select: { id: true; userId: true } }>[]
 }) {
   const [likes, setLikes] = useState(initialLikes)
@@ -39,12 +40,13 @@ export function LikeButton({
   return (
     <button
       onClick={async () => {
+        if (!userId) return
         const currentActionId = uuidv4()
         setActionId(currentActionId)
         setLikes((prevLikes) =>
           hasLiked
             ? prevLikes.filter((like) => like.userId !== userId)
-            : [...prevLikes, { id: uuidv4(), userId }]
+            : [...prevLikes, { id: uuidv4(), userId: userId }]
         )
         const { likes } = await likePost(postId)
         if (likes && actionId === currentActionId) {
@@ -69,13 +71,12 @@ export function LikeButton({
 
 export function CommentButton({
   post,
-  comments,
+  initialComments,
 }: {
-  post: Prisma.PostGetPayload<{
-    include: { user: { select: { profile: true } } }
-  }>
-  comments: Prisma.CommentGetPayload<{ select: { id: true } }>[]
+  post: PostWithRelations
+  initialComments: Prisma.CommentGetPayload<{ select: { id: true } }>[]
 }) {
+  const [comments, setComments] = useState(initialComments)
   const [open, setOpen] = useState(false)
 
   return (
@@ -98,7 +99,13 @@ export function CommentButton({
           </DialogDescription>
         </DialogHeader>
         <PostMinimized post={post} />
-        <CommentForm postId={post.id} cb={() => setOpen(false)} />
+        <CommentForm
+          postId={post.id}
+          cb={(newComment) => {
+            setOpen(false)
+            setComments([...comments, newComment])
+          }}
+        />
       </DialogContent>
     </Dialog>
   )

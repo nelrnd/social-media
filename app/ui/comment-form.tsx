@@ -14,6 +14,7 @@ export default function CommentForm({
   const initialState: CommentFormState = {
     message: null,
     success: false,
+    comment: null,
   }
   const [state, formAction, isPending] = useActionState(
     commentPost,
@@ -21,8 +22,9 @@ export default function CommentForm({
   )
 
   useEffect(() => {
-    if (cb && state.success) {
-      cb()
+    if (cb && state.comment) {
+      cb(state.comment)
+      state.comment = null
     }
   }, [cb, state])
 

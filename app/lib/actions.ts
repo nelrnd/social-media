@@ -383,6 +383,7 @@ export async function likeComment(commentId: string) {
 export type CommentFormState = {
   message?: string | null
   success?: boolean | null
+  comment?: Prisma.CommentGetPayload<{ select: { id: true } }> | null
 }
 
 const CommentFormSchema = z.object({
@@ -414,6 +415,7 @@ export async function commentPost(
 
   const comment = await prisma.comment.create({
     data: { content, userId, postId },
+    select: { id: true },
   })
   createNotification({
     type: "COMMENT",
@@ -422,7 +424,7 @@ export async function commentPost(
     commentId: comment.id,
   })
   revalidatePath("/")
-  return { message: "", success: true }
+  return { message: "", success: true, comment }
 }
 
 export async function followProfile(profileId: string) {
