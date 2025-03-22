@@ -20,9 +20,9 @@ import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline"
 import { useState } from "react"
 
 export default function Post({
-  initialPost,
+  post,
 }: {
-  initialPost: Prisma.PostGetPayload<{
+  post: Prisma.PostGetPayload<{
     include: {
       user: { select: { profile: true } }
       likes: { select: { id: true; userId: true } }
@@ -30,7 +30,6 @@ export default function Post({
     }
   }>
 }) {
-  const [post, setPost] = useState(initialPost)
   const pathname = usePathname()
   const onPage = pathname.startsWith(`/post/${post.id}`)
   const session = useSession()

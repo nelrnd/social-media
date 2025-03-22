@@ -2,6 +2,71 @@
 
 import { auth } from "@/auth"
 import { prisma } from "./prisma"
+import { Prisma } from "@prisma/client"
+
+const ITEMS_PER_FETCH = 2
+
+export async function fetchPosts(cursor?: string) {
+  const options: Prisma.PostFindManyArgs = {
+    take: ITEMS_PER_FETCH,
+    orderBy: { createdAt: "desc" },
+  }
+  if (cursor) {
+    options.skip = 1
+    options.cursor = { id: cursor }
+  }
+  const posts = await prisma.post.findMany({
+    ...options,
+    include: {
+      user: { select: { profile: true } },
+      likes: { select: { id: true, userId: true } },
+      comments: { select: { id: true } },
+    },
+  })
+  let hasMorePosts
+  if (posts.length < ITEMS_PER_FETCH) {
+    hasMorePosts = false
+  } else {
+    const lastCursor = posts.at(-1)?.id as string
+    const nextPost = await prisma.post.findFirst({
+      ...options,
+      take: 1,
+      cursor: { id: lastCursor },
+    })
+    hasMorePosts = !!nextPost
+  }
+  return { posts, hasMorePosts }
+}
+
+/*
+
+export async function fetchInitialPosts() {
+  const posts = await prisma.post.findMany({
+    include: {
+      user: { select: { profile: true } },
+      likes: { select: { id: true, userId: true } },
+      comments: { select: { id: true } },
+    },
+    orderBy: { createdAt: "desc" },
+    take: ITEMS_PER_FETCH,
+  })
+  return posts
+}
+
+export async function fetchMorePosts(cursor: string) {
+  const posts = await prisma.post.findMany({
+    include: {
+      user: { select: { profile: true } },
+      likes: { select: { id: true, userId: true } },
+      comments: { select: { id: true } },
+    },
+    orderBy: { createdAt: "desc" },
+    take: ITEMS_PER_FETCH,
+    skip: 1,
+    cursor: { id: cursor },
+  })
+  return posts
+}
 
 export async function fetchPosts() {
   const posts = await prisma.post.findMany({
@@ -14,6 +79,7 @@ export async function fetchPosts() {
   })
   return posts
 }
+  */
 
 export async function fetchFollowingPosts() {
   const session = await auth()
