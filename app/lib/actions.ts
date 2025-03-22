@@ -9,7 +9,8 @@ import { revalidatePath } from "next/cache"
 import { NotificationType, Prisma } from "@prisma/client"
 import { redirect } from "next/navigation"
 import { v2 as cloudinary, UploadApiResponse } from "cloudinary"
-import { PostWithRelations } from "./definitions"
+import { PostId, PostWithRelations } from "./definitions"
+import { getUserData } from "./data"
 
 cloudinary.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
@@ -25,16 +26,6 @@ const ACCEPTED_IMAGE_TYPES = [
   "image/png",
   "image/webp",
 ]
-
-async function getUserData() {
-  const session = await auth()
-  const userId = session?.user.id
-  const profileId = session?.user.profile?.id
-  if (!userId || !profileId) {
-    throw new Error("User must be logged in")
-  }
-  return { userId, profileId }
-}
 
 export type AuthState = {
   errors?: {
@@ -343,28 +334,29 @@ export async function updateProfile(
   redirect(`/profile/${username}`)
 }
 
-export async function likePost(postId: string) {
-  const session = await auth()
-  const userId = session?.user?.id as string
-  if (!userId) {
-    return "User must be logged in"
-  }
+export async function likePost(postId: PostId) {
   if (!postId) {
-    return "Post id is required"
+    return { error: "Post id required" }
   }
-  const like = await prisma.like.findFirst({
-    where: { userId, postId },
+  const { userId } = await getUserData()
+  const existingLike = await prisma.like.findFirst({
+    where: { postId, userId },
   })
-  if (!like) {
-    await prisma.like.create({ data: { userId, postId } })
+  if (!existingLike) {
+    await prisma.like.create({ data: { postId, userId } })
     createNotification({ type: "LIKE", fromId: userId, postId })
-    revalidatePath("/")
-    return "Post liked successfully"
   } else {
-    await prisma.like.delete({ where: { id: like.id } })
-    revalidatePath("/")
-    return "Post unliked successfully"
+    await prisma.like.delete({ where: { id: existingLike.id } })
   }
+  revalidatePath("/")
+  const message = !existingLike
+    ? "Post liked successfully"
+    : "Post unliked successfully"
+  const likes = await prisma.like.findMany({
+    where: { postId },
+    select: { id: true, userId: true },
+  })
+  return { message, likes }
 }
 
 export async function likeComment(commentId: string) {

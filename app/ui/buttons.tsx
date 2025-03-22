@@ -6,6 +6,7 @@ import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid"
 import { HeartIcon as HeartIconOutline } from "@heroicons/react/24/outline"
 import { ChatBubbleLeftIcon } from "@heroicons/react/24/outline"
 import { Prisma } from "@prisma/client"
+import { v4 as uuidv4 } from "uuid"
 import {
   Dialog,
   DialogContent,
@@ -23,23 +24,34 @@ import { LoaderCircleIcon } from "lucide-react"
 
 export function LikeButton({
   postId,
-  likes,
+  userId,
+  initialLikes,
 }: {
   postId: string
-  likes: Prisma.LikeGetPayload<{ select: { id: true; userId: true } }>[]
+  userId: string
+  initialLikes: Prisma.LikeGetPayload<{ select: { id: true; userId: true } }>[]
 }) {
-  const { data: session } = useSession()
-  const userId = session?.user?.id
-  const active = !!likes.find((like) => like.userId === userId)
+  const [likes, setLikes] = useState(initialLikes)
+  const hasLiked = !!likes.find((like) => like.userId === userId)
 
   return (
     <button
-      onClick={() => likePost(postId)}
+      onClick={async () => {
+        setLikes((prevLikes) =>
+          hasLiked
+            ? prevLikes.filter((like) => like.userId !== userId)
+            : [...prevLikes, { id: uuidv4(), userId }]
+        )
+        const { likes } = await likePost(postId)
+        if (likes) {
+          setLikes(likes)
+        }
+      }}
       className="py-2 px-4 flex items-center gap-2 w-fit bg-white border border-gray-200 disabled:opacity-50 hover:bg-gray-100 transition-colors relative z-10"
-      aria-label={active ? "Unlike post" : "Like post"}
+      aria-label={hasLiked ? "Unlike post" : "Like post"}
       title="Like"
     >
-      {active ? (
+      {hasLiked ? (
         <HeartIconSolid className="size-4" />
       ) : (
         <HeartIconOutline className="size-4" />
@@ -95,16 +107,16 @@ export function LikeCommentButton({
 }) {
   const { data: session } = useSession()
   const userId = session?.user?.id
-  const active = !!likes.find((like) => like.userId === userId)
+  const hasLiked = !!likes.find((like) => like.userId === userId)
 
   return (
     <button
       onClick={() => likeComment(commentId)}
       className="py-2 px-3 flex items-center gap-2 w-fit bg-white border border-gray-200 disabled:opacity-50 hover:bg-gray-100 transition-colors relative z-10"
-      aria-label={active ? "Unlike comment" : "Like comment"}
+      aria-label={hasLiked ? "Unlike comment" : "Like comment"}
       title="Like"
     >
-      {active ? (
+      {hasLiked ? (
         <HeartIconSolid className="size-4" />
       ) : (
         <HeartIconOutline className="size-4" />

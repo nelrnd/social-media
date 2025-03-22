@@ -1,41 +1,35 @@
 "use client"
 
-import { Prisma } from "@prisma/client"
-import Link from "next/link"
 import clsx from "clsx"
-import { LikeButton, CommentButton } from "./buttons"
+import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline"
+import { Prisma } from "@prisma/client"
 import { usePathname } from "next/navigation"
-import Date from "./date"
-import Avatar from "./avatar"
-import ImagePreview from "./image-preview"
-import PostLikes from "./post-likes"
 import { useSession } from "next-auth/react"
+import Link from "next/link"
+import { LikeButton, CommentButton } from "./buttons"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./dropdown-menu"
-import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline"
-import { useState } from "react"
 import { Skeleton } from "./skeleton"
+import Date from "./date"
+import Avatar from "./avatar"
+import ImagePreview from "./image-preview"
+import PostLikes from "./post-likes"
+import { PostWithRelations } from "../lib/definitions"
 
-export default function Post({
-  post,
-}: {
-  post: Prisma.PostGetPayload<{
-    include: {
-      user: { select: { profile: true } }
-      likes: { select: { id: true; userId: true } }
-      comments: { select: { id: true } }
-    }
-  }>
-}) {
+export default function Post({ post }: { post: PostWithRelations }) {
   const pathname = usePathname()
   const onPage = pathname.startsWith(`/post/${post.id}`)
   const session = useSession()
   const userId = session.data?.user.id
   const fromMe = post.userId === userId
+
+  if (!userId) {
+    return <PostSkeleton />
+  }
 
   return (
     <article
@@ -52,6 +46,7 @@ export default function Post({
       >
         <Avatar src={post.user.profile?.imageUrl} size="md" />
       </Link>
+
       <div className="flex flex-col gap-2">
         <header className="flex items-center gap-2">
           <Link
@@ -63,11 +58,13 @@ export default function Post({
           </Link>
           <Date date={post.createdAt} />
         </header>
+
         {post.content && (
           <section className="-mt-2">
             <p>{post.content}</p>
           </section>
         )}
+
         {post.images && !!post.images.length && (
           <div
             className={clsx("grid gap-2", {
@@ -80,8 +77,13 @@ export default function Post({
             ))}
           </div>
         )}
+
         <footer className="flex items-center gap-4">
-          <LikeButton postId={post.id} likes={post.likes} />
+          <LikeButton
+            postId={post.id}
+            userId={userId}
+            initialLikes={post.likes}
+          />
           <CommentButton post={post} comments={post.comments} />
           {onPage && (
             <PostLikes

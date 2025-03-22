@@ -7,3 +7,5 @@ export type PostWithRelations = Prisma.PostGetPayload<{
     comments: { select: { id: true } }
   }
 }>
+
+export type PostId = Prisma.PostGetPayload<{ select: { id: true } }>["id"]

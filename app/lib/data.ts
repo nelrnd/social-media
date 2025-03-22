@@ -6,6 +6,16 @@ import { Prisma } from "@prisma/client"
 
 const ITEMS_PER_FETCH = 8
 
+export async function getUserData() {
+  const session = await auth()
+  const userId = session?.user.id
+  const profileId = session?.user.profile?.id
+  if (!userId || !profileId) {
+    throw new Error("User must be logged in")
+  }
+  return { userId, profileId }
+}
+
 export async function fetchPosts(cursor?: string) {
   const options: Prisma.PostFindManyArgs = {
     take: ITEMS_PER_FETCH,
