@@ -68,6 +68,16 @@ export default function Feed({
   )
 }
 
+export function FeedSkeleton({ size }: { size: number }) {
+  return (
+    <div>
+      {[...Array(size).keys()].map((item) => (
+        <PostSkeleton key={item} />
+      ))}
+    </div>
+  )
+}
+
 /*
 TAB SWITCHER
 <div>
