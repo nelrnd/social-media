@@ -16,7 +16,13 @@ export async function getUserData() {
   return { userId, profileId }
 }
 
-export async function fetchPosts(cursor?: string) {
+export async function fetchPosts({
+  cursor,
+  userId,
+}: {
+  cursor?: string
+  userId?: string
+}) {
   const options: Prisma.PostFindManyArgs = {
     take: ITEMS_PER_FETCH,
     orderBy: { createdAt: "desc" },
@@ -24,6 +30,9 @@ export async function fetchPosts(cursor?: string) {
   if (cursor) {
     options.skip = 1
     options.cursor = { id: cursor }
+  }
+  if (userId) {
+    options.where = { userId }
   }
   const posts = await prisma.post.findMany({
     ...options,

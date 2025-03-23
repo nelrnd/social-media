@@ -3,7 +3,7 @@ import Feed from "../ui/feed"
 import PageHeader from "../ui/page-header"
 
 export default async function HomePage() {
-  const { posts: initialPosts, hasMorePosts } = await fetchPosts()
+  const { posts: initialPosts, hasMorePosts } = await fetchPosts({})
 
   return (
     <main>

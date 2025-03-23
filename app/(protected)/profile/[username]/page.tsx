@@ -1,8 +1,8 @@
-import { fetchIsFollowing, fetchProfile } from "@/app/lib/data"
+import { fetchIsFollowing, fetchPosts, fetchProfile } from "@/app/lib/data"
 import Avatar from "@/app/ui/avatar"
+import Feed from "@/app/ui/feed"
 import FollowBar from "@/app/ui/follow-bar"
 import FollowButton from "@/app/ui/follow-button"
-import PostList from "@/app/ui/post-list"
 import { auth } from "@/auth"
 import Link from "next/link"
 
@@ -20,6 +20,10 @@ export default async function ProfilePage({
   if (!profile) {
     return <p>Profile not found</p>
   }
+
+  const { posts: initialPosts, hasMorePosts } = await fetchPosts({
+    userId: profile.userId,
+  })
 
   return (
     <main>
@@ -51,9 +55,12 @@ export default async function ProfilePage({
         <p>{profile?.bio}</p>
         <FollowBar profile={profile} />
       </header>
-      <section>
-        <PostList userId={profile?.userId} />
-      </section>
+
+      <Feed
+        userId={session?.user?.id}
+        initialPosts={initialPosts}
+        initialHasMorePosts={hasMorePosts}
+      />
     </main>
   )
 }

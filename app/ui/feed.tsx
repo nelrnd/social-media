@@ -11,10 +11,12 @@ import PostForm from "./post-form"
 export default function Feed({
   initialPosts,
   initialHasMorePosts,
+  userId,
   withForm = false,
 }: {
   initialPosts: PostWithRelations[]
   initialHasMorePosts: boolean
+  userId?: string
   withForm?: boolean
 }) {
   const { ref, inView } = useInView()
@@ -31,14 +33,15 @@ export default function Feed({
     if (inView && hasMorePosts) {
       ;(async () => {
         const cursor = posts.at(-1)?.id
-        if (cursor) {
-          setIsLoading(true)
-          const { posts: newPosts, hasMorePosts } = await fetchPosts(cursor)
-          if (!ignore) {
-            setPosts((prevPosts) => [...prevPosts, ...newPosts])
-            setHasMorePosts(hasMorePosts)
-            setIsLoading(false)
-          }
+        setIsLoading(true)
+        const { posts: newPosts, hasMorePosts } = await fetchPosts({
+          cursor,
+          userId,
+        })
+        if (!ignore) {
+          setPosts((prevPosts) => [...prevPosts, ...newPosts])
+          setHasMorePosts(hasMorePosts)
+          setIsLoading(false)
         }
       })()
     }
