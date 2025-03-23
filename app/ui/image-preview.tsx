@@ -1,15 +1,23 @@
 import { XMarkIcon } from "@heroicons/react/24/outline"
+import clsx from "clsx"
 import Image from "next/image"
 
 export default function ImagePreview({
   src,
   handleDelete,
+  handleClick,
 }: {
   src: string
   handleDelete?: () => void
+  handleClick?: () => void
 }) {
   return (
-    <div className="w-full aspect-square relative border border-gray-100 rounded-xl overflow-hidden">
+    <div
+      className={clsx(
+        "w-full aspect-square relative border border-gray-100 rounded-xl overflow-hidden transition-all",
+        { "z-10 hover:brightness-90": !!handleClick }
+      )}
+    >
       {handleDelete && (
         <button
           type="button"
@@ -28,6 +36,12 @@ export default function ImagePreview({
         sizes="(max-width: 770px) 100vw, 446px"
         className="absolute inset-0 object-cover"
       />
+
+      {handleClick && (
+        <button onClick={handleClick} className="absolute inset-0">
+          <span className="sr-only">View in fullscreen</span>
+        </button>
+      )}
     </div>
   )
 }

@@ -14,6 +14,7 @@ import PostLikes from "./post-likes"
 import { PostWithRelations } from "../lib/definitions"
 import PostMenu from "./post-menu"
 import ProfileHoverCard from "./profile-hover-card"
+import { useImageGallery } from "./image-gallery"
 
 export default function Post({ post }: { post: PostWithRelations }) {
   const pathname = usePathname()
@@ -21,6 +22,7 @@ export default function Post({ post }: { post: PostWithRelations }) {
   const session = useSession()
   const userId = session.data?.user.id
   const fromMe = post.userId === userId
+  const { openGallery } = useImageGallery()
 
   if (!post.user.profile) return null
 
@@ -72,7 +74,11 @@ export default function Post({ post }: { post: PostWithRelations }) {
             })}
           >
             {post.images.map((image) => (
-              <ImagePreview key={image} src={image} />
+              <ImagePreview
+                key={image}
+                src={image}
+                handleClick={() => openGallery(image)}
+              />
             ))}
           </div>
         )}
