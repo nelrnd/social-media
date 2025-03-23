@@ -190,6 +190,41 @@ export async function createPost(
   return { success: true, post }
 }
 
+export async function deletePost(
+  prevState: string | undefined,
+  formData: FormData
+) {
+  const { userId } = await getUserData()
+  const postId = formData.get("postId") as string
+  const redirectTo = formData.get("redirectTo") as string
+
+  const post = await prisma.post.findUnique({
+    where: { id: postId },
+    select: { userId: true, comments: { select: { id: true } } },
+  })
+
+  if (!post) {
+    throw new Error("Cannot delete post: post not found")
+  }
+  if (post.userId !== userId) {
+    throw new Error("Cannot delete post: not authorized")
+  }
+
+  await Promise.all([
+    prisma.like.deleteMany({ where: { postId } }),
+    prisma.comment.deleteMany({ where: { postId } }),
+    prisma.like.deleteMany({
+      where: { commentId: { in: post.comments.map((comment) => comment.id) } },
+    }),
+  ])
+
+  await prisma.post.delete({ where: { id: postId } })
+
+  revalidatePath("/")
+  redirect(redirectTo)
+  return "Post delete successfully"
+}
+
 export type ProfileFormState = {
   errors?: {
     name?: string[]

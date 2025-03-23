@@ -145,7 +145,7 @@ export function CommentButton({
         <DialogHeader>
           <DialogTitle>Comment</DialogTitle>
           <DialogDescription className="sr-only">
-            Post a comment to post
+            Post a comment
           </DialogDescription>
         </DialogHeader>
         <PostMinimized post={post} />

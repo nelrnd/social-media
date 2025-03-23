@@ -7,18 +7,13 @@ import { usePathname } from "next/navigation"
 import { useSession } from "next-auth/react"
 import Link from "next/link"
 import { LikeButton, CommentButton } from "./buttons"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "./dropdown-menu"
 import { Skeleton } from "./skeleton"
 import Date from "./date"
 import Avatar from "./avatar"
 import ImagePreview from "./image-preview"
 import PostLikes from "./post-likes"
 import { PostWithRelations } from "../lib/definitions"
+import PostMenu from "./post-menu"
 
 export default function Post({ post }: { post: PostWithRelations }) {
   const pathname = usePathname()
@@ -95,7 +90,7 @@ export default function Post({ post }: { post: PostWithRelations }) {
         <Link href={`/post/${post.id}`} className="absolute inset-0 z-0"></Link>
       )}
 
-      {fromMe && <PostMenu />}
+      {fromMe && <PostMenu postId={post.id} />}
     </article>
   )
 }
@@ -113,24 +108,6 @@ export function PostSkeleton() {
         </div>
       </div>
     </article>
-  )
-}
-
-function PostMenu() {
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <button className="absolute top-2 right-2 cursor-pointer size-10 bg-white hover:bg-gray-100 border border-gray-100 flex items-center justify-center rounded-full transition-colors peer-disabled:opacity-50 peer-disabled:cursor-default peer-disabled:hover:bg-white">
-          <span className="sr-only">Add images</span>
-          <EllipsisHorizontalIcon className="size-5 text-gray-600" />
-        </button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => console.log("delete")}>
-          Delete post
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
   )
 }
 
