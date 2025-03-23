@@ -76,8 +76,7 @@ export function LikeButton({
             <div
               className={clsx("transition-transform", {
                 "-translate-y-1/2": likeCount > prevLikeCount,
-                "translate-y-0": likeCount === prevLikeCount,
-                "-translate-y-0": likeCount < prevLikeCount,
+                "translate-y-0": likeCount <= prevLikeCount,
               })}
             >
               {likeCount > prevLikeCount ? (
@@ -105,7 +104,7 @@ export function CommentButton({
 }: {
   post: PostWithRelations
   initialComments: Prisma.CommentGetPayload<{
-    select: { id: true; userId: true }
+    select: { id: true }
   }>[]
 }) {
   const [comments, setComments] = useState(initialComments)
@@ -176,6 +175,9 @@ export function LikeCommentButton({
   const hasLiked = !!likes.find((like) => like.userId === userId)
   const [actionId, setActionId] = useState<string | null>(null)
 
+  const likeCount = likes.length
+  const prevLikeCount = hasLiked ? likeCount - 1 : likeCount + 1
+
   return (
     <button
       onClick={async () => {
@@ -192,18 +194,45 @@ export function LikeCommentButton({
           setLikes(likes)
         }
       }}
-      className="py-2 px-3 flex items-center gap-2 w-fit bg-white border border-gray-200 disabled:opacity-50 hover:bg-gray-100 transition-colors relative z-10"
+      className={`text-sm ${spaceMono.className} py-2 px-3 flex items-center gap-2 w-fit bg-white border border-gray-200 disabled:opacity-50 hover:bg-gray-100 transition-colors relative z-10`}
       aria-label={hasLiked ? "Unlike comment" : "Like comment"}
       title="Like"
     >
       {!userId ? (
-        <Skeleton className="size-4 rounded-sm" />
-      ) : hasLiked ? (
-        <HeartIconSolid className="size-4 fill-red-500" />
+        <>
+          <Skeleton className="size-4 rounded-sm" />
+          <p>{likeCount}</p>
+        </>
       ) : (
-        <HeartIconOutline className="size-4" />
+        <>
+          {hasLiked ? (
+            <HeartIconSolid className="size-4 fill-red-500" />
+          ) : (
+            <HeartIconOutline className="size-4" />
+          )}
+
+          <div className="h-5 overflow-hidden">
+            <div
+              className={clsx("transition-transform", {
+                "-translate-y-1/2": likeCount > prevLikeCount,
+                "translate-y-0": likeCount <= prevLikeCount,
+              })}
+            >
+              {likeCount > prevLikeCount ? (
+                <>
+                  <p aria-hidden={true}>{prevLikeCount}</p>
+                  <p>{likeCount}</p>
+                </>
+              ) : (
+                <>
+                  <p>{likeCount}</p>
+                  <p aria-hidden={true}>{prevLikeCount}</p>
+                </>
+              )}
+            </div>
+          </div>
+        </>
       )}
-      <p className={`text-sm ${spaceMono.className}`}>{likes.length}</p>
     </button>
   )
 }
