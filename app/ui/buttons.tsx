@@ -1,6 +1,5 @@
 "use client"
 
-import { useSession } from "next-auth/react"
 import { likeComment, likePost } from "../lib/actions"
 import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid"
 import { HeartIcon as HeartIconOutline } from "@heroicons/react/24/outline"
@@ -17,7 +16,7 @@ import {
 import { DialogDescription } from "@radix-ui/react-dialog"
 import CommentForm from "./comment-form"
 import { PostMinimized } from "./post"
-import { useEffect, useRef, useState } from "react"
+import { useState } from "react"
 import { spaceMono } from "../fonts"
 import clsx from "clsx"
 import { LoaderCircleIcon } from "lucide-react"
@@ -39,11 +38,6 @@ export function LikeButton({
 
   const likeCount = likes.length
   const prevLikeCount = hasLiked ? likeCount - 1 : likeCount + 1
-
-  useEffect(() => {
-    console.log("prev:", prevLikeCount)
-    console.log("current:", likeCount)
-  }, [likeCount])
 
   return (
     <button

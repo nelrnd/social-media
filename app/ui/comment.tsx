@@ -21,6 +21,8 @@ export default function Comment({
   const userId = session.data?.user.id
   const fromMe = comment.userId === userId
 
+  console.log(fromMe)
+
   return (
     <div className="py-3 border-b border-gray-200 last:border-b-0 grid grid-cols-[auto_1fr] gap-4">
       <Link

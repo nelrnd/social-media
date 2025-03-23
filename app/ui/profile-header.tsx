@@ -5,7 +5,6 @@ import Avatar from "./avatar"
 import FollowButton from "./follow-button"
 import FollowBar from "./follow-bar"
 import { Prisma } from "@prisma/client"
-import { useSession } from "next-auth/react"
 import { Skeleton } from "./skeleton"
 
 export default function ProfileHeader({

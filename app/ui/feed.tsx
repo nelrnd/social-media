@@ -1,6 +1,5 @@
 "use client"
 
-import { Prisma } from "@prisma/client"
 import { useEffect, useState } from "react"
 import { fetchPosts } from "../lib/data"
 import { useInView } from "react-intersection-observer"
@@ -48,7 +47,7 @@ export default function Feed({
     return () => {
       ignore = true
     }
-  }, [inView])
+  }, [inView, hasMorePosts, posts, userId])
 
   return (
     <div>
