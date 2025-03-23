@@ -37,7 +37,16 @@ export async function fetchPosts({
   const posts = await prisma.post.findMany({
     ...options,
     include: {
-      user: { select: { profile: true } },
+      user: {
+        select: {
+          profile: {
+            include: {
+              followers: { select: { id: true } },
+              following: { select: { id: true } },
+            },
+          },
+        },
+      },
       likes: { select: { id: true, userId: true } },
       comments: { select: { id: true } },
     },
@@ -82,7 +91,16 @@ export async function fetchPostById(id: string) {
   const post = await prisma.post.findUnique({
     where: { id },
     include: {
-      user: { select: { profile: true } },
+      user: {
+        select: {
+          profile: {
+            include: {
+              followers: { select: { id: true } },
+              following: { select: { id: true } },
+            },
+          },
+        },
+      },
       likes: { select: { id: true, userId: true } },
       comments: { select: { id: true } },
     },
@@ -115,7 +133,16 @@ export async function fetchComments(postId: string) {
   const comments = await prisma.comment.findMany({
     where: { postId },
     include: {
-      user: { select: { profile: true } },
+      user: {
+        select: {
+          profile: {
+            include: {
+              followers: { select: { id: true } },
+              following: { select: { id: true } },
+            },
+          },
+        },
+      },
       likes: { select: { id: true, userId: true } },
     },
     orderBy: { createdAt: "desc" },

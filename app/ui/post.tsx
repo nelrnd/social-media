@@ -14,6 +14,7 @@ import ImagePreview from "./image-preview"
 import PostLikes from "./post-likes"
 import { PostWithRelations } from "../lib/definitions"
 import PostMenu from "./post-menu"
+import ProfileHoverCard from "./profile-hover-card"
 
 export default function Post({ post }: { post: PostWithRelations }) {
   const pathname = usePathname()
@@ -21,6 +22,8 @@ export default function Post({ post }: { post: PostWithRelations }) {
   const session = useSession()
   const userId = session.data?.user.id
   const fromMe = post.userId === userId
+
+  if (!post.user.profile) return null
 
   return (
     <article
@@ -31,22 +34,28 @@ export default function Post({ post }: { post: PostWithRelations }) {
         }
       )}
     >
-      <Link
-        href={`/profile/${post.user.profile?.username}`}
-        className="relative z-10 w-fit h-fit rounded-full hover:brightness-90 transition-all"
-      >
-        <Avatar src={post.user.profile?.imageUrl} size="md" />
-      </Link>
+      <ProfileHoverCard profile={post.user.profile}>
+        <Link
+          href={`/profile/${post.user.profile?.username}`}
+          className="relative z-10 w-fit h-fit rounded-full hover:brightness-90 transition-all"
+        >
+          <Avatar src={post.user.profile?.imageUrl} size="md" />
+        </Link>
+      </ProfileHoverCard>
 
       <div className="flex flex-col gap-2">
         <header className="flex items-center gap-2">
-          <Link
-            href={`/profile/${post.user.profile?.username}`}
-            className="relative z-10 w-fit hover:underline"
-          >
-            <span className="font-bold">{post.user.profile?.name}</span>{" "}
-            <span className="text-gray-600">{post.user.profile?.username}</span>
-          </Link>
+          <ProfileHoverCard profile={post.user.profile}>
+            <Link
+              href={`/profile/${post.user.profile?.username}`}
+              className="relative z-10 w-fit hover:underline"
+            >
+              <span className="font-bold">{post.user.profile?.name}</span>{" "}
+              <span className="text-gray-600">
+                {post.user.profile?.username}
+              </span>
+            </Link>
+          </ProfileHoverCard>
           <Date date={post.createdAt} />
         </header>
 
