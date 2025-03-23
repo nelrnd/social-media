@@ -17,7 +17,7 @@ import {
 import { DialogDescription } from "@radix-ui/react-dialog"
 import CommentForm from "./comment-form"
 import { PostMinimized } from "./post"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { spaceMono } from "../fonts"
 import clsx from "clsx"
 import { LoaderCircleIcon } from "lucide-react"
@@ -37,6 +37,14 @@ export function LikeButton({
   const hasLiked = !!likes.find((like) => like.userId === userId)
   const [actionId, setActionId] = useState<string | null>(null)
 
+  const likeCount = likes.length
+  const prevLikeCount = hasLiked ? likeCount - 1 : likeCount + 1
+
+  useEffect(() => {
+    console.log("prev:", prevLikeCount)
+    console.log("current:", likeCount)
+  }, [likeCount])
+
   return (
     <button
       onClick={async () => {
@@ -53,18 +61,46 @@ export function LikeButton({
           setLikes(likes)
         }
       }}
-      className="py-2 px-4 flex items-center gap-2 w-fit bg-white border border-gray-200 disabled:opacity-50 hover:bg-gray-100 transition-colors relative z-10"
+      className={`text-sm ${spaceMono.className} py-2 px-4 flex items-center gap-2 w-fit bg-white border border-gray-200 disabled:opacity-50 hover:bg-gray-100 transition-colors relative z-10`}
       aria-label={hasLiked ? "Unlike post" : "Like post"}
       title="Like"
     >
       {!userId ? (
-        <Skeleton className="size-4 rounded-sm" />
-      ) : hasLiked ? (
-        <HeartIconSolid className="size-4 fill-red-500" />
+        <>
+          <Skeleton className="size-4 rounded-sm" />
+          <p>{likeCount}</p>
+        </>
       ) : (
-        <HeartIconOutline className="size-4" />
+        <>
+          {hasLiked ? (
+            <HeartIconSolid className="size-4 fill-red-500" />
+          ) : (
+            <HeartIconOutline className="size-4" />
+          )}
+
+          <div className={` h-5 overflow-hidden`}>
+            <div
+              className={clsx("transition-transform", {
+                "-translate-y-1/2": likeCount > prevLikeCount,
+                "translate-y-0": likeCount === prevLikeCount,
+                "-translate-y-0": likeCount < prevLikeCount,
+              })}
+            >
+              {likeCount > prevLikeCount ? (
+                <>
+                  <p className="not-sr-only">{prevLikeCount}</p>
+                  <p>{likeCount}</p>
+                </>
+              ) : (
+                <>
+                  <p>{likeCount}</p>
+                  <p className="not-sr-only">{prevLikeCount}</p>
+                </>
+              )}
+            </div>
+          </div>
+        </>
       )}
-      <p className={`text-sm ${spaceMono.className}`}>{likes.length}</p>
     </button>
   )
 }
