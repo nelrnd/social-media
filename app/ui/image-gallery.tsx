@@ -11,7 +11,9 @@ import Image from "next/image"
 
 const ImageGalleryContext = createContext({
   text: "yes",
-  openGallery: (imageUrl: string) => {},
+  openGallery(imageUrl: string) {
+    console.log("Opening " + imageUrl)
+  },
 })
 
 export default function ImageGalleryProvider({
@@ -25,7 +27,6 @@ export default function ImageGalleryProvider({
   function openGallery(imageUrl: string) {
     setCurrentImageUrl(imageUrl)
     setOpen(true)
-    console.log(imageUrl)
   }
 
   function closeGallery() {
