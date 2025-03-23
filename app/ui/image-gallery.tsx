@@ -5,9 +5,7 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/app/ui/dialog"
 import Image from "next/image"
 

@@ -6,6 +6,7 @@ import FollowBar from "./follow-bar"
 import { Prisma } from "@prisma/client"
 import { Skeleton } from "./skeleton"
 import { FollowButton } from "./buttons"
+import { useImageGallery } from "./image-gallery"
 
 export default function ProfileHeader({
   profile,
@@ -19,11 +20,21 @@ export default function ProfileHeader({
   isFollowing: boolean
 }) {
   const sameUser = authUserId === profile.userId
+  const { openGallery } = useImageGallery()
 
   return (
     <header className="p-4 space-y-4 border-b border-gray-200">
       <div className="flex items-center gap-6">
-        <Avatar src={profile.imageUrl} size="xl" />
+        {profile.imageUrl ? (
+          <button
+            className="rounded-full"
+            onClick={() => openGallery(profile.imageUrl as string)}
+          >
+            <Avatar src={profile.imageUrl} size="xl" />
+          </button>
+        ) : (
+          <Avatar src={profile.imageUrl} size="xl" />
+        )}
 
         <div className="flex-1">
           <h1 className="text-4xl font-bold">{profile?.name}</h1>
