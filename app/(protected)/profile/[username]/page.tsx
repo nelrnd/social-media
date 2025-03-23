@@ -10,18 +10,14 @@ export default async function ProfilePage({
 }) {
   const username = (await params).username
 
-  const [session, profile, isFollowing] = await Promise.all([
-    auth(),
-    fetchProfile(username),
-    fetchIsFollowing(username),
-  ])
-
-  const authUserId = session?.user.id || ""
+  const [session, profile] = await Promise.all([auth(), fetchProfile(username)])
 
   if (!profile) {
     return <p>Profile not found</p>
   }
 
+  const authUserId = session?.user.id || ""
+  const isFollowing = await fetchIsFollowing(profile.id)
   const { posts: initialPosts, hasMorePosts } = await fetchPosts({
     userId: profile.userId,
   })

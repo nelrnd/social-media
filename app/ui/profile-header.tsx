@@ -19,6 +19,7 @@ export default function ProfileHeader({
   isFollowing: boolean
 }) {
   const sameUser = authUserId === profile.userId
+
   return (
     <header className="p-4 space-y-4 border-b border-gray-200">
       <div className="flex items-center gap-6">
