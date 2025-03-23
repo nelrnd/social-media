@@ -181,7 +181,16 @@ export async function createPost(
       images: imageUrls.filter((url) => typeof url === "string"),
     },
     include: {
-      user: { select: { profile: true } },
+      user: {
+        select: {
+          profile: {
+            include: {
+              followers: { select: { id: true } },
+              following: { select: { id: true } },
+            },
+          },
+        },
+      },
       likes: { select: { id: true, userId: true } },
       comments: { select: { id: true } },
     },
