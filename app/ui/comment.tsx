@@ -6,6 +6,7 @@ import Date from "./date"
 import Avatar from "./avatar"
 import { LikeCommentButton } from "./buttons"
 import { useSession } from "next-auth/react"
+import CommentMenu from "./comment-menu"
 
 export default function Comment({
   comment,
@@ -21,10 +22,8 @@ export default function Comment({
   const userId = session.data?.user.id
   const fromMe = comment.userId === userId
 
-  console.log(fromMe)
-
   return (
-    <div className="py-3 border-b border-gray-200 last:border-b-0 grid grid-cols-[auto_1fr] gap-4">
+    <div className="py-3 border-b border-gray-200 last:border-b-0 grid grid-cols-[auto_1fr] gap-4 relative">
       <Link
         href={`/profile/${comment.user.profile?.username}`}
         className="w-fit h-fit rounded-full hover:brightness-90 transition-all"
@@ -32,18 +31,16 @@ export default function Comment({
         <Avatar src={comment.user.profile?.imageUrl} size="sm" />
       </Link>
       <div>
-        <header className="flex items-center justify-between">
-          <p className="relative z-10 w-fit">
-            <Link
-              href={`/profile/${comment.user.profile?.username}`}
-              className="hover:underline"
-            >
-              <span className="font-bold">{comment.user.profile?.name}</span>{" "}
-              <span className="text-gray-600">
-                {comment.user.profile?.username}
-              </span>
-            </Link>
-          </p>
+        <header className="flex items-center gap-2">
+          <Link
+            href={`/profile/${comment.user.profile?.username}`}
+            className="relative z-10 w-fit hover:underline"
+          >
+            <span className="font-bold">{comment.user.profile?.name}</span>{" "}
+            <span className="text-gray-600">
+              {comment.user.profile?.username}
+            </span>
+          </Link>
           <Date date={comment.createdAt} />
         </header>
 
@@ -59,6 +56,8 @@ export default function Comment({
           />
         </footer>
       </div>
+
+      {fromMe && <CommentMenu commentId={comment.id} />}
     </div>
   )
 }

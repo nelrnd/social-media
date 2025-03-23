@@ -222,7 +222,7 @@ export async function deletePost(
 
   revalidatePath("/")
   redirect(redirectTo)
-  return "Post delete successfully"
+  return "Post deleted successfully"
 }
 
 export type ProfileFormState = {
@@ -461,6 +461,34 @@ export async function commentPost(
   })
   revalidatePath("/")
   return { message: "", success: true, comment }
+}
+
+export async function deleteComment(
+  prevState: string | undefined,
+  formData: FormData
+) {
+  const { userId } = await getUserData()
+  const commentId = formData.get("commentId") as string
+  const redirectTo = formData.get("redirectTo") as string
+
+  const comment = await prisma.comment.findUnique({
+    where: { id: commentId },
+    select: { userId: true },
+  })
+
+  if (!comment) {
+    throw new Error("Cannot delete comment: comment not found")
+  }
+  if (comment.userId !== userId) {
+    throw new Error("Cannot delete comment: not authorized")
+  }
+
+  await prisma.like.deleteMany({ where: { commentId } })
+  await prisma.comment.delete({ where: { id: commentId } })
+
+  revalidatePath("/")
+  redirect(redirectTo)
+  return "Commment deleted successfully"
 }
 
 export async function followProfile(profileId: string) {
