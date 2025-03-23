@@ -2,10 +2,10 @@
 
 import Link from "next/link"
 import Avatar from "./avatar"
-import FollowButton from "./follow-button"
 import FollowBar from "./follow-bar"
 import { Prisma } from "@prisma/client"
 import { Skeleton } from "./skeleton"
+import { FollowButton } from "./buttons"
 
 export default function ProfileHeader({
   profile,
@@ -39,7 +39,7 @@ export default function ProfileHeader({
               Edit
             </Link>
           ) : (
-            <FollowButton isFollowing={isFollowing} profileId={profile.id} />
+            <FollowButton profileId={profile.id} isFollowing={isFollowing} />
           )}
         </div>
       </div>

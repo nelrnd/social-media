@@ -1,6 +1,6 @@
 "use client"
 
-import { likeComment, likePost } from "../lib/actions"
+import { followProfile, likeComment, likePost } from "../lib/actions"
 import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid"
 import { HeartIcon as HeartIconOutline } from "@heroicons/react/24/outline"
 import { ChatBubbleLeftIcon } from "@heroicons/react/24/outline"
@@ -233,6 +233,29 @@ export function LikeCommentButton({
           </div>
         </>
       )}
+    </button>
+  )
+}
+
+export function FollowButton({
+  profileId,
+  isFollowing,
+}: {
+  profileId: string
+  isFollowing: boolean
+}) {
+  return (
+    <button
+      onClick={() => followProfile(profileId)}
+      className={clsx(
+        "w-fit h-[3.125rem] py-3 px-6 flex items-center justify-center  disabled:opacity-50  transition-all rounded-sm relative",
+        {
+          "border border-gray-200 hover:bg-gray-100": isFollowing,
+          "bg-gray-900 text-white hover:bg-gray-800": !isFollowing,
+        }
+      )}
+    >
+      {!isFollowing ? "Follow" : "Unfollow"}
     </button>
   )
 }
