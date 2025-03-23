@@ -16,7 +16,7 @@ import {
 import { DialogDescription } from "@radix-ui/react-dialog"
 import CommentForm from "./comment-form"
 import { PostMinimized } from "./post"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { spaceMono } from "../fonts"
 import clsx from "clsx"
 import { LoaderCircleIcon } from "lucide-react"
@@ -72,7 +72,7 @@ export function LikeButton({
             <HeartIconOutline className="size-4" />
           )}
 
-          <div className={` h-5 overflow-hidden`}>
+          <div className="h-5 overflow-hidden">
             <div
               className={clsx("transition-transform", {
                 "-translate-y-1/2": likeCount > prevLikeCount,
@@ -82,13 +82,13 @@ export function LikeButton({
             >
               {likeCount > prevLikeCount ? (
                 <>
-                  <p className="not-sr-only">{prevLikeCount}</p>
+                  <p aria-hidden={true}>{prevLikeCount}</p>
                   <p>{likeCount}</p>
                 </>
               ) : (
                 <>
                   <p>{likeCount}</p>
-                  <p className="not-sr-only">{prevLikeCount}</p>
+                  <p aria-hidden={true}>{prevLikeCount}</p>
                 </>
               )}
             </div>
@@ -104,21 +104,42 @@ export function CommentButton({
   initialComments,
 }: {
   post: PostWithRelations
-  initialComments: Prisma.CommentGetPayload<{ select: { id: true } }>[]
+  initialComments: Prisma.CommentGetPayload<{
+    select: { id: true; userId: true }
+  }>[]
 }) {
   const [comments, setComments] = useState(initialComments)
   const [open, setOpen] = useState(false)
+  const [animating, setAnimating] = useState(false)
+
+  const commentCount = comments.length
+  const prevCommentCount = commentCount - 1
+
+  function animate() {
+    setAnimating(true)
+    setTimeout(() => {
+      setAnimating(false)
+    }, 150)
+  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <button
-          className="py-2 px-4 flex items-center gap-2 w-fit bg-white border border-gray-200 disabled:opacity-50 hover:bg-gray-100 transition-colors relative z-10"
+          className={`text-sm ${spaceMono.className} py-2 px-4 flex items-center gap-2 w-fit bg-white border border-gray-200 disabled:opacity-50 hover:bg-gray-100 transition-colors relative z-10`}
           aria-label="Comment post"
           title="Comment"
         >
           <ChatBubbleLeftIcon className="size-4" />
-          <p className={`text-sm ${spaceMono.className}`}>{comments.length}</p>
+
+          <div className="h-5 overflow-hidden">
+            <div
+              className={clsx("-translate-y-1/2", animating && "animate-rise")}
+            >
+              <p aria-hidden={true}>{prevCommentCount}</p>
+              <p>{commentCount}</p>
+            </div>
+          </div>
         </button>
       </DialogTrigger>
       <DialogContent>
@@ -134,6 +155,7 @@ export function CommentButton({
           cb={(newComment) => {
             setOpen(false)
             setComments([...comments, newComment])
+            animate()
           }}
         />
       </DialogContent>

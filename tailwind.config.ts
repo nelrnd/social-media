@@ -8,17 +8,26 @@ export default {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-  	extend: {
-  		colors: {
-  			background: 'var(--background)',
-  			foreground: 'var(--foreground)'
-  		},
-  		borderRadius: {
-  			lg: 'var(--radius)',
-  			md: 'calc(var(--radius) - 2px)',
-  			sm: 'calc(var(--radius) - 4px)'
-  		}
-  	}
+    extend: {
+      colors: {
+        background: "var(--background)",
+        foreground: "var(--foreground)",
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+      },
+      keyframes: {
+        rise: {
+          "0%": { transform: "translateY(0%)" },
+          "100%": { transform: "translateY(-50%)" },
+        },
+      },
+      animation: {
+        rise: "rise 150ms ease-in-out both",
+      },
+    },
   },
   plugins: [require("tailwindcss-animate")],
 } satisfies Config
