@@ -21,7 +21,7 @@ import { usePathname } from "next/navigation"
 
 export default function PostMenu({ postId }: { postId: string }) {
   const pathname = usePathname()
-  const [state, action, isPending] = useActionState(deletePost, undefined)
+  const [, action, isPending] = useActionState(deletePost, undefined)
 
   return (
     <Dialog>

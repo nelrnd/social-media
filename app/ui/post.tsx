@@ -1,7 +1,6 @@
 "use client"
 
 import clsx from "clsx"
-import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline"
 import { Prisma } from "@prisma/client"
 import { usePathname } from "next/navigation"
 import { useSession } from "next-auth/react"

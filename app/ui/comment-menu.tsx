@@ -21,7 +21,7 @@ import { usePathname } from "next/navigation"
 
 export default function CommentMenu({ commentId }: { commentId: string }) {
   const pathname = usePathname()
-  const [state, action, isPending] = useActionState(deleteComment, undefined)
+  const [, action, isPending] = useActionState(deleteComment, undefined)
 
   return (
     <Dialog>

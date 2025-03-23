@@ -1,6 +1,5 @@
 "use client"
 
-import { Prisma } from "@prisma/client"
 import Link from "next/link"
 import Date from "./date"
 import Avatar from "./avatar"
