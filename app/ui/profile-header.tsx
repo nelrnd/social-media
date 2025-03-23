@@ -44,7 +44,7 @@ export default function ProfileHeader({
         </div>
       </div>
       <p>{profile?.bio}</p>
-      <FollowBar profile={profile} />
+      <FollowBar profile={profile} isFollowing={isFollowing} />
     </header>
   )
 }

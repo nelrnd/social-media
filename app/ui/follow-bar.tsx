@@ -13,13 +13,16 @@ import { useEffect, useState } from "react"
 import { fetchFollowers, fetchFollowings } from "../lib/data"
 import ProfileCard, { ProfileCardSkeleton } from "./profile-card"
 import { spaceMono } from "../fonts"
+import clsx from "clsx"
 
 export default function FollowBar({
   profile,
+  isFollowing,
 }: {
   profile: Prisma.ProfileGetPayload<{
     include: { following: true; followers: true }
   }>
+  isFollowing?: boolean
 }) {
   return (
     <div className="flex items-center gap-8">
@@ -32,6 +35,7 @@ export default function FollowBar({
         count={profile.followers.length}
         profileId={profile.id}
         username={profile.username}
+        isFollowing={isFollowing}
       />
     </div>
   )
@@ -102,14 +106,18 @@ function FollowersDialog({
   profileId,
   count,
   username,
+  isFollowing,
 }: {
   profileId: string
-  count?: number
+  count: number
   username: string
+  isFollowing?: boolean
 }) {
   const [open, setOpen] = useState(false)
   const [profiles, setProfiles] = useState<Profile[]>([])
   const [loading, setLoading] = useState(true)
+
+  const prevCount = isFollowing ? count - 1 : count + 1
 
   useEffect(() => {
     if (open) {
@@ -125,11 +133,31 @@ function FollowersDialog({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className="hover:underline">
-        <span className={`text-black font-bold ${spaceMono.className}`}>
-          {count}
-        </span>{" "}
-        <span className="text-gray-600">
+      <DialogTrigger className="hover:underline group h-[25px]">
+        <div
+          className={`inline-block text-black font-bold ${spaceMono.className} h-[25px] overflow-hidden`}
+        >
+          <div
+            className={clsx("inline-flex flex-col transition-transform", {
+              "-translate-y-1/2": count > prevCount,
+              "translate-y-0": count <= prevCount,
+            })}
+          >
+            {count > prevCount ? (
+              <>
+                <span aria-hidden={true}>{prevCount} </span>
+                <span className="group-hover:underline">{count} </span>
+              </>
+            ) : (
+              <>
+                <span className="group-hover:underline">{count} </span>
+                <span aria-hidden={true}>{prevCount} </span>
+              </>
+            )}
+          </div>
+        </div>
+        <span className="inline-block text-gray-600 relative bottom-[7px] group-hover:underline">
+          &nbsp;
           {count === 1 ? "follower" : "followers"}
         </span>
       </DialogTrigger>
