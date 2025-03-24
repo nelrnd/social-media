@@ -1,6 +1,6 @@
 "use client"
 
-import { createContext, useContext, useState } from "react"
+import { createContext, useContext, useEffect, useState } from "react"
 import {
   Dialog,
   DialogContent,
@@ -13,7 +13,7 @@ import clsx from "clsx"
 
 const ImageGalleryContext = createContext({
   text: "yes",
-  openGallery({ currentId, images }: { currentId: number; images: string[] }) {
+  openGallery({ currentId, images }: { currentId?: number; images: string[] }) {
     console.log(
       `opening ${images.length} images starting at index ${currentId}`
     )
@@ -32,10 +32,10 @@ export default function ImageGalleryProvider({
   const currentImage = currentId !== null && images[currentId]
 
   function openGallery({
-    currentId,
+    currentId = 0,
     images,
   }: {
-    currentId: number
+    currentId?: number
     images: string[]
   }) {
     if (!images || images.length < 1) return
@@ -51,6 +51,42 @@ export default function ImageGalleryProvider({
     setImages([])
     setOpen(false)
   }
+
+  function goNext() {
+    setCurrentId((prevId) =>
+      prevId === null ? prevId : prevId < images.length - 1 ? prevId + 1 : 0
+    )
+  }
+
+  function goPrevious() {
+    setCurrentId((prevId) =>
+      prevId === null ? prevId : prevId > 0 ? prevId - 1 : images.length - 1
+    )
+  }
+
+  function handleKeyDown(this: HTMLElement, event: KeyboardEvent) {
+    switch (event.key) {
+      case "ArrowRight":
+        goNext()
+        break
+      case "ArrowLeft":
+        goPrevious()
+        break
+      default:
+        return
+    }
+  }
+
+  useEffect(() => {
+    if (open) {
+      document.body.addEventListener("keydown", handleKeyDown)
+    } else {
+      document.body.removeEventListener("keydown", handleKeyDown)
+    }
+    return () => {
+      document.body.removeEventListener("keydown", handleKeyDown)
+    }
+  }, [open])
 
   const contextValue = {
     text: "yes",
