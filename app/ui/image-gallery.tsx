@@ -115,20 +115,26 @@ export default function ImageGalleryProvider({
             <XMarkIcon className="size-5 text-white" />
           </button>
 
-          <main className="flex-1 p-8 flex justify-center items-center relative">
+          <main className="flex-1 p-8 flex justify-center items-center">
             {currentImage && (
-              <Image src={currentImage} alt="" width="400" height="400" />
+              <Image
+                src={currentImage}
+                alt=""
+                width="400"
+                height="400"
+                className="relative z-10"
+              />
             )}
           </main>
 
           {images.length > 1 && (
-            <footer className="p-4 border-t border-gray-900 flex items-center justify-center gap-4 relative z-10">
+            <footer className="p-4 border-t border-white/5 flex items-center justify-center gap-4">
               {images.map((image, id) => (
                 <button
                   key={image}
                   onClick={() => setCurrentId(id)}
                   className={clsx(
-                    "size-16 rounded-lg overflow-hidden relative",
+                    "size-16 rounded-lg overflow-hidden relative z-10",
                     {
                       "ring-2 ring-white ring-offset-4 ring-offset-black/95":
                         currentId !== null && id === currentId,
