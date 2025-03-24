@@ -9,11 +9,14 @@ import {
 } from "@/app/ui/dialog"
 import Image from "next/image"
 import { XMarkIcon } from "@heroicons/react/24/outline"
+import clsx from "clsx"
 
 const ImageGalleryContext = createContext({
   text: "yes",
-  openGallery(imageUrl: string) {
-    console.log("Opening " + imageUrl)
+  openGallery({ currentId, images }: { currentId: number; images: string[] }) {
+    console.log(
+      `opening ${images.length} images starting at index ${currentId}`
+    )
   },
 })
 
@@ -23,15 +26,29 @@ export default function ImageGalleryProvider({
   children: React.ReactNode
 }) {
   const [open, setOpen] = useState(false)
-  const [currentImageUrl, setCurrentImageUrl] = useState<string | null>(null)
+  const [currentId, setCurrentId] = useState<number | null>(null)
+  const [images, setImages] = useState<string[]>([])
 
-  function openGallery(imageUrl: string) {
-    setCurrentImageUrl(imageUrl)
+  const currentImage = currentId !== null && images[currentId]
+
+  function openGallery({
+    currentId,
+    images,
+  }: {
+    currentId: number
+    images: string[]
+  }) {
+    if (!images || images.length < 1) return
+    setCurrentId(currentId)
+    if (images) {
+      setImages(images)
+    }
     setOpen(true)
   }
 
   function closeGallery() {
-    setCurrentImageUrl(null)
+    setCurrentId(null)
+    setImages([])
     setOpen(false)
   }
 
@@ -45,7 +62,7 @@ export default function ImageGalleryProvider({
       {children}
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="h-full max-w-full sm:rounded-none bg-black/70 border-black flex flex-col">
+        <DialogContent className="p-0 h-full max-w-full sm:rounded-none bg-black/80 border-black flex flex-col">
           <DialogTitle className="sr-only">Image gallery</DialogTitle>
           <DialogDescription className="sr-only">
             Browse through gallery
@@ -60,10 +77,36 @@ export default function ImageGalleryProvider({
           </button>
 
           <main className="flex-1 p-8 flex justify-center items-center relative">
-            {currentImageUrl && (
-              <Image src={currentImageUrl} alt="" width="400" height="400" />
+            {currentImage && (
+              <Image src={currentImage} alt="" width="400" height="400" />
             )}
           </main>
+
+          {images.length > 1 && (
+            <footer className="p-4 border-t border-gray-900 flex items-center justify-center gap-4 relative z-10">
+              {images.map((image, id) => (
+                <button
+                  key={image}
+                  onClick={() => setCurrentId(id)}
+                  className={clsx(
+                    "size-16 rounded-lg overflow-hidden relative",
+                    {
+                      "ring-2 ring-white ring-offset-4 ring-offset-black/95":
+                        currentId !== null && id === currentId,
+                    }
+                  )}
+                >
+                  <Image
+                    src={image}
+                    alt=""
+                    width={128}
+                    height={128}
+                    className="absolute inset-0 w-full h-full object-cover object-center"
+                  />
+                </button>
+              ))}
+            </footer>
+          )}
 
           <div className="absolute inset-0" onClick={closeGallery}></div>
         </DialogContent>

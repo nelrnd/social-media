@@ -73,11 +73,13 @@ export default function Post({ post }: { post: PostWithRelations }) {
               "grid-cols-2": post.images.length > 1,
             })}
           >
-            {post.images.map((image) => (
+            {post.images.map((image, id) => (
               <ImagePreview
                 key={image}
                 src={image}
-                handleClick={() => openGallery(image)}
+                handleClick={() =>
+                  openGallery({ currentId: id, images: post.images })
+                }
               />
             ))}
           </div>
