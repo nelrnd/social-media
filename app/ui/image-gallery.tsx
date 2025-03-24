@@ -98,7 +98,10 @@ export default function ImageGalleryProvider({
       {children}
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="p-0 h-full max-w-full sm:rounded-none bg-black/80 border-black flex flex-col">
+        <DialogContent
+          className="p-0 h-full max-w-full sm:rounded-none bg-black/80 border-black flex flex-col"
+          hideCloseButton={true}
+        >
           <DialogTitle className="sr-only">Image gallery</DialogTitle>
           <DialogDescription className="sr-only">
             Browse through gallery
