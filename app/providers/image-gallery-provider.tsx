@@ -15,14 +15,19 @@ import {
 } from "@heroicons/react/24/outline"
 import clsx from "clsx"
 
-const ImageGalleryContext = createContext({
-  text: "yes",
-  openGallery({ currentId, images }: { currentId?: number; images: string[] }) {
-    console.log(
-      `opening ${images.length} images starting at index ${currentId}`
-    )
-  },
-})
+interface ImageGalleryContextType {
+  openGallery({
+    currentId,
+    images,
+  }: {
+    currentId?: number
+    images: string[]
+  }): void
+}
+
+const ImageGalleryContext = createContext<ImageGalleryContextType>(
+  {} as ImageGalleryContextType
+)
 
 export default function ImageGalleryProvider({
   children,

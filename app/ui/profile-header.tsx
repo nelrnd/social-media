@@ -28,7 +28,9 @@ export default function ProfileHeader({
         {profile.imageUrl ? (
           <button
             className="rounded-full"
-            onClick={() => openGallery(profile.imageUrl as string)}
+            onClick={() =>
+              openGallery({ images: [profile.imageUrl as string] })
+            }
           >
             <Avatar src={profile.imageUrl} size="xl" />
           </button>
