@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import "./globals.css"
 import { spaceGrotesk } from "./fonts"
+import { ThemeProvider } from "next-themes"
 
 export const metadata: Metadata = {
   title: "AHSI - Social Media",
@@ -13,9 +14,14 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${spaceGrotesk.className} antialiased`}>
-        {children}
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <div className="bg-background text-primary">
+            <h1 className="bg-accent">HEY?</h1>
+            {children}
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   )
