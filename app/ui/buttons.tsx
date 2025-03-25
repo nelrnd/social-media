@@ -23,6 +23,14 @@ import { LoaderCircleIcon } from "lucide-react"
 import { Skeleton } from "./skeleton"
 import { PostWithRelations } from "../lib/definitions"
 
+function Press({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="cursor-pointer active:scale-90 transition-transform will-change-transform relative z-10">
+      {children}
+    </div>
+  )
+}
+
 function ActionButton({
   children,
   ...props
@@ -30,12 +38,14 @@ function ActionButton({
   children: React.ReactNode
 } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
-    <button
-      className={`${spaceMono.className} text-sm py-2 px-4 rounded-full flex items-center gap-2 w-fit bg-background border border-border hover:bg-subtle disabled:opacity-50 transition-colors relative z-10`}
-      {...props}
-    >
-      {children}
-    </button>
+    <Press>
+      <button
+        className={`${spaceMono.className} text-sm py-2 px-4 rounded-full flex items-center gap-2 w-fit bg-background border border-border hover:bg-subtle disabled:opacity-50 transition-colors relative z-10`}
+        {...props}
+      >
+        {children}
+      </button>
+    </Press>
   )
 }
 
@@ -272,34 +282,30 @@ export function FollowButton({
 
 export function Button({
   children,
-  onClick,
-  className,
-  disabled = false,
-  isLoading = false,
   variant = "default",
+  className,
+  isLoading = false,
+  ...props
 }: {
   children: React.ReactNode
-  onClick?: () => void
+  variant: string
   className?: string
-  disabled?: boolean
-  isLoading?: boolean
-  variant?: string
-}) {
+  isLoading: boolean
+} & React.ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
     <button
-      type={onClick ? "button" : "submit"}
-      onClick={onClick}
       className={clsx(
         "w-fit h-[3.125rem] py-3 px-6 flex items-center justify-center  disabled:opacity-50 transition-all rounded-sm relative",
         {
-          "text-white bg-gray-900 hover:bg-gray-800": variant === "default",
+          "text-background bg-foreground hover:bg-subtle-foreground":
+            variant === "default",
           "bg-white border border-gray-200 hover:bg-gray-100":
             variant === "secondary",
           "bg-red-600 text-white hover:bg-red-700": variant === "danger",
         },
         className
       )}
-      disabled={disabled || isLoading}
+      disabled={isLoading || props.disabled}
     >
       <div
         className={clsx(

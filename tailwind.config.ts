@@ -16,6 +16,7 @@ export default {
         accent: "var(--accent)",
         subtle: "var(--subtle)",
         border: "var(--border)",
+        "subtle-foreground": "var(--subtle-foreground)",
       },
       borderRadius: {
         lg: "var(--radius)",

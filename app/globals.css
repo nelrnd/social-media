@@ -9,6 +9,7 @@
     --foreground: theme(colors.gray[950]);
     --accent: theme(colors.indigo[700]);
     --subtle: theme(colors.gray[50]);
+    --subtle-foreground: rgba(31, 41, 55, 0.99);
     --border: theme(colors.gray[200]);
   }
 
@@ -17,6 +18,7 @@
     --foreground: theme(colors.white);
     --accent: theme(colors.indigo[400]);
     --subtle: rgba(31, 41, 55, 0.3);
+    --subtle-foreground: theme(colors.gray[200]);
     --border: theme(colors.gray[800]);
   }
 }
