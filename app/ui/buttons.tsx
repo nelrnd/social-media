@@ -22,7 +22,6 @@ import clsx from "clsx"
 import { LoaderCircleIcon } from "lucide-react"
 import { Skeleton } from "./skeleton"
 import { PostWithRelations } from "../lib/definitions"
-import { twMerge } from "tailwind-merge"
 
 export function LikeButton({
   postId,

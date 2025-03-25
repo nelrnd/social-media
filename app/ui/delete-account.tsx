@@ -17,7 +17,7 @@ export default function DeleteAccount({
 }: {
   children: React.ReactNode
 }) {
-  const [state, action, isPending] = useActionState(deleteUser, undefined)
+  const [, action, isPending] = useActionState(deleteUser, undefined)
 
   return (
     <Dialog>
