@@ -1,5 +1,6 @@
 import { fetchIsFollowing, fetchPosts, fetchProfile } from "@/app/lib/data"
 import Feed from "@/app/ui/feed"
+import PageHeader from "@/app/ui/page-header"
 import ProfileHeader from "@/app/ui/profile-header"
 import { auth } from "@/auth"
 
@@ -24,6 +25,7 @@ export default async function ProfilePage({
 
   return (
     <main>
+      <PageHeader title={profile.name} allowBack={true} />
       <ProfileHeader
         profile={profile}
         authUserId={authUserId}
