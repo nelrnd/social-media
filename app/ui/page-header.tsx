@@ -14,7 +14,7 @@ export default function PageHeader({
   const { back } = useHistory()
 
   return (
-    <header className="h-[56px] p-6 border-b border-gray-200 flex items-center gap-2">
+    <header className="h-[56px] sticky top-0 bg-white/90 backdrop-blur-lg z-20 p-6 border-b border-gray-200 flex items-center gap-2">
       {allowBack && (
         <button
           onClick={() => back()}
