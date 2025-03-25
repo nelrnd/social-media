@@ -23,6 +23,22 @@ import { LoaderCircleIcon } from "lucide-react"
 import { Skeleton } from "./skeleton"
 import { PostWithRelations } from "../lib/definitions"
 
+function ActionButton({
+  children,
+  ...props
+}: {
+  children: React.ReactNode
+} & React.ButtonHTMLAttributes<HTMLButtonElement>) {
+  return (
+    <button
+      className={`${spaceMono.className} text-sm py-2 px-4 rounded-full flex items-center gap-2 w-fit bg-background border border-border hover:bg-subtle disabled:opacity-50 transition-colors relative z-10`}
+      {...props}
+    >
+      {children}
+    </button>
+  )
+}
+
 export function LikeButton({
   postId,
   userId,
@@ -40,7 +56,7 @@ export function LikeButton({
   const prevLikeCount = hasLiked ? likeCount - 1 : likeCount + 1
 
   return (
-    <button
+    <ActionButton
       onClick={async () => {
         if (!userId) return
         const currentActionId = uuidv4()
@@ -55,7 +71,6 @@ export function LikeButton({
           setLikes(likes)
         }
       }}
-      className={`text-sm ${spaceMono.className} py-2 px-4 flex items-center gap-2 w-fit bg-white border border-gray-200 disabled:opacity-50 hover:bg-gray-100 transition-colors relative z-10`}
       aria-label={hasLiked ? "Unlike post" : "Like post"}
       title="Like"
     >
@@ -94,7 +109,7 @@ export function LikeButton({
           </div>
         </>
       )}
-    </button>
+    </ActionButton>
   )
 }
 
@@ -124,11 +139,7 @@ export function CommentButton({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <button
-          className={`text-sm ${spaceMono.className} py-2 px-4 flex items-center gap-2 w-fit bg-white border border-gray-200 disabled:opacity-50 hover:bg-gray-100 transition-colors relative z-10`}
-          aria-label="Comment post"
-          title="Comment"
-        >
+        <ActionButton aria-label="Comment post" title="Comment">
           <ChatBubbleLeftIcon className="size-4" />
 
           <div className="h-5 overflow-hidden">
@@ -139,7 +150,7 @@ export function CommentButton({
               <p>{commentCount}</p>
             </div>
           </div>
-        </button>
+        </ActionButton>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -179,7 +190,7 @@ export function LikeCommentButton({
   const prevLikeCount = hasLiked ? likeCount - 1 : likeCount + 1
 
   return (
-    <button
+    <ActionButton
       onClick={async () => {
         if (!userId) return
         const currentActionId = uuidv4()
@@ -194,7 +205,6 @@ export function LikeCommentButton({
           setLikes(likes)
         }
       }}
-      className={`text-sm ${spaceMono.className} py-2 px-3 flex items-center gap-2 w-fit bg-white border border-gray-200 disabled:opacity-50 hover:bg-gray-100 transition-colors relative z-10`}
       aria-label={hasLiked ? "Unlike comment" : "Like comment"}
       title="Like"
     >
@@ -233,7 +243,7 @@ export function LikeCommentButton({
           </div>
         </>
       )}
-    </button>
+    </ActionButton>
   )
 }
 
