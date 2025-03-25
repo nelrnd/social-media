@@ -50,7 +50,7 @@ export default function ProfileHeader({
           {sameUser ? (
             <Link
               href="/settings/profile"
-              className="block w-fit ml-auto py-2 px-6 border border-gray-200 disabled:opacity-50 hover:bg-gray-100 transition-colors"
+              className="w-fit h-[3.125rem] py-3 px-6 flex items-center justify-center  disabled:opacity-50 rounded-sm relative border border-gray-200 hover:bg-gray-100 transition-all"
             >
               Edit
             </Link>

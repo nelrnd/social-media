@@ -5,6 +5,7 @@ import { ProfileFormState } from "../lib/actions"
 import { Profile } from "@prisma/client"
 import { LoaderCircleIcon } from "lucide-react"
 import AvatarUploader from "./avatar-uploader"
+import { Button } from "./buttons"
 
 export default function ProfileForm({
   action,
@@ -104,20 +105,9 @@ export default function ProfileForm({
           )}
         </div>
       </div>
-      <button
-        className="w-fit h-[3.125rem] py-3 px-6 flex items-center justify-center bg-gray-900 text-white disabled:opacity-50 hover:opacity-95 transition-opacity rounded-sm ml-auto relative"
-        disabled={isPending}
-      >
-        <span className={isPending ? "invisible" : ""}>
-          {buttonText || "Save"}
-        </span>
-        {isPending && (
-          <LoaderCircleIcon
-            className="size-4 animate-spin absolute object-center"
-            aria-label="Loading"
-          />
-        )}
-      </button>
+      <Button isLoading={isPending} className="ml-auto">
+        {buttonText || "Save"}
+      </Button>
     </form>
   )
 }
