@@ -14,6 +14,8 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
         accent: "var(--accent)",
+        subtle: "var(--subtle)",
+        border: "var(--border)",
       },
       borderRadius: {
         lg: "var(--radius)",

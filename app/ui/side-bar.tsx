@@ -13,7 +13,7 @@ export default async function SideBar() {
   const notificationCount = await fetchUnreadNotificationsCount()
 
   return (
-    <nav className="w-full md:w-[18rem] md:h-screen p-4 md:p-8 border-t md:border-r md:border-t-0 bg-white border-gray-200 bottom-0 md:bottom-auto fixed z-20">
+    <nav className="w-full md:w-[18rem] md:h-screen p-4 md:p-8 border-t md:border-r md:border-t-0 bg-background border-border bottom-0 md:bottom-auto fixed z-20">
       <ul className="flex md:flex-col gap-3 h-full">
         <li className="mb-8 hidden md:block">
           <Link href="/">
@@ -36,7 +36,7 @@ export default async function SideBar() {
           >
             <button
               type="submit"
-              className="w-full p-3 hover:bg-red-50 rounded-full font-semibold flex items-center gap-2 text-red-500"
+              className="w-full p-3 hover:bg-subtle rounded-full font-semibold flex items-center gap-2 text-red-500 dark:text-red-400 transition-colors"
             >
               <ArrowLeftStartOnRectangleIcon className="size-6" />
               Log out

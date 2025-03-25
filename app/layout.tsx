@@ -17,10 +17,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${spaceGrotesk.className} antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <div className="bg-background text-primary">
-            <h1 className="bg-accent">HEY?</h1>
-            {children}
-          </div>
+          <div className="bg-background text-primary">{children}</div>
         </ThemeProvider>
       </body>
     </html>

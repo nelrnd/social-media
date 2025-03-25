@@ -29,9 +29,9 @@ export default function Post({ post }: { post: PostWithRelations }) {
   return (
     <article
       className={clsx(
-        "p-6 border-b border-gray-200 relative grid grid-cols-[auto_1fr] gap-4 transition-colors",
+        "p-6 border-b border-border relative grid grid-cols-[auto_1fr] gap-4 transition-colors",
         {
-          "hover:bg-gray-50": !onPage,
+          "hover:bg-subtle": !onPage,
         }
       )}
     >

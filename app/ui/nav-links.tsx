@@ -75,7 +75,7 @@ export default function NavLinks({
           <li key={link.href} className="flex-1 md:flex-initial">
             <Link
               href={link.href}
-              className="p-3 md:-mx-3 hover:bg-gray-50 rounded-full font-semibold flex justify-center md:justify-start items-center gap-2"
+              className="p-3 md:-mx-3 hover:bg-subtle rounded-full font-semibold flex justify-center md:justify-start items-center gap-2 transition-colors"
             >
               <div className="relative">
                 {!!link.count && (

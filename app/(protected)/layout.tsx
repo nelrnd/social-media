@@ -20,7 +20,7 @@ export default async function Layout({
         <ImageGalleryProvider>
           <div>
             <SideBar />
-            <div className="max-w-[36rem] m-auto border-r border-l border-gray-200 min-h-screen">
+            <div className="max-w-[36rem] m-auto border-r border-l border-border min-h-screen">
               {children}
             </div>
           </div>

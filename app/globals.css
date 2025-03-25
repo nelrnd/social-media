@@ -6,15 +6,22 @@
   :root {
     --radius: 0.5rem;
     --background: theme(colors.white);
-    --foreground: theme(colors.gray[950]) --accent: theme(colors.indigo[700]);
+    --foreground: theme(colors.gray[950]);
+    --accent: theme(colors.indigo[700]);
+    --subtle: theme(colors.gray[50]);
+    --border: theme(colors.gray[200]);
   }
 
   .dark {
     --background: theme(colors.gray[950]);
     --foreground: theme(colors.white);
+    --accent: theme(colors.indigo[400]);
+    --subtle: rgba(31, 41, 55, 0.3);
+    --border: theme(colors.gray[800]);
   }
 }
 
 input[type="hidden"] {
   @apply absolute h-0;
+  color: #1f2937;
 }
