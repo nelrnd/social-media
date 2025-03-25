@@ -117,7 +117,12 @@ export default function ImageGalleryProvider({
     <ImageGalleryContext.Provider value={{ openGallery }}>
       {children}
 
-      <Dialog open={open} onOpenChange={setOpen}>
+      <Dialog
+        open={open}
+        onOpenChange={(isOpen) => {
+          if (!isOpen) closeGallery()
+        }}
+      >
         <DialogContent
           className="p-0 h-full max-w-full sm:rounded-none bg-black/80 border-black flex flex-col"
           hideCloseButton={true}
