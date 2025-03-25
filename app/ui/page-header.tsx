@@ -14,7 +14,7 @@ export default function PageHeader({
   const { back } = useHistory()
 
   return (
-    <header className="h-[56px] p-4 border-b border-gray-200 flex items-center gap-2">
+    <header className="h-[56px] p-6 border-b border-gray-200 flex items-center gap-2">
       {allowBack && (
         <button
           onClick={() => back()}
@@ -30,7 +30,7 @@ export default function PageHeader({
 
 export function PageHeaderSkeleton() {
   return (
-    <header className="h-[56px] p-4 border-b border-gray-200 flex items-center gap-2">
+    <header className="h-[56px] p-6 border-b border-gray-200 flex items-center gap-2">
       <Skeleton className="h-5 w-[200px]" />
     </header>
   )
