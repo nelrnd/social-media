@@ -14,7 +14,7 @@ import PostLikes from "./post-likes"
 import { PostWithRelations } from "../lib/definitions"
 import PostMenu from "./post-menu"
 import ProfileHoverCard from "./profile-hover-card"
-import { useImageGallery } from "./image-gallery"
+import { useImageGallery } from "../providers/image-gallery-provider"
 
 export default function Post({ post }: { post: PostWithRelations }) {
   const pathname = usePathname()

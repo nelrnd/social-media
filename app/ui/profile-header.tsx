@@ -6,7 +6,7 @@ import FollowBar from "./follow-bar"
 import { Prisma } from "@prisma/client"
 import { Skeleton } from "./skeleton"
 import { FollowButton } from "./buttons"
-import { useImageGallery } from "./image-gallery"
+import { useImageGallery } from "../providers/image-gallery-provider"
 
 export default function ProfileHeader({
   profile,
