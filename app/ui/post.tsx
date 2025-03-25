@@ -5,7 +5,7 @@ import { Prisma } from "@prisma/client"
 import { usePathname } from "next/navigation"
 import { useSession } from "next-auth/react"
 import Link from "next/link"
-import { LikeButton, CommentButton } from "./buttons"
+import { LikeButton, CommentButton, Press } from "./buttons"
 import { Skeleton } from "./skeleton"
 import Date from "./date"
 import Avatar from "./avatar"
@@ -74,13 +74,14 @@ export default function Post({ post }: { post: PostWithRelations }) {
             })}
           >
             {post.images.map((image, id) => (
-              <ImagePreview
-                key={image}
-                src={image}
-                handleClick={() =>
-                  openGallery({ currentId: id, images: post.images })
-                }
-              />
+              <Press key={image} light>
+                <ImagePreview
+                  src={image}
+                  handleClick={() =>
+                    openGallery({ currentId: id, images: post.images })
+                  }
+                />
+              </Press>
             ))}
           </div>
         )}

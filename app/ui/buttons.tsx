@@ -23,9 +23,17 @@ import { LoaderCircleIcon } from "lucide-react"
 import { Skeleton } from "./skeleton"
 import { PostWithRelations } from "../lib/definitions"
 
-function Press({ children }: { children: React.ReactNode }) {
+export function Press({
+  children,
+  light = false,
+}: {
+  children: React.ReactNode
+  light?: boolean
+}) {
   return (
-    <div className="cursor-pointer active:scale-90 transition-transform will-change-transform relative z-10">
+    <div
+      className={`cursor-pointer ${light ? "active:scale-95" : "active:scale-90"} transition-transform will-change-transform relative z-10`}
+    >
       {children}
     </div>
   )
@@ -36,6 +44,7 @@ function ActionButton({
   ...props
 }: {
   children: React.ReactNode
+  light: boolean
 } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
     <Press>
