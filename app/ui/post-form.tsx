@@ -104,7 +104,7 @@ export default function PostForm({
             />
             <div className="cursor-pointer size-12 bg-white hover:bg-gray-100 border border-gray-100 flex items-center justify-center rounded-full transition-colors peer-disabled:opacity-50 peer-disabled:cursor-default peer-disabled:hover:bg-white">
               <span className="sr-only">Add images</span>
-              <PhotoIcon className="size-5 text-gray-600" />
+              <PhotoIcon className="size-5 text-gray-500" />
             </div>
           </label>
         </div>

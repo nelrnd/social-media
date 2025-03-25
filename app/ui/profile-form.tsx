@@ -30,7 +30,7 @@ export default function ProfileForm({
         errors={state?.errors?.image}
       />
       <div>
-        <label htmlFor="name" className="text-gray-600">
+        <label htmlFor="name" className="text-gray-500">
           Display name
         </label>
         <input
@@ -54,7 +54,7 @@ export default function ProfileForm({
         </div>
       </div>
       <div>
-        <label htmlFor="username" className="text-gray-600">
+        <label htmlFor="username" className="text-gray-500">
           Username
         </label>
         <input
@@ -68,7 +68,7 @@ export default function ProfileForm({
           }
           spellCheck="false"
         />
-        <ul className="text-sm text-gray-600 mt-1 pl-4 ml-1">
+        <ul className="text-sm text-gray-500 mt-1 pl-4 ml-1">
           <li className="list-disc">
             Username must only contain letters, numbers, &quot;-&quot; and
             &quot;_&quot;
@@ -84,8 +84,8 @@ export default function ProfileForm({
         </div>
       </div>
       <div>
-        <label htmlFor="bio" className="text-gray-600">
-          Bio <span className="text-gray-600">(optional)</span>
+        <label htmlFor="bio" className="text-gray-500">
+          Bio <span className="text-gray-500">(optional)</span>
         </label>
         <textarea
           name="bio"

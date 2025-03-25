@@ -18,7 +18,7 @@ export default function LoginForm() {
     <form action={formAction} className="space-y-4">
       <h1 className="text-xl font-bold">Log in</h1>
       <div>
-        <label htmlFor="email" className="text-gray-600">
+        <label htmlFor="email" className="text-gray-500">
           Email
         </label>
         <input
@@ -40,7 +40,7 @@ export default function LoginForm() {
         </div>
       </div>
       <div>
-        <label htmlFor="password" className="text-gray-600">
+        <label htmlFor="password" className="text-gray-500">
           Password
         </label>
         <input

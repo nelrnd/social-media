@@ -72,7 +72,7 @@ function FollowingDialog({
         <span className={`text-black font-bold ${spaceMono.className}`}>
           {count}
         </span>{" "}
-        <span className="text-gray-600">following</span>
+        <span className="text-gray-500">following</span>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -92,7 +92,7 @@ function FollowingDialog({
               <ProfileCard key={profile.id} profile={profile} />
             ))
           ) : (
-            <p className="py-4 text-gray-600 text-center">
+            <p className="py-4 text-gray-500 text-center">
               No following for now
             </p>
           )}
@@ -156,7 +156,7 @@ function FollowersDialog({
             )}
           </div>
         </div>
-        <span className="inline-block text-gray-600 relative bottom-[7px] group-hover:underline">
+        <span className="inline-block text-gray-500 relative bottom-[7px] group-hover:underline">
           &nbsp;
           {count === 1 ? "follower" : "followers"}
         </span>
@@ -179,7 +179,7 @@ function FollowersDialog({
               <ProfileCard key={profile.id} profile={profile} />
             ))
           ) : (
-            <p className="py-4 text-gray-600 text-center">
+            <p className="py-4 text-gray-500 text-center">
               No followers for now
             </p>
           )}

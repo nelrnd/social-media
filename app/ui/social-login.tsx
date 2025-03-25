@@ -6,7 +6,7 @@ export default function SocialLogin() {
   return (
     <div className="space-y-3">
       <div className="relative select-none mb-6">
-        <div className="text-gray-600 w-fit bg-white px-4 m-auto">or</div>
+        <div className="text-gray-500 w-fit bg-white px-4 m-auto">or</div>
         <div className="h-[1px] w-full bg-gray-200 absolute top-1/2 -z-10"></div>
       </div>
 

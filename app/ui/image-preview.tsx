@@ -25,7 +25,7 @@ export default function ImagePreview({
           className="absolute top-2 left-2 z-10 cursor-pointer size-12 bg-white hover:bg-gray-100 border border-gray-100 flex items-center justify-center rounded-full transition-colors"
         >
           <span className="sr-only">Delete image</span>
-          <XMarkIcon className="size-5 text-gray-600" />
+          <XMarkIcon className="size-5 text-gray-500" />
         </button>
       )}
 

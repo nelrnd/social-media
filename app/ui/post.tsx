@@ -52,7 +52,7 @@ export default function Post({ post }: { post: PostWithRelations }) {
               className="relative z-10 w-fit hover:underline"
             >
               <span className="font-bold">{post.user.profile?.name}</span>{" "}
-              <span className="text-gray-600">
+              <span className="text-gray-500">
                 {post.user.profile?.username}
               </span>
             </Link>
@@ -143,7 +143,7 @@ export function PostMinimized({
         <header className="flex items-center justify-between">
           <p className="relative z-10 w-fit">
             <span className="font-bold">{post.user.profile?.name}</span>{" "}
-            <span className="text-gray-600">{post.user.profile?.username}</span>
+            <span className="text-gray-500">{post.user.profile?.username}</span>
           </p>
           <Date date={post.createdAt} />
         </header>

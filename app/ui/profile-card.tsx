@@ -12,7 +12,7 @@ export default function ProfileCard({ profile }: { profile: Profile }) {
       <Avatar src={profile.imageUrl} size="sm" />
       <div className="flex flex-col gap-1 leading-none">
         <span className="font-bold">{profile.name}</span>{" "}
-        <span className="text-gray-600">{profile.username}</span>
+        <span className="text-gray-500">{profile.username}</span>
       </div>
     </Link>
   )

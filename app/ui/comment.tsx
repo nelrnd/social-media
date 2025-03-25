@@ -39,7 +39,7 @@ export default function Comment({
               className="relative z-10 w-fit hover:underline"
             >
               <span className="font-bold">{comment.user.profile?.name}</span>{" "}
-              <span className="text-gray-600">
+              <span className="text-gray-500">
                 {comment.user.profile?.username}
               </span>
             </Link>

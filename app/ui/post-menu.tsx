@@ -29,7 +29,7 @@ export default function PostMenu({ postId }: { postId: string }) {
         <DropdownMenuTrigger asChild>
           <button className="absolute top-2 right-2 cursor-pointer size-10 bg-white hover:bg-gray-100 border border-gray-100 flex items-center justify-center rounded-full transition-colors peer-disabled:opacity-50 peer-disabled:cursor-default peer-disabled:hover:bg-white">
             <span className="sr-only">Open menu</span>
-            <EllipsisHorizontalIcon className="size-5 text-gray-600" />
+            <EllipsisHorizontalIcon className="size-5 text-gray-500" />
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">

@@ -12,7 +12,7 @@ export default function RegisterForm() {
     <form action={formAction} className="space-y-4">
       <h1 className="text-xl font-bold">Register</h1>
       <div>
-        <label htmlFor="email" className="text-gray-600">
+        <label htmlFor="email" className="text-gray-500">
           Email
         </label>
         <input
@@ -34,7 +34,7 @@ export default function RegisterForm() {
         </div>
       </div>
       <div>
-        <label htmlFor="password" className="text-gray-600">
+        <label htmlFor="password" className="text-gray-500">
           Password
         </label>
         <input
