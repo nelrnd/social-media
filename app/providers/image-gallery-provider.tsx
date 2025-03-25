@@ -14,14 +14,17 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline"
 import clsx from "clsx"
+import Avatar from "../ui/avatar"
 
 interface ImageGalleryContextType {
   openGallery({
     currentId,
     images,
+    isAvatar,
   }: {
     currentId?: number
     images: string[]
+    isAvatar?: boolean
   }): void
 }
 
@@ -37,20 +40,26 @@ export default function ImageGalleryProvider({
   const [open, setOpen] = useState(false)
   const [currentId, setCurrentId] = useState<number | null>(null)
   const [images, setImages] = useState<string[]>([])
+  const [asAvatar, setAsAvatar] = useState(false)
 
   const currentImage = currentId !== null && images[currentId]
 
   function openGallery({
     currentId = 0,
     images,
+    isAvatar = false,
   }: {
     currentId?: number
     images: string[]
+    isAvatar?: boolean
   }) {
     if (!images || images.length < 1) return
     setCurrentId(currentId)
     if (images) {
       setImages(images)
+    }
+    if (isAvatar) {
+      setAsAvatar(true)
     }
     setOpen(true)
   }
@@ -59,6 +68,7 @@ export default function ImageGalleryProvider({
     setCurrentId(null)
     setImages([])
     setOpen(false)
+    setAsAvatar(false)
   }
 
   function goNext() {
@@ -124,16 +134,23 @@ export default function ImageGalleryProvider({
             <XMarkIcon className="size-5 text-white" />
           </button>
 
-          <main className="mx-24 my-32 flex-1 relative">
-            {currentImage && (
-              <Image
-                src={currentImage}
-                alt=""
-                fill={true}
-                className="max-w-full max-h-full object-contain"
-              />
-            )}
-          </main>
+          {currentImage && (
+            <main className="mx-24 my-32 flex-1 relative flex items-center justify-center">
+              {asAvatar ? (
+                <Avatar
+                  src={currentImage}
+                  className="w-64 h-64 max-w-full max-h-wull"
+                />
+              ) : (
+                <Image
+                  src={currentImage}
+                  alt=""
+                  fill={true}
+                  className="max-w-full max-h-full object-contain"
+                />
+              )}
+            </main>
+          )}
 
           {images.length > 1 && (
             <nav className="fixed z-20 w-full px-4 top-1/2 -translate-y-1/2 h-10 flex items-center justify-between pointer-events-none">

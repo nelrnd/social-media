@@ -29,7 +29,10 @@ export default function ProfileHeader({
           <button
             className="rounded-full"
             onClick={() =>
-              openGallery({ images: [profile.imageUrl as string] })
+              openGallery({
+                images: [profile.imageUrl as string],
+                isAvatar: true,
+              })
             }
           >
             <Avatar src={profile.imageUrl} size="xl" />
