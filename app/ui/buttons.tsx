@@ -22,6 +22,7 @@ import clsx from "clsx"
 import { LoaderCircleIcon } from "lucide-react"
 import { Skeleton } from "./skeleton"
 import { PostWithRelations } from "../lib/definitions"
+import { twMerge } from "tailwind-merge"
 
 export function LikeButton({
   postId,
@@ -266,19 +267,27 @@ export function Button({
   className,
   disabled = false,
   isLoading = false,
+  variant = "default",
 }: {
   children: React.ReactNode
   onClick?: () => void
   className?: string
   disabled?: boolean
   isLoading?: boolean
+  variant?: string
 }) {
   return (
     <button
       type={onClick ? "button" : "submit"}
       onClick={onClick}
       className={clsx(
-        "w-fit h-[3.125rem] py-3 px-6 flex items-center justify-center bg-gray-900 text-white disabled:opacity-50 hover:bg-gray-800 transition-all rounded-sm relative",
+        "w-fit h-[3.125rem] py-3 px-6 flex items-center justify-center  disabled:opacity-50 transition-all rounded-sm relative",
+        {
+          "text-white bg-gray-900 hover:bg-gray-800": variant === "default",
+          "bg-white border border-gray-200 hover:bg-gray-100":
+            variant === "secondary",
+          "bg-red-600 text-white hover:bg-red-700": variant === "danger",
+        },
         className
       )}
       disabled={disabled || isLoading}

@@ -1,4 +1,5 @@
 import { Button } from "@/app/ui/buttons"
+import DeleteAccount from "@/app/ui/delete-account"
 import PageHeader from "@/app/ui/page-header"
 import { signOut } from "@/auth"
 
@@ -14,9 +15,15 @@ export default function SettingsPage() {
             await signOut({ redirectTo: "/" })
           }}
         >
-          <Button className="w-full">Log out</Button>
+          <Button className="w-full" variant="secondary">
+            Log out
+          </Button>
         </form>
-        <Button className="w-full">Delete account</Button>
+        <DeleteAccount>
+          <Button className="w-full" variant="danger">
+            Delete account
+          </Button>
+        </DeleteAccount>
       </section>
     </main>
   )
