@@ -119,7 +119,7 @@ export default function ImageGalleryProvider({
             <XMarkIcon className="size-5 text-white" />
           </button>
 
-          <main className="m-8 flex-1 relative">
+          <main className="mx-24 my-32 flex-1 relative">
             {currentImage && (
               <Image
                 src={currentImage}
