@@ -124,7 +124,7 @@ export default function ImageGalleryProvider({
         }}
       >
         <DialogContent
-          className="p-0 h-full max-w-full sm:rounded-none bg-black/80 border-black flex flex-col"
+          className="p-0 w-full h-full sm:max-w-full sm:h-full sm:max-h-full sm:rounded-none bg-black/80 border-black flex flex-col"
           hideCloseButton={true}
         >
           <DialogTitle className="sr-only">Image gallery</DialogTitle>
