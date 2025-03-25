@@ -1,6 +1,12 @@
 "use client"
 
-import { createContext, useContext, useEffect, useState } from "react"
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react"
 import {
   Dialog,
   DialogContent,
@@ -71,32 +77,32 @@ export default function ImageGalleryProvider({
     setAsAvatar(false)
   }
 
-  function goNext() {
+  const next = useCallback(() => {
     setCurrentId((prevId) =>
       prevId === null ? prevId : prevId < images.length - 1 ? prevId + 1 : 0
     )
-  }
+  }, [setCurrentId, images.length])
 
-  function goPrevious() {
+  const back = useCallback(() => {
     setCurrentId((prevId) =>
       prevId === null ? prevId : prevId > 0 ? prevId - 1 : images.length - 1
     )
-  }
-
-  function handleKeyDown(this: HTMLElement, event: KeyboardEvent) {
-    switch (event.key) {
-      case "ArrowRight":
-        goNext()
-        break
-      case "ArrowLeft":
-        goPrevious()
-        break
-      default:
-        return
-    }
-  }
+  }, [setCurrentId, images.length])
 
   useEffect(() => {
+    function handleKeyDown(this: HTMLElement, event: KeyboardEvent) {
+      switch (event.key) {
+        case "ArrowRight":
+          next()
+          break
+        case "ArrowLeft":
+          back()
+          break
+        default:
+          return
+      }
+    }
+
     if (open) {
       document.body.addEventListener("keydown", handleKeyDown)
     } else {
@@ -105,15 +111,10 @@ export default function ImageGalleryProvider({
     return () => {
       document.body.removeEventListener("keydown", handleKeyDown)
     }
-  }, [open])
-
-  const contextValue = {
-    text: "yes",
-    openGallery,
-  }
+  }, [open, next, back])
 
   return (
-    <ImageGalleryContext.Provider value={contextValue}>
+    <ImageGalleryContext.Provider value={{ openGallery }}>
       {children}
 
       <Dialog open={open} onOpenChange={setOpen}>
@@ -155,14 +156,14 @@ export default function ImageGalleryProvider({
           {images.length > 1 && (
             <nav className="fixed z-20 w-full px-4 top-1/2 -translate-y-1/2 h-10 flex items-center justify-between pointer-events-none">
               <button
-                onClick={goPrevious}
+                onClick={back}
                 className="pointer-events-auto cursor-pointer size-12 bg-black hover:bg-gray-950 border border-gray-950 flex items-center justify-center rounded-full transition-colors"
               >
                 <span className="sr-only">Go to previous image</span>
                 <ArrowLeftIcon className="size-5 text-white" />
               </button>
               <button
-                onClick={goNext}
+                onClick={next}
                 className="pointer-events-auto cursor-pointer size-12 bg-black hover:bg-gray-950 border border-gray-950 flex items-center justify-center rounded-full transition-colors"
               >
                 <span className="sr-only">Go to next image</span>

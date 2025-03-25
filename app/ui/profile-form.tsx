@@ -3,7 +3,6 @@
 import { useActionState } from "react"
 import { ProfileFormState } from "../lib/actions"
 import { Profile } from "@prisma/client"
-import { LoaderCircleIcon } from "lucide-react"
 import AvatarUploader from "./avatar-uploader"
 import { Button } from "./buttons"
 
