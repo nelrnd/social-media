@@ -8,7 +8,11 @@ import {
   DialogTitle,
 } from "@/app/ui/dialog"
 import Image from "next/image"
-import { XMarkIcon } from "@heroicons/react/24/outline"
+import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline"
 import clsx from "clsx"
 
 const ImageGalleryContext = createContext({
@@ -109,32 +113,50 @@ export default function ImageGalleryProvider({
 
           <button
             onClick={closeGallery}
-            className="fixed z-20 top-8 left-8 cursor-pointer size-12 bg-black hover:bg-gray-950 border border-gray-950 flex items-center justify-center rounded-full transition-colors"
+            className="fixed z-20 top-4 left-4 cursor-pointer size-12 bg-black hover:bg-gray-950 border border-gray-950 flex items-center justify-center rounded-full transition-colors"
           >
             <span className="sr-only">Close image</span>
             <XMarkIcon className="size-5 text-white" />
           </button>
 
-          <main className="flex-1 p-8 flex justify-center items-center">
+          <main className="m-8 flex-1 relative">
             {currentImage && (
               <Image
                 src={currentImage}
                 alt=""
-                width="400"
-                height="400"
-                className="relative z-10"
+                fill={true}
+                className="max-w-full max-h-full object-contain"
               />
             )}
           </main>
 
           {images.length > 1 && (
-            <footer className="p-4 border-t border-white/5 flex items-center justify-center gap-4">
+            <nav className="fixed z-20 w-full px-4 top-1/2 -translate-y-1/2 h-10 flex items-center justify-between pointer-events-none">
+              <button
+                onClick={goPrevious}
+                className="pointer-events-auto cursor-pointer size-12 bg-black hover:bg-gray-950 border border-gray-950 flex items-center justify-center rounded-full transition-colors"
+              >
+                <span className="sr-only">Go to previous image</span>
+                <ArrowLeftIcon className="size-5 text-white" />
+              </button>
+              <button
+                onClick={goNext}
+                className="pointer-events-auto cursor-pointer size-12 bg-black hover:bg-gray-950 border border-gray-950 flex items-center justify-center rounded-full transition-colors"
+              >
+                <span className="sr-only">Go to next image</span>
+                <ArrowRightIcon className="size-5 text-white" />
+              </button>
+            </nav>
+          )}
+
+          {images.length > 1 && (
+            <footer className="pointer-events-none fixed z-20 bottom-0 w-full p-4 border-t border-white/5 flex items-center justify-center gap-4">
               {images.map((image, id) => (
                 <button
                   key={image}
                   onClick={() => setCurrentId(id)}
                   className={clsx(
-                    "size-16 rounded-lg overflow-hidden relative z-10",
+                    "pointer-events-auto size-16 rounded-lg overflow-hidden relative z-10",
                     {
                       "ring-2 ring-white ring-offset-4 ring-offset-black/95":
                         currentId !== null && id === currentId,
