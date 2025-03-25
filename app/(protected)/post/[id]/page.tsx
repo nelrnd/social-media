@@ -16,15 +16,23 @@ export default async function PostPage({
   if (!post) return null
 
   return (
-    <main className="relative h-[200vh]">
-      <PageHeader title="Post" allowBack={true} />
-      <Post post={post} />
-      <div className="p-6 fixed w-[calc(36rem_-_2px)] bottom-0 border-t border-gray-200 bg-white/70 backdrop-blur-md z-20">
-        <CommentForm postId={post.id} />
+    <main className="relative">
+      <div>
+        <PageHeader title="Post" allowBack={true} />
+        <Post post={post} />
       </div>
-      <div className="p-6">
-        <h3 className="font-bold leading-none mb-2">Comments</h3>
-        <CommentList comments={comments} />
+
+      <div>
+        <h3 className="font-bold leading-none p-6">Comments</h3>
+
+        <div className="p-6 py-0">
+          <div>
+            <CommentList comments={comments} />
+          </div>
+          <div className="-mx-6 p-6 sticky w-[calc(36rem_-_2px)] bottom-0 border-t border-gray-200 bg-white/90 backdrop-blur-md z-20">
+            <CommentForm postId={post.id} />
+          </div>
+        </div>
       </div>
     </main>
   )
