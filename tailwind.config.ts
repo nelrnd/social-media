@@ -1,5 +1,4 @@
 import type { Config } from "tailwindcss"
-import colors from "tailwindcss/colors"
 
 export default {
   darkMode: ["class"],
@@ -13,6 +12,7 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        "text-soft": "var(--text-soft)",
         accent: "var(--accent)",
         subtle: "var(--subtle)",
         border: "var(--border)",
