@@ -21,7 +21,7 @@ export default function Comment({
   if (!comment.user.profile) return null
 
   return (
-    <div className="py-3 border-b border-border last:border-b-0 grid grid-cols-[auto_1fr] gap-4 relative">
+    <div className="py-6 border-b border-subtle last:border-b-0 grid grid-cols-[auto_1fr] gap-4 relative">
       <ProfileHoverCard profile={comment.user.profile}>
         <Link
           href={`/profile/${comment.user.profile?.username}`}

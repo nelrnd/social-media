@@ -25,11 +25,11 @@ export default async function PostPage({
       <div className="flex-1 flex flex-col">
         <h3 className="font-bold leading-none p-6">Comments</h3>
 
-        <div className="p-6 py-0 flex-1">
+        <div className="p-6 py-0 flex-1 flex flex-col">
           <div>
             <CommentList comments={comments} />
           </div>
-          <div className="-mx-6 p-6 sticky w-[calc(36rem_-_2px)] bottom-0 border-t border-border backdrop-blur-md z-20">
+          <div className="-mx-6 mt-auto p-6 sticky sm:w-[calc(36rem_-_2px)] bottom-20 sm:bottom-0 border-t border-border backdrop-blur-md z-20">
             <CommentForm postId={post.id} />
             <div className="bg-background opacity-90 absolute inset-0 -z-10"></div>
           </div>

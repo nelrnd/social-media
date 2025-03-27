@@ -32,7 +32,7 @@ export default function CommentForm({
     <form action={formAction}>
       <textarea
         name="content"
-        className="w-full h-[4rem] mb-4 outline-none bg-transparent"
+        className="w-full h-6 sm:h-[4rem] mb-4 outline-none bg-transparent"
         placeholder="What do you have to say?"
         spellCheck="false"
       ></textarea>
