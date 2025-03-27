@@ -13,9 +13,9 @@ export default async function SideBar() {
   const notificationCount = await fetchUnreadNotificationsCount()
 
   return (
-    <nav className="w-full md:w-[18rem] h-20 md:h-screen p-4 md:p-8 border-t md:border-r md:border-t-0 bg-background border-border bottom-0 md:bottom-auto fixed z-50">
-      <ul className="flex md:flex-col gap-3 h-full">
-        <li className="mb-8 hidden md:block">
+    <nav className="w-full xl:w-[18rem] h-20 xl:h-screen p-4 xl:p-8 border-t xl:border-r xl:border-t-0 bg-background border-border bottom-0 xl:bottom-auto fixed z-50">
+      <ul className="flex xl:flex-col gap-3 h-full">
+        <li className="mb-8 hidden xl:block">
           <Link href="/">
             <span
               className={`text-2xl font-bold hover:underline ${spaceMono.className}`}
@@ -27,7 +27,7 @@ export default async function SideBar() {
 
         <NavLinks username={username} notificationCount={notificationCount} />
 
-        <li className="mt-auto -m-3 hidden md:block">
+        <li className="mt-auto -m-3 hidden xl:block">
           <form
             action={async () => {
               "use server"

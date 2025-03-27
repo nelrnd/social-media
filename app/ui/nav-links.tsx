@@ -72,10 +72,10 @@ export default function NavLinks({
       {links.map((link) => {
         const isActive = checkIfActive(pathname, link.href)
         return (
-          <li key={link.href} className="flex-1 md:flex-initial">
+          <li key={link.href} className="flex-1 xl:flex-initial">
             <Link
               href={link.href}
-              className="p-3 md:-mx-3 hover:bg-subtle rounded-full font-semibold flex justify-center md:justify-start items-center gap-2 transition-colors"
+              className="p-3 xl:-mx-3 hover:bg-subtle rounded-full font-semibold flex justify-center xl:justify-start items-center gap-2 transition-colors"
             >
               <div className="relative">
                 {!!link.count && (
@@ -89,7 +89,7 @@ export default function NavLinks({
                   { className: "size-6" }
                 )}
               </div>
-              <span className="sr-only md:not-sr-only">{link.text}</span>
+              <span className="sr-only xl:not-sr-only">{link.text}</span>
             </Link>
           </li>
         )
