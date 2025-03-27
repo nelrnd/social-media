@@ -14,7 +14,7 @@ export default function ImagePreview({
   return (
     <div
       className={clsx(
-        "w-full aspect-square relative border border-gray-100 rounded-xl overflow-hidden transition-all",
+        "w-full aspect-square relative border border-border rounded-xl overflow-hidden transition-all",
         { "z-10 hover:brightness-90": !!handleClick }
       )}
     >
@@ -22,10 +22,10 @@ export default function ImagePreview({
         <button
           type="button"
           onClick={handleDelete}
-          className="absolute top-2 left-2 z-10 cursor-pointer size-12 bg-white hover:bg-gray-100 border border-gray-100 flex items-center justify-center rounded-full transition-colors"
+          className="absolute top-2 left-2 z-10 cursor-pointer size-12 bg-background hover:bg-subtle border border-border flex items-center justify-center rounded-full transition-colors"
         >
           <span className="sr-only">Delete image</span>
-          <XMarkIcon className="size-5 text-gray-500" />
+          <XMarkIcon className="size-5 text-soft" />
         </button>
       )}
 

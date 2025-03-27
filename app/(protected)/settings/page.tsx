@@ -9,7 +9,7 @@ export default function SettingsPage() {
     <main>
       <PageHeader title="Settings" />
 
-      <section className="p-6 py-12 flex flex-col gap-3">
+      <section className="p-6 py-12 flex flex-col gap-6">
         <ThemeSwitcher />
         <form
           action={async () => {

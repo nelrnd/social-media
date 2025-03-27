@@ -30,13 +30,13 @@ export default function ProfileHoverCard({
 
             <div className="flex-1">
               <h1 className="font-bold leading-none">{profile?.name}</h1>
-              <p className="text-gray-500">{profile?.username}</p>
+              <p className="text-soft">{profile?.username}</p>
             </div>
           </div>
 
           {profile.bio && <p>{profile.bio}</p>}
 
-          <div className="text-gray-500 text-sm grid grid-cols-2 text-center gap-2 leading-none">
+          <div className="text-soft text-sm grid grid-cols-2 text-center gap-2 leading-none">
             <div>
               <span className={spaceMono.className}>
                 {profile.following.length}

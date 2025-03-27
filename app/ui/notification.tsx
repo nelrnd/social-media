@@ -15,7 +15,7 @@ export default function Notification({
   }>
 }) {
   return (
-    <div className="p-6 border-b border-gray-200 grid grid-cols-[auto_1fr] gap-4">
+    <div className="p-6 border-b border-border grid grid-cols-[auto_1fr] gap-4">
       <Avatar src={notification.from.profile?.imageUrl} size="sm" />
       <div className="mt-2.5 space-y-2.5">
         <div>

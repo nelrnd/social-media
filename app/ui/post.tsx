@@ -52,9 +52,7 @@ export default function Post({ post }: { post: PostWithRelations }) {
               className="relative z-10 w-fit hover:underline"
             >
               <span className="font-bold">{post.user.profile?.name}</span>{" "}
-              <span className="text-gray-500">
-                {post.user.profile?.username}
-              </span>
+              <span className="text-soft">{post.user.profile?.username}</span>
             </Link>
           </ProfileHoverCard>
           <Date date={post.createdAt} />
@@ -114,7 +112,7 @@ export default function Post({ post }: { post: PostWithRelations }) {
 
 export function PostSkeleton() {
   return (
-    <article className="p-6 border-b border-gray-200 grid grid-cols-[auto_1fr] gap-4">
+    <article className="p-6 border-b border-border grid grid-cols-[auto_1fr] gap-4">
       <Skeleton className="size-16 rounded-full" />
       <div className="flex flex-col gap-2">
         <Skeleton className="h-4 w-[100px] my-[2px]" />
@@ -138,13 +136,13 @@ export function PostMinimized({
   }>
 }) {
   return (
-    <article className="p-4 border border-gray-200 rounded-md grid grid-cols-[auto_1fr] gap-3">
+    <article className="p-4 border border-border rounded-md grid grid-cols-[auto_1fr] gap-3">
       <Avatar src={post.user.profile?.imageUrl} size="sm" />
       <div className="flex flex-col gap-2">
         <header className="flex items-center justify-between">
           <p className="relative z-10 w-fit">
             <span className="font-bold">{post.user.profile?.name}</span>{" "}
-            <span className="text-gray-500">{post.user.profile?.username}</span>
+            <span className="text-soft">{post.user.profile?.username}</span>
           </p>
           <Date date={post.createdAt} />
         </header>

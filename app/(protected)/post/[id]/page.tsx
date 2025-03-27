@@ -16,16 +16,16 @@ export default async function PostPage({
   if (!post) return null
 
   return (
-    <main className="relative">
+    <main className="relative min-h-screen flex flex-col">
       <div>
         <PageHeader title="Post" allowBack={true} />
         <Post post={post} />
       </div>
 
-      <div>
+      <div className="flex-1 flex flex-col">
         <h3 className="font-bold leading-none p-6">Comments</h3>
 
-        <div className="p-6 py-0">
+        <div className="p-6 py-0 flex-1">
           <div>
             <CommentList comments={comments} />
           </div>

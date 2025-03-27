@@ -27,9 +27,9 @@ export default function CommentMenu({ commentId }: { commentId: string }) {
     <Dialog>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <button className="absolute top-2 right-2 cursor-pointer size-10 bg-white hover:bg-gray-100 border border-gray-100 flex items-center justify-center rounded-full transition-colors peer-disabled:opacity-50 peer-disabled:cursor-default peer-disabled:hover:bg-white">
+          <button className="absolute top-2 right-2 cursor-pointer size-10 bg-background hover:bg-subtle border border-border flex items-center justify-center rounded-full transition-colors peer-disabled:opacity-50 peer-disabled:cursor-default peer-disabled:hover:bg-background">
             <span className="sr-only">Open menu</span>
-            <EllipsisHorizontalIcon className="size-5 text-gray-500" />
+            <EllipsisHorizontalIcon className="size-5 text-soft" />
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">

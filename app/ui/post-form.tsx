@@ -65,7 +65,7 @@ export default function PostForm({
     <form action={action} className="p-6 border-b border-border space-y-2">
       <textarea
         placeholder="What do you want to say?"
-        className="w-full h-[4rem] outline-none"
+        className="w-full h-[4rem] outline-none bg-background"
         name="content"
       ></textarea>
 
@@ -102,9 +102,9 @@ export default function PostForm({
               className="hidden peer"
               disabled={images.length >= 4}
             />
-            <div className="cursor-pointer size-12 bg-white hover:bg-gray-100 border border-gray-100 flex items-center justify-center rounded-full transition-colors peer-disabled:opacity-50 peer-disabled:cursor-default peer-disabled:hover:bg-white">
+            <div className="cursor-pointer size-12 flex items-center gap-4 justify-center  disabled:opacity-50 transition-all rounded-full relative bg-background border border-border hover:bg-subtle peer-disabled:opacity-50 peer-disabled:cursor-default peer-disabled:hover:bg-background">
               <span className="sr-only">Add images</span>
-              <PhotoIcon className="size-5 text-gray-500" />
+              <PhotoIcon className="size-5 text-soft" />
             </div>
           </label>
         </div>

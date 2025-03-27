@@ -18,7 +18,7 @@ export default function PageHeader({
       {allowBack && (
         <button
           onClick={() => back()}
-          className="size-8 hover:bg-gray-100 transition-colors flex items-center justify-center rounded-full"
+          className="size-8 bg-background hover:bg-subtle transition-colors flex items-center justify-center rounded-full"
         >
           <ArrowLeftIcon className="size-4" />
         </button>
@@ -31,7 +31,7 @@ export default function PageHeader({
 
 export function PageHeaderSkeleton() {
   return (
-    <header className="h-[56px] p-6 border-b border-gray-200 flex items-center gap-2">
+    <header className="h-[56px] p-6 border-b border-border flex items-center gap-2">
       <Skeleton className="h-5 w-[200px]" />
     </header>
   )

@@ -69,10 +69,10 @@ function FollowingDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="hover:underline">
-        <span className={`text-black font-bold ${spaceMono.className}`}>
+        <span className={`text-foreground font-bold ${spaceMono.className}`}>
           {count}
         </span>{" "}
-        <span className="text-gray-500">following</span>
+        <span className="text-soft">following</span>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -92,9 +92,7 @@ function FollowingDialog({
               <ProfileCard key={profile.id} profile={profile} />
             ))
           ) : (
-            <p className="py-4 text-gray-500 text-center">
-              No following for now
-            </p>
+            <p className="py-4 text-soft text-center">No following for now</p>
           )}
         </div>
       </DialogContent>
@@ -135,7 +133,7 @@ function FollowersDialog({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="hover:underline group h-[25px]">
         <div
-          className={`inline-block text-black font-bold ${spaceMono.className} h-[25px] overflow-hidden`}
+          className={`inline-block text-foreground font-bold ${spaceMono.className} h-[25px] overflow-hidden`}
         >
           <div
             className={clsx("inline-flex flex-col transition-transform", {
@@ -156,7 +154,7 @@ function FollowersDialog({
             )}
           </div>
         </div>
-        <span className="inline-block text-gray-500 relative bottom-[7px] group-hover:underline">
+        <span className="inline-block text-soft relative bottom-[7px] group-hover:underline">
           &nbsp;
           {count === 1 ? "follower" : "followers"}
         </span>
@@ -179,9 +177,7 @@ function FollowersDialog({
               <ProfileCard key={profile.id} profile={profile} />
             ))
           ) : (
-            <p className="py-4 text-gray-500 text-center">
-              No followers for now
-            </p>
+            <p className="py-4 text-soft text-center">No followers for now</p>
           )}
         </div>
       </DialogContent>

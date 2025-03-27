@@ -4,7 +4,7 @@ import { ProfileHeaderSkeleton } from "@/app/ui/profile-header"
 
 export default function Loading() {
   return (
-    <main>
+    <main className="h-screen overflow-hidden">
       <PageHeaderSkeleton />
       <ProfileHeaderSkeleton />
       <FeedSkeleton size={7} />

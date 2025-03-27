@@ -273,18 +273,12 @@ export function FollowButton({
   isFollowing: boolean
 }) {
   return (
-    <button
+    <Button
       onClick={() => followProfile(profileId)}
-      className={clsx(
-        "w-fit h-[3.125rem] py-3 px-6 flex items-center justify-center  disabled:opacity-50  transition-all rounded-sm relative",
-        {
-          "border border-gray-200 hover:bg-gray-100": isFollowing,
-          "bg-gray-900 text-white hover:bg-gray-800": !isFollowing,
-        }
-      )}
+      variant={isFollowing ? "secondary" : "default"}
     >
       {!isFollowing ? "Follow" : "Unfollow"}
-    </button>
+    </Button>
   )
 }
 
@@ -301,34 +295,37 @@ export function Button({
   isLoading?: boolean
 } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
-    <button
-      className={clsx(
-        "w-fit h-[3.125rem] py-3 px-6 flex items-center gap-4 justify-center  disabled:opacity-50 transition-all rounded-sm relative",
-        {
-          "text-background dark:text-foreground bg-accent hover:bg-accent-variant":
-            variant === "default",
-          "bg-background border border-border hover:bg-subtle":
-            variant === "secondary",
-          "bg-red-600 text-white hover:bg-red-700": variant === "danger",
-        },
-        className
-      )}
-      disabled={isLoading || props.disabled}
-    >
-      <div
+    <Press light={true}>
+      <button
         className={clsx(
-          "flex items-center justify-center gap-3",
-          isLoading && "invisible"
+          "w-fit h-[3.125rem] py-3 px-6 flex items-center gap-4 justify-center  disabled:opacity-50 transition-all rounded-sm relative",
+          {
+            "text-background dark:text-foreground bg-accent hover:bg-accent-variant":
+              variant === "default",
+            "bg-background border border-border hover:bg-subtle":
+              variant === "secondary",
+            "bg-red-600 text-white hover:bg-red-700": variant === "danger",
+          },
+          className
         )}
+        disabled={isLoading || props.disabled}
+        {...props}
       >
-        {children}
-      </div>
-      {isLoading && (
-        <LoaderCircleIcon
-          className="size-4 animate-spin absolute object-center"
-          aria-label="Loading"
-        />
-      )}
-    </button>
+        <div
+          className={clsx(
+            "flex items-center justify-center gap-3",
+            isLoading && "invisible"
+          )}
+        >
+          {children}
+        </div>
+        {isLoading && (
+          <LoaderCircleIcon
+            className="size-4 animate-spin absolute object-center"
+            aria-label="Loading"
+          />
+        )}
+      </button>
+    </Press>
   )
 }

@@ -29,14 +29,14 @@ export default function ProfileForm({
         errors={state?.errors?.image}
       />
       <div>
-        <label htmlFor="name" className="text-gray-500">
+        <label htmlFor="name" className="text-soft">
           Display name
         </label>
         <input
           type="text"
           name="name"
           id="name"
-          className="block w-full mt-1 p-3 border rounded-sm border-gray-200 focus:outline-black"
+          className="block w-full mt-1 p-3 border rounded-sm bg-background border-border"
           autoFocus
           aria-labelledby="name-error"
           defaultValue={
@@ -53,21 +53,21 @@ export default function ProfileForm({
         </div>
       </div>
       <div>
-        <label htmlFor="username" className="text-gray-500">
+        <label htmlFor="username" className="text-soft">
           Username
         </label>
         <input
           type="text"
           name="username"
           id="username"
-          className="block w-full mt-1 p-3 border rounded-sm border-gray-200 focus:outline-black"
+          className="block w-full mt-1 p-3 border rounded-sm bg-background border-border"
           aria-labelledby="username-error"
           defaultValue={
             (state?.data?.get("username") || profile?.username || "") as string
           }
           spellCheck="false"
         />
-        <ul className="text-sm text-gray-500 mt-1 pl-4 ml-1">
+        <ul className="text-sm text-soft mt-1 pl-4 ml-1">
           <li className="list-disc">
             Username must only contain letters, numbers, &quot;-&quot; and
             &quot;_&quot;
@@ -82,13 +82,13 @@ export default function ProfileForm({
         </div>
       </div>
       <div>
-        <label htmlFor="bio" className="text-gray-500">
-          Bio <span className="text-gray-500">(optional)</span>
+        <label htmlFor="bio" className="text-soft">
+          Bio <span className="text-soft">(optional)</span>
         </label>
         <textarea
           name="bio"
           id="bio"
-          className="block w-full mt-1 p-3 h-[6rem] border rounded-sm border-gray-200 focus:outline-black resize-none"
+          className="block w-full mt-1 p-3 h-[6rem] border rounded-sm bg-background border-border resize-none"
           aria-labelledby="bio-error"
           defaultValue={
             (state?.data?.get("bio") || profile?.bio || "") as string

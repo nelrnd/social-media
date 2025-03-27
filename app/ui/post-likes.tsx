@@ -42,9 +42,7 @@ export default function PostLikes({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger
-        className={clsx("text-gray-500 hover:underline", className)}
-      >
+      <DialogTrigger className={clsx("text-soft hover:underline", className)}>
         See likes
       </DialogTrigger>
       <DialogContent>
@@ -65,7 +63,7 @@ export default function PostLikes({
               <ProfileCard key={profile.id} profile={profile} />
             ))
           ) : (
-            <p className="py-4 text-gray-500 text-center">No likes for now</p>
+            <p className="py-4 text-soft text-center">No likes for now</p>
           )}
         </div>
       </DialogContent>

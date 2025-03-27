@@ -2,7 +2,7 @@
 
 import { useActionState, useEffect } from "react"
 import { CommentFormState, commentPost } from "../lib/actions"
-import { LoaderCircleIcon } from "lucide-react"
+import { Button } from "./buttons"
 
 export default function CommentForm({
   postId,
@@ -40,18 +40,9 @@ export default function CommentForm({
       <div aria-live="polite" aria-atomic="true">
         {state?.message && <p className="text-danger">{state.message}</p>}
       </div>
-      <button
-        className="w-fit h-[3.125rem] py-3 px-6 flex items-center justify-center bg-gray-900 text-white disabled:opacity-50 hover:opacity-95 transition-opacity rounded-sm ml-auto relative"
-        disabled={isPending}
-      >
-        <span className={isPending ? "invisible" : ""}>Reply</span>
-        {isPending && (
-          <LoaderCircleIcon
-            className="size-4 animate-spin absolute object-center"
-            aria-label="Loading"
-          />
-        )}
-      </button>
+      <Button isLoading={isPending} className="ml-auto">
+        Reply
+      </Button>
     </form>
   )
 }

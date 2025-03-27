@@ -3,7 +3,6 @@
 import { useActionState } from "react"
 import { authenticate, AuthState } from "@/app/lib/actions"
 import { useSearchParams } from "next/navigation"
-import { LoaderCircleIcon } from "lucide-react"
 import { Button } from "./buttons"
 
 export default function LoginForm() {

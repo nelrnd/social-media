@@ -2,7 +2,6 @@
 
 import { useActionState } from "react"
 import { register, AuthState } from "@/app/lib/actions"
-import { LoaderCircleIcon } from "lucide-react"
 import { Button } from "./buttons"
 
 export default function RegisterForm() {
