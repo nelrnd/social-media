@@ -13,7 +13,7 @@ export default function LoginPage() {
         <SocialLogin />
         <p>
           You don&apos;t have an account yet?{" "}
-          <Link href="/register" className="text-blue-600 hover:underline">
+          <Link href="/register" className="text-accent hover:underline">
             Register
           </Link>
         </p>

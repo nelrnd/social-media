@@ -36,7 +36,7 @@ export default async function SideBar() {
           >
             <button
               type="submit"
-              className="w-full p-3 hover:bg-subtle rounded-full font-semibold flex items-center gap-2 text-red-500 dark:text-red-400 transition-colors"
+              className="w-full p-3 hover:bg-subtle rounded-full font-semibold flex items-center gap-2 text-danger transition-colors"
             >
               <ArrowLeftStartOnRectangleIcon className="size-6" />
               Log out

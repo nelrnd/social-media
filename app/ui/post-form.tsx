@@ -86,7 +86,7 @@ export default function PostForm({
         </div>
       )}
 
-      {state?.error && <p className="text-red-500">{state.error}</p>}
+      {state?.error && <p className="text-danger">{state.error}</p>}
 
       <div className="flex justify-between items-center">
         <div>

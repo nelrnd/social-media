@@ -37,7 +37,7 @@ export default function AvatarUploader({
         <Avatar src={url || initialImage} size="lg" />
       </label>
       <div id="image-error" aria-live="polite" aria-atomic="true">
-        {errors && <p className="text-red-500 text-sm mt-1">{errors.at(0)}</p>}
+        {errors && <p className="text-danger text-sm mt-1">{errors.at(0)}</p>}
       </div>
     </div>
   )

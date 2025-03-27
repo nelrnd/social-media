@@ -8,7 +8,7 @@ export default function SocialLoginError() {
 
   if (error === "OAuthAccountNotLinked") {
     return (
-      <p className="text-red-500">Another account is linked with this email</p>
+      <p className="text-danger">Another account is linked with this email</p>
     )
   }
 

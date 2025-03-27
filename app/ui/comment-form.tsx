@@ -38,7 +38,7 @@ export default function CommentForm({
       ></textarea>
       <input type="hidden" name="postId" value={postId} />
       <div aria-live="polite" aria-atomic="true">
-        {state?.message && <p className="text-red-500">{state.message}</p>}
+        {state?.message && <p className="text-danger">{state.message}</p>}
       </div>
       <button
         className="w-fit h-[3.125rem] py-3 px-6 flex items-center justify-center bg-gray-900 text-white disabled:opacity-50 hover:opacity-95 transition-opacity rounded-sm ml-auto relative"

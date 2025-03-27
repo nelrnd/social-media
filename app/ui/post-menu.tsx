@@ -35,7 +35,7 @@ export default function PostMenu({ postId }: { postId: string }) {
         <DropdownMenuContent align="end">
           <DialogTrigger asChild>
             <DropdownMenuItem>
-              <span className="text-red-500">Delete post</span>
+              <span className="text-danger">Delete post</span>
             </DropdownMenuItem>
           </DialogTrigger>
         </DropdownMenuContent>

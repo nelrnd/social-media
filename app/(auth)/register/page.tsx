@@ -10,7 +10,7 @@ export default function RegisterPage() {
         <SocialLogin />
         <p>
           You already have an account?{" "}
-          <Link href="/login" className="text-blue-600 hover:underline">
+          <Link href="/login" className="text-accent hover:underline">
             Login
           </Link>
         </p>

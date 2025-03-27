@@ -303,11 +303,11 @@ export function Button({
   return (
     <button
       className={clsx(
-        "w-fit h-[3.125rem] py-3 px-6 flex items-center justify-center  disabled:opacity-50 transition-all rounded-sm relative",
+        "w-fit h-[3.125rem] py-3 px-6 flex items-center gap-4 justify-center  disabled:opacity-50 transition-all rounded-sm relative",
         {
-          "text-background bg-foreground hover:bg-subtle-foreground":
+          "text-background dark:text-foreground bg-accent hover:bg-accent-variant":
             variant === "default",
-          "bg-white border border-gray-200 hover:bg-gray-100":
+          "bg-background border border-border hover:bg-subtle":
             variant === "secondary",
           "bg-red-600 text-white hover:bg-red-700": variant === "danger",
         },
@@ -317,7 +317,7 @@ export function Button({
     >
       <div
         className={clsx(
-          "flex items-center justify-center",
+          "flex items-center justify-center gap-3",
           isLoading && "invisible"
         )}
       >

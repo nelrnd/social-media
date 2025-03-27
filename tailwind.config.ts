@@ -12,11 +12,13 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
-        "text-soft": "var(--text-soft)",
+        soft: "var(--soft)",
         accent: "var(--accent)",
+        "accent-variant": "var(--accent-variant)",
         subtle: "var(--subtle)",
         border: "var(--border)",
         "subtle-foreground": "var(--subtle-foreground)",
+        danger: "var(--danger)",
       },
       borderRadius: {
         lg: "var(--radius)",

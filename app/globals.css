@@ -6,21 +6,26 @@
   :root {
     --radius: 0.5rem;
     --background: theme(colors.white);
-    --foreground: theme(colors.gray[950]);
-    --text-soft: theme(colors.gray[500]) --accent: theme(colors.indigo[700]);
-    --subtle: theme(colors.gray[50]);
+    --foreground: theme(colors.zinc[950]);
+    --soft: theme(colors.zinc[500]);
+    --accent: theme(colors.blue[700]);
+    --accent-variant: theme(colors.blue[800]);
+    --subtle: theme(colors.zinc[50]);
     --subtle-foreground: rgba(31, 41, 55, 0.99);
-    --border: theme(colors.gray[200]);
+    --border: theme(colors.zinc[200]);
+    --danger: theme(colors.red[500]);
   }
 
   .dark {
-    --background: theme(colors.gray[950]);
+    --background: theme(colors.zinc[950]);
     --foreground: theme(colors.white);
-    --text-soft: theme(colors.gray[300]);
-    --accent: theme(colors.indigo[400]);
+    --soft: theme(colors.zinc[400]);
+    --accent: theme(colors.blue[600]);
+    --accent-variant: theme(colors.blue[700]);
     --subtle: rgba(31, 41, 55, 0.3);
-    --subtle-foreground: theme(colors.gray[200]);
-    --border: theme(colors.gray[800]);
+    --subtle-foreground: theme(colors.zinc[200]);
+    --border: theme(colors.zinc[800]);
+    --danger: theme(colors.red[400]);
   }
 }
 

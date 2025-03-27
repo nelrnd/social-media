@@ -46,7 +46,7 @@ export default function ProfileForm({
         />
         <div id="name-error" aria-live="polite" aria-atomic="true">
           {state?.errors?.name && (
-            <p className="text-red-500 text-sm mt-1">
+            <p className="text-danger text-sm mt-1">
               {state.errors.name.at(0)}
             </p>
           )}
@@ -75,7 +75,7 @@ export default function ProfileForm({
         </ul>
         <div id="username-error" aria-live="polite" aria-atomic="true">
           {state?.errors?.username && (
-            <p className="text-red-500 text-sm mt-1">
+            <p className="text-danger text-sm mt-1">
               {state.errors.username.at(0)}
             </p>
           )}
@@ -97,9 +97,7 @@ export default function ProfileForm({
         ></textarea>
         <div id="bio-error" aria-live="polite" aria-atomic="true">
           {state?.errors?.bio && (
-            <p className="text-red-500 text-sm mt-1">
-              {state.errors.bio.at(0)}
-            </p>
+            <p className="text-danger text-sm mt-1">{state.errors.bio.at(0)}</p>
           )}
         </div>
       </div>

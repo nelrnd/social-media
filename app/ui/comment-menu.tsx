@@ -35,7 +35,7 @@ export default function CommentMenu({ commentId }: { commentId: string }) {
         <DropdownMenuContent align="end">
           <DialogTrigger asChild>
             <DropdownMenuItem>
-              <span className="text-red-500">Delete comment</span>
+              <span className="text-danger">Delete comment</span>
             </DropdownMenuItem>
           </DialogTrigger>
         </DropdownMenuContent>
