@@ -72,7 +72,6 @@ export default function ProfileForm({
             Username must only contain letters, numbers, &quot;-&quot; and
             &quot;_&quot;
           </li>
-          <li className="list-disc">Username must be unique</li>
         </ul>
         <div id="username-error" aria-live="polite" aria-atomic="true">
           {state?.errors?.username && (

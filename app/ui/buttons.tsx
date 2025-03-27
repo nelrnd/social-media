@@ -44,7 +44,6 @@ function ActionButton({
   ...props
 }: {
   children: React.ReactNode
-  light: boolean
 } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
     <Press>
@@ -297,9 +296,9 @@ export function Button({
   ...props
 }: {
   children: React.ReactNode
-  variant: string
+  variant?: string
   className?: string
-  isLoading: boolean
+  isLoading?: boolean
 } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
     <button

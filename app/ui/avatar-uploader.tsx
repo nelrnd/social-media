@@ -29,7 +29,7 @@ export default function AvatarUploader({
         className="rounded-full overflow-hidden block w-fit h-fit relative"
       >
         <div
-          className="cursor-pointer bg-black/20 hover:bg-black/40 absolute inset-0 transition-colors grid place-content-center"
+          className="cursor-pointer bg-black/20 hover:bg-black/40 absolute inset-0 transition-colors grid place-content-center z-10"
           title="Upload image"
         >
           <CameraIcon className="size-10 text-white" />
