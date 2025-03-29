@@ -5,6 +5,7 @@ import { SessionProvider } from "next-auth/react"
 import ImageGalleryProvider from "../providers/image-gallery-provider"
 import HistoryProvider from "../providers/history-provider"
 import PostFormProvider from "../providers/post-form-provider"
+import HomePostsProvider from "../providers/home-posts-provider"
 
 export default async function Layout({
   children,
@@ -19,14 +20,16 @@ export default async function Layout({
     <SessionProvider>
       <HistoryProvider>
         <ImageGalleryProvider>
-          <PostFormProvider>
-            <div>
-              <SideBar />
-              <div className="max-w-[40rem] min-h-dvh pb-20 xl:pb-0 box-border sm:border-r sm:border-l m-auto border-border">
-                {children}
+          <HomePostsProvider>
+            <PostFormProvider>
+              <div>
+                <SideBar />
+                <div className="max-w-[40rem] min-h-dvh pb-20 xl:pb-0 box-border sm:border-r sm:border-l m-auto border-border">
+                  {children}
+                </div>
               </div>
-            </div>
-          </PostFormProvider>
+            </PostFormProvider>
+          </HomePostsProvider>
         </ImageGalleryProvider>
       </HistoryProvider>
     </SessionProvider>
