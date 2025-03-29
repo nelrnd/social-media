@@ -13,7 +13,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/app/ui/dropdown-menu"
-import { EllipsisHorizontalIcon, TrashIcon } from "@heroicons/react/24/outline"
+import {
+  EllipsisHorizontalIcon,
+  LinkIcon,
+  TrashIcon,
+} from "@heroicons/react/24/outline"
 import { Button } from "./buttons"
 import { forwardRef, useActionState, useRef, useState } from "react"
 import { deletePost } from "../lib/actions"
@@ -63,6 +67,7 @@ export default function PostMenu({ postId }: { postId: string }) {
           }
         }}
       >
+        <CopyPostLink postId={postId} />
         <DeletePost
           postId={postId}
           onSelect={handleDialogItemSelect}
@@ -115,5 +120,22 @@ function DeletePost({ postId, onSelect, onOpenChange }: DeletePostProps) {
         </form>
       </DialogFooter>
     </DialogItem>
+  )
+}
+
+function CopyPostLink({ postId }: { postId: string }) {
+  function handleCopy() {
+    const { origin } = new URL(document.URL)
+    const url = origin + "/post/" + postId
+    navigator.clipboard.writeText(url)
+  }
+
+  return (
+    <DropdownMenuItem>
+      <button className="flex items-center gap-2" onClick={handleCopy}>
+        <LinkIcon className="size-4" />
+        Copy link
+      </button>
+    </DropdownMenuItem>
   )
 }
