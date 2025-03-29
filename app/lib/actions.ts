@@ -225,6 +225,7 @@ export async function deletePost(
     prisma.like.deleteMany({
       where: { commentId: { in: post.comments.map((comment) => comment.id) } },
     }),
+    prisma.notification.deleteMany({ where: { postId } }),
   ])
 
   await prisma.post.delete({ where: { id: postId } })
