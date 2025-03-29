@@ -152,6 +152,9 @@ export async function fetchComments({
   if (sort === "old") {
     options.orderBy = { createdAt: "asc" }
   }
+  if (sort === "top") {
+    options.orderBy = [{ likes: { _count: "desc" } }, { createdAt: "desc" }]
+  }
   const comments = await prisma.comment.findMany({
     ...options,
     include: {
@@ -166,6 +169,7 @@ export async function fetchComments({
         },
       },
       likes: { select: { id: true, userId: true } },
+      _count: { select: { likes: true } },
     },
   })
   let hasMoreComments
