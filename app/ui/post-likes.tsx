@@ -58,7 +58,7 @@ export default function PostLikes({
 
         <div className="overflow-y-auto">
           {loading ? (
-            [...Array(count || 3).keys()].map((item) => (
+            [...Array(count || 1).keys()].map((item) => (
               <ProfileCardSkeleton key={item} />
             ))
           ) : profiles.length ? (

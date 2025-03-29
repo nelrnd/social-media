@@ -85,7 +85,7 @@ function FollowingDialog({
 
         <div className="overflow-y-auto">
           {loading ? (
-            [...Array(count || 3).keys()].map((item) => (
+            [...Array(count || 1).keys()].map((item) => (
               <ProfileCardSkeleton key={item} />
             ))
           ) : profiles.length ? (
@@ -170,7 +170,7 @@ function FollowersDialog({
 
         <div className="overflow-y-auto">
           {loading ? (
-            [...Array(count || 3).keys()].map((item) => (
+            [...Array(count || 1).keys()].map((item) => (
               <ProfileCardSkeleton key={item} />
             ))
           ) : profiles.length ? (
