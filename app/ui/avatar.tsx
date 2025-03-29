@@ -15,7 +15,7 @@ export default function Avatar({
   return (
     <div
       className={clsx(
-        "rounded-full overflow-hidden outline-1 outline-gray-50 relative",
+        "rounded-full overflow-hidden outline-1 outline-gray-50 relative aspect-square",
         {
           "w-12 h-12": size === "sm",
           "w-16 h-16": size === "md",

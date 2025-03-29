@@ -134,14 +134,14 @@ export default function ImageGalleryProvider({
 
           <button
             onClick={closeGallery}
-            className="fixed z-20 top-4 left-4 cursor-pointer size-12 bg-black hover:bg-gray-950 border border-gray-950 flex items-center justify-center rounded-full transition-colors"
+            className="fixed z-20 top-2 left-2 sm:top-4 sm:left-4 cursor-pointer size-12 bg-black hover:bg-gray-950 border border-gray-950 flex items-center justify-center rounded-full transition-colors"
           >
             <span className="sr-only">Close image</span>
             <XMarkIcon className="size-5 text-white" />
           </button>
 
           {currentImage && (
-            <main className="mx-24 my-32 flex-1 relative flex items-center justify-center">
+            <main className="mx-8 my-8 sm:mx-32 sm:my-32 flex-1 relative flex items-center justify-center">
               {asAvatar ? (
                 <Avatar
                   src={currentImage}
@@ -159,7 +159,7 @@ export default function ImageGalleryProvider({
           )}
 
           {images.length > 1 && (
-            <nav className="fixed z-20 w-full px-4 top-1/2 -translate-y-1/2 h-10 flex items-center justify-between pointer-events-none">
+            <nav className="fixed z-20 w-full px-2 sm:px-4 top-1/2 -translate-y-1/2 h-10 flex items-center justify-between pointer-events-none">
               <button
                 onClick={back}
                 className="pointer-events-auto cursor-pointer size-12 bg-black hover:bg-gray-950 border border-gray-950 flex items-center justify-center rounded-full transition-colors"
