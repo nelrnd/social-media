@@ -129,9 +129,24 @@ export async function fetchUserPosts(userId: string) {
   return posts
 }
 
-export async function fetchComments(postId: string) {
-  const comments = await prisma.comment.findMany({
+export async function fetchComments({
+  postId,
+  cursor,
+}: {
+  postId: string
+  cursor?: string
+}) {
+  const options: Prisma.CommentFindManyArgs = {
+    take: ITEMS_PER_FETCH,
     where: { postId },
+    orderBy: { createdAt: "desc" },
+  }
+  if (cursor) {
+    options.skip = 1
+    options.cursor = { id: cursor }
+  }
+  const comments = await prisma.comment.findMany({
+    ...options,
     include: {
       user: {
         select: {
@@ -145,9 +160,20 @@ export async function fetchComments(postId: string) {
       },
       likes: { select: { id: true, userId: true } },
     },
-    orderBy: { createdAt: "desc" },
   })
-  return comments
+  let hasMoreComments
+  if (comments.length < ITEMS_PER_FETCH) {
+    hasMoreComments = false
+  } else {
+    const lastCursor = comments.at(-1)?.id as string
+    const nextComment = await prisma.comment.findFirst({
+      ...options,
+      take: 1,
+      cursor: { id: lastCursor },
+    })
+    hasMoreComments = !!nextComment
+  }
+  return { comments, hasMoreComments }
 }
 
 export async function fetchLikes(postId: string) {
