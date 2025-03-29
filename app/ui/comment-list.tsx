@@ -5,6 +5,14 @@ import { CommentWithRelations } from "../lib/definitions"
 import { useInView } from "react-intersection-observer"
 import { useEffect, useState } from "react"
 import { fetchComments } from "../lib/data"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./select"
+import { Button } from "./buttons"
 
 export default function CommentList({
   initialComments,
@@ -43,7 +51,22 @@ export default function CommentList({
   }, [inView, hasMoreComments, comments, postId])
 
   return (
-    <div>
+    <div className="relative">
+      <div className="flex items-center gap-2 absolute top-[-3.125rem] right-0">
+        <label htmlFor="sort" className="text-sm text-soft">
+          Sort by:
+        </label>
+        <Select defaultValue="new">
+          <SelectTrigger className="w-[4.65rem]" id="sort">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent align="end">
+            <SelectItem value="new">New</SelectItem>
+            <SelectItem value="top">Top</SelectItem>
+            <SelectItem value="old">Old</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
       <div>
         {comments.map((comment) => (
           <Comment key={comment.id} comment={comment} />
