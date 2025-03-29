@@ -1,7 +1,6 @@
 import { fetchPosts } from "../lib/data"
 import Feed from "../ui/feed"
 import PageHeader from "../ui/page-header"
-import TabSwitcher from "../ui/tab-switcher"
 
 export default async function HomePage() {
   const { posts: initialPosts, hasMorePosts } = await fetchPosts({})
@@ -9,7 +8,6 @@ export default async function HomePage() {
   return (
     <main>
       <PageHeader title="Home" />
-      <TabSwitcher />
       <Feed
         withForm={true}
         initialPosts={initialPosts}

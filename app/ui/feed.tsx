@@ -7,6 +7,7 @@ import Post, { PostSkeleton } from "./post"
 import { PostWithRelations } from "../lib/definitions"
 import PostForm from "./post-form"
 import { usePostForm } from "../providers/post-form-provider"
+import TabSwitcher from "./tab-switcher"
 
 export default function Feed({
   initialPosts,
@@ -66,6 +67,7 @@ export default function Feed({
           <PostForm handleAdd={addPost} />
         </div>
       )}
+      <TabSwitcher />
       {posts.map((post) => (
         <Post key={post.id} post={post} />
       ))}
