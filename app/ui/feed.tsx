@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { fetchPosts } from "../lib/data"
 import { useInView } from "react-intersection-observer"
 import Post, { PostSkeleton } from "./post"
@@ -57,7 +57,7 @@ export default function Feed({
 
   useEffect(() => {
     setVisible(!formInView)
-  }, [formInView])
+  }, [formInView, setVisible])
 
   return (
     <div>

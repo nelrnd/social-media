@@ -11,7 +11,6 @@ import { DialogDescription } from "@radix-ui/react-dialog"
 import { useEffect, useState } from "react"
 import { fetchLikes } from "../lib/data"
 import ProfileCard, { ProfileCardSkeleton } from "./profile-card"
-import { Profile } from "@prisma/client"
 import clsx from "clsx"
 import { ProfileWithRelations } from "../lib/definitions"
 

@@ -1,11 +1,8 @@
 import {
-  Dialog,
-  DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/app/ui/dialog"
 import {
   DropdownMenu,
@@ -19,7 +16,7 @@ import {
   TrashIcon,
 } from "@heroicons/react/24/outline"
 import { Button } from "./buttons"
-import { forwardRef, useActionState, useRef, useState } from "react"
+import { useActionState, useRef, useState } from "react"
 import { deletePost } from "../lib/actions"
 import { usePathname } from "next/navigation"
 import DialogItem, { DialogItemProps } from "./dialog-item"

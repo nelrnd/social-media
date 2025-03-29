@@ -22,7 +22,9 @@ const DialogItem = forwardRef<HTMLDivElement, DialogItemProps>(
             ref={forwardedRef}
             onSelect={(event) => {
               event.preventDefault()
-              onSelect && onSelect()
+              if (onSelect) {
+                onSelect()
+              }
             }}
           >
             {triggerChildren}
@@ -33,5 +35,7 @@ const DialogItem = forwardRef<HTMLDivElement, DialogItemProps>(
     )
   }
 )
+
+DialogItem.displayName = "DialogItem"
 
 export default DialogItem

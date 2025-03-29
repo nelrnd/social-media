@@ -7,7 +7,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/app/ui/dialog"
-import { Prisma, Profile } from "@prisma/client"
+import { Prisma } from "@prisma/client"
 import { DialogDescription } from "@radix-ui/react-dialog"
 import { useEffect, useState } from "react"
 import { fetchFollowers, fetchFollowings } from "../lib/data"

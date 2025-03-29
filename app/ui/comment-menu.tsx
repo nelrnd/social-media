@@ -1,16 +1,12 @@
 import {
-  Dialog,
-  DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/app/ui/dialog"
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/app/ui/dropdown-menu"
 import { EllipsisHorizontalIcon, TrashIcon } from "@heroicons/react/24/outline"

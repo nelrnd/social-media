@@ -12,12 +12,13 @@ const PostFormContext = createContext<PostFormContextType>(
   {} as PostFormContextType
 )
 
+const disabledPathnames = ["/", "/settings/profile"]
+
 export default function PostFormProvider({
   children,
 }: {
   children: React.ReactNode
 }) {
-  const disabledPathnames = ["/", "/settings/profile"]
   const pathname = usePathname()
   const [visible, setVisible] = useState(
     !disabledPathnames.includes(pathname) && !pathname.startsWith("/post/")
