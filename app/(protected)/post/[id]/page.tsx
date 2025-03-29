@@ -11,7 +11,9 @@ export default async function PostPage({
 }) {
   const id = (await params).id
   const post = await fetchPostById(id)
-  const comments = await fetchComments(id)
+  const { comments: initialComments, hasMoreComments } = await fetchComments({
+    postId: id,
+  })
 
   if (!post) return null
 
@@ -27,7 +29,11 @@ export default async function PostPage({
 
         <div className="p-6 py-0 flex-1 flex flex-col">
           <div>
-            <CommentList comments={comments} />
+            <CommentList
+              initialComments={initialComments}
+              initialHasMoreComments={hasMoreComments}
+              postId={id}
+            />
           </div>
           <div className="-mx-6 mt-auto p-6 sticky sm:w-[calc(40rem_-_2px)] bottom-20 xl:bottom-0 border-t border-border backdrop-blur-md z-20">
             <CommentForm postId={post.id} />

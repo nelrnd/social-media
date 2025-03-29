@@ -74,7 +74,7 @@ export default function Feed({
         [...Array(3).keys()].map((item) => <PostSkeleton key={item} />)}
       {!hasMorePosts && (
         <div className="p-6 border-b border-border text-center text-soft">
-          {posts.length ? "You've reached the end" : "No posts for now"}
+          {posts.length ? "No more posts" : "No posts for now"}
         </div>
       )}
     </div>

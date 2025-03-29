@@ -64,3 +64,7 @@ export default function Comment({
     </div>
   )
 }
+
+export function CommentSkeleton() {
+  return <p>Comment skeleton</p>
+}
