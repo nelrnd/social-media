@@ -16,7 +16,7 @@ export default async function PostPage({
   if (!post) return null
 
   return (
-    <main className="relative min-h-screen flex flex-col">
+    <main className="relative min-h-[calc(100dvh-5rem)] xl:min-h-dvh flex flex-col">
       <div>
         <PageHeader title="Post" allowBack={true} />
         <Post post={post} />
@@ -29,7 +29,7 @@ export default async function PostPage({
           <div>
             <CommentList comments={comments} />
           </div>
-          <div className="-mx-6 mt-auto p-6 sticky sm:w-[calc(40rem_-_2px)] bottom-20 sm:bottom-0 border-t border-border backdrop-blur-md z-20">
+          <div className="-mx-6 mt-auto p-6 sticky sm:w-[calc(40rem_-_2px)] bottom-20 xl:bottom-0 border-t border-border backdrop-blur-md z-20">
             <CommentForm postId={post.id} />
             <div className="bg-background opacity-90 absolute inset-0 -z-10"></div>
           </div>

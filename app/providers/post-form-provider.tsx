@@ -19,10 +19,14 @@ export default function PostFormProvider({
 }) {
   const disabledPathnames = ["/", "/settings/profile"]
   const pathname = usePathname()
-  const [visible, setVisible] = useState(!disabledPathnames.includes(pathname))
+  const [visible, setVisible] = useState(
+    !disabledPathnames.includes(pathname) && !pathname.startsWith("/post/")
+  )
 
   useEffect(() => {
-    setVisible(!disabledPathnames.includes(pathname))
+    setVisible(
+      !disabledPathnames.includes(pathname) && !pathname.startsWith("/post/")
+    )
   }, [pathname])
 
   return (

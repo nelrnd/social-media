@@ -24,7 +24,7 @@ export default async function ProfilePage({
   })
 
   return (
-    <main className="min-h-screen">
+    <main>
       <PageHeader title={profile.name} allowBack={true} />
       <ProfileHeader
         profile={profile}

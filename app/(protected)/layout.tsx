@@ -4,7 +4,6 @@ import { redirect } from "next/navigation"
 import { SessionProvider } from "next-auth/react"
 import ImageGalleryProvider from "../providers/image-gallery-provider"
 import HistoryProvider from "../providers/history-provider"
-import { NewPostButton } from "../ui/buttons"
 import PostFormProvider from "../providers/post-form-provider"
 
 export default async function Layout({
@@ -23,7 +22,7 @@ export default async function Layout({
           <PostFormProvider>
             <div>
               <SideBar />
-              <div className="max-w-[40rem] sm:border-r sm:border-l m-auto border-border min-h-dvh pb-20 sm:pb-0">
+              <div className="max-w-[40rem] min-h-dvh pb-20 xl:pb-0 box-border sm:border-r sm:border-l m-auto border-border">
                 {children}
               </div>
             </div>
