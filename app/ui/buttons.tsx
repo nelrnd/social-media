@@ -2,7 +2,10 @@
 
 import { followProfile, likeComment, likePost } from "../lib/actions"
 import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid"
-import { HeartIcon as HeartIconOutline } from "@heroicons/react/24/outline"
+import {
+  HeartIcon as HeartIconOutline,
+  PlusIcon,
+} from "@heroicons/react/24/outline"
 import { ChatBubbleLeftIcon } from "@heroicons/react/24/outline"
 import { Prisma } from "@prisma/client"
 import { v4 as uuidv4 } from "uuid"
@@ -317,7 +320,10 @@ export function NewPostButton() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>New post</Button>
+        <Button>
+          <PlusIcon className="size-4 text-border" />
+          New post
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader className="mb-2">
