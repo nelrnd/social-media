@@ -11,7 +11,7 @@
     --accent: theme(colors.blue[700]);
     --accent-variant: theme(colors.blue[800]);
     --subtle: theme(colors.zinc[50]);
-    --subtle-foreground: theme(colors.zinc[100]);
+    --subtle-foreground: theme(colors.zinc[900]);
     --border: theme(colors.zinc[200]);
     --danger: theme(colors.red[500]);
   }
