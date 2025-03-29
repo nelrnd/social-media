@@ -22,6 +22,7 @@ import clsx from "clsx"
 import { LoaderCircleIcon } from "lucide-react"
 import { Skeleton } from "./skeleton"
 import { PostWithRelations } from "../lib/definitions"
+import PostForm from "./post-form"
 
 function ActionButton({
   children,
@@ -307,5 +308,24 @@ export function Button({
         />
       )}
     </button>
+  )
+}
+
+export function NewPostButton() {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button>New post</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader className="mb-2">
+          <DialogTitle className="sr-only">Create new post</DialogTitle>
+          <DialogDescription className="sr-only">
+            This form allows you to create a new post
+          </DialogDescription>
+        </DialogHeader>
+        <PostForm />
+      </DialogContent>
+    </Dialog>
   )
 }

@@ -62,7 +62,7 @@ export default function PostForm({
   }, [handleAdd, state])
 
   return (
-    <form action={action} className="p-6 border-b border-border space-y-2">
+    <form action={action} className="space-y-2">
       <textarea
         placeholder="What do you want to say?"
         className="w-full h-[4rem] outline-none bg-background"

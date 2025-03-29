@@ -51,7 +51,11 @@ export default function Feed({
 
   return (
     <div>
-      {withForm && <PostForm handleAdd={addPost} />}
+      {withForm && (
+        <div className="p-6 border-b border-border">
+          <PostForm handleAdd={addPost} />
+        </div>
+      )}
       {posts.map((post) => (
         <Post key={post.id} post={post} />
       ))}
