@@ -109,7 +109,6 @@ export async function fetchPostById(id: string) {
 }
 
 export async function fetchProfile(username: string) {
-  await new Promise((resolve) => setTimeout(resolve, 2000))
   const profile = await prisma.profile.findUnique({
     where: { username },
     include: { following: true, followers: true },

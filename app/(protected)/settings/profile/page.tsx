@@ -19,7 +19,7 @@ export default async function EditProfilePage() {
 
   return (
     <main>
-      <PageHeader title="Edit profile" />
+      <PageHeader title="Edit profile" allowBack={true} />
       <section className="p-4">
         <ProfileForm action={updateProfile} profile={profile} />
       </section>
