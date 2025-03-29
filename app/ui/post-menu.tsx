@@ -24,7 +24,13 @@ import { deletePost } from "../lib/actions"
 import { usePathname } from "next/navigation"
 import DialogItem, { DialogItemProps } from "./dialog-item"
 
-export default function PostMenu({ postId }: { postId: string }) {
+export default function PostMenu({
+  postId,
+  asAuthor,
+}: {
+  postId: string
+  asAuthor: boolean
+}) {
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [hasOpenDialog, setHasOpenDialog] = useState(false)
   const dropdownTriggerRef = useRef<HTMLButtonElement | null>(null)
@@ -68,11 +74,13 @@ export default function PostMenu({ postId }: { postId: string }) {
         }}
       >
         <CopyPostLink postId={postId} />
-        <DeletePost
-          postId={postId}
-          onSelect={handleDialogItemSelect}
-          onOpenChange={handleDialogItemOpenChange}
-        />
+        {asAuthor && (
+          <DeletePost
+            postId={postId}
+            onSelect={handleDialogItemSelect}
+            onOpenChange={handleDialogItemOpenChange}
+          />
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   )

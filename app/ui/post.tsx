@@ -104,7 +104,7 @@ export default function Post({ post }: { post: PostWithRelations }) {
         <Link href={`/post/${post.id}`} className="absolute inset-0 z-0"></Link>
       )}
 
-      {fromMe && <PostMenu postId={post.id} />}
+      <PostMenu postId={post.id} asAuthor={fromMe} />
     </article>
   )
 }
