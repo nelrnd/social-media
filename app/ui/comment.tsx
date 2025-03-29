@@ -60,7 +60,7 @@ export default function Comment({
         </footer>
       </div>
 
-      {fromMe && <CommentMenu commentId={comment.id} />}
+      <CommentMenu commentId={comment.id} asAuthor={fromMe} />
     </div>
   )
 }
