@@ -1,6 +1,6 @@
 "use client"
 
-import { createContext, useContext, useState } from "react"
+import { createContext, useContext, useEffect, useState } from "react"
 import { NewPostButton } from "../ui/buttons"
 import { usePathname } from "next/navigation"
 
@@ -17,8 +17,13 @@ export default function PostFormProvider({
 }: {
   children: React.ReactNode
 }) {
+  const disabledPathnames = ["/", "/settings/profile"]
   const pathname = usePathname()
-  const [visible, setVisible] = useState(!(pathname === "/"))
+  const [visible, setVisible] = useState(!disabledPathnames.includes(pathname))
+
+  useEffect(() => {
+    setVisible(!disabledPathnames.includes(pathname))
+  }, [pathname])
 
   return (
     <PostFormContext.Provider value={{ setVisible }}>

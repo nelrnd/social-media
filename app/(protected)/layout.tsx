@@ -23,7 +23,7 @@ export default async function Layout({
           <PostFormProvider>
             <div>
               <SideBar />
-              <div className="max-w-[40rem] sm:border-r sm:border-l m-auto border-border min-h-screen pb-20 sm:pb-0">
+              <div className="max-w-[40rem] sm:border-r sm:border-l m-auto border-border min-h-dvh pb-20 sm:pb-0">
                 {children}
               </div>
             </div>

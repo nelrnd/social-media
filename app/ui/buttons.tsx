@@ -324,8 +324,9 @@ export function NewPostButton() {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button>
-          <PlusIcon className="size-4 text-subtle-foreground" />
-          New post
+          <PlusIcon className="size-4 text-background dark:text-foreground -ml-1" />
+          <span className="sm:hidden">New</span>
+          <span className="hidden sm:inline">New post</span>
         </Button>
       </DialogTrigger>
       <DialogContent>
