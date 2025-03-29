@@ -132,18 +132,25 @@ export async function fetchUserPosts(userId: string) {
 export async function fetchComments({
   postId,
   cursor,
+  sort = "new",
 }: {
   postId: string
   cursor?: string
+  sort?: "new" | "top" | "old"
 }) {
   const options: Prisma.CommentFindManyArgs = {
     take: ITEMS_PER_FETCH,
     where: { postId },
-    orderBy: { createdAt: "desc" },
   }
   if (cursor) {
     options.skip = 1
     options.cursor = { id: cursor }
+  }
+  if (sort === "new") {
+    options.orderBy = { createdAt: "desc" }
+  }
+  if (sort === "old") {
+    options.orderBy = { createdAt: "asc" }
   }
   const comments = await prisma.comment.findMany({
     ...options,

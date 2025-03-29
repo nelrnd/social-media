@@ -12,7 +12,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./select"
-import { Button } from "./buttons"
 
 export default function CommentList({
   initialComments,
@@ -56,7 +55,20 @@ export default function CommentList({
         <label htmlFor="sort" className="text-sm text-soft">
           Sort by:
         </label>
-        <Select defaultValue="new">
+        <Select
+          defaultValue="new"
+          onValueChange={async (value: string) => {
+            setIsLoading(true)
+            setComments([])
+            const { comments, hasMoreComments } = await fetchComments({
+              postId,
+              sort: value as any,
+            })
+            setComments(comments)
+            setHasMoreComments(hasMoreComments)
+            setIsLoading(false)
+          }}
+        >
           <SelectTrigger className="w-[4.65rem]" id="sort">
             <SelectValue />
           </SelectTrigger>
@@ -75,7 +87,7 @@ export default function CommentList({
       <div ref={ref} className="h-[1px]" />
       {isLoading &&
         [...Array(3).keys()].map((item) => <CommentSkeleton key={item} />)}
-      {!hasMoreComments && comments.length === 0 && (
+      {!hasMoreComments && comments.length === 0 && !isLoading && (
         <div className="p-6 text-center text-soft">No comments for now</div>
       )}
     </div>
