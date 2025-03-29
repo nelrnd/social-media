@@ -27,7 +27,7 @@ export default function ProfileHeader({
       <div className="flex items-center gap-6">
         {profile.imageUrl ? (
           <button
-            className="rounded-full"
+            className="w-fit h-fit rounded-full hover:brightness-90 transition-all"
             onClick={() =>
               openGallery({
                 images: [profile.imageUrl as string],
