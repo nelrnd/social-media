@@ -20,7 +20,10 @@ export default function Feed({
   withForm?: boolean
 }) {
   const [bottom, bottomInView] = useInView()
-  const [form, formInView] = useInView()
+  const [form, formInView] = useInView({
+    threshold: 0.3,
+    initialInView: withForm,
+  })
   const [posts, setPosts] = useState(initialPosts)
   const [hasMorePosts, setHasMorePosts] = useState(initialHasMorePosts)
   const [isLoading, setIsLoading] = useState(bottomInView && hasMorePosts)
