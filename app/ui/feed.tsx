@@ -1,11 +1,12 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { fetchPosts } from "../lib/data"
 import { useInView } from "react-intersection-observer"
 import Post, { PostSkeleton } from "./post"
 import { PostWithRelations } from "../lib/definitions"
 import PostForm from "./post-form"
+import { usePostForm } from "../providers/post-form-provider"
 
 export default function Feed({
   initialPosts,
@@ -18,10 +19,12 @@ export default function Feed({
   userId?: string
   withForm?: boolean
 }) {
-  const { ref, inView } = useInView()
+  const [bottom, bottomInView] = useInView()
+  const [form, formInView] = useInView()
   const [posts, setPosts] = useState(initialPosts)
   const [hasMorePosts, setHasMorePosts] = useState(initialHasMorePosts)
-  const [isLoading, setIsLoading] = useState(inView && hasMorePosts)
+  const [isLoading, setIsLoading] = useState(bottomInView && hasMorePosts)
+  const { setVisible } = usePostForm()
 
   function addPost(post: PostWithRelations) {
     setPosts((prevPosts) => [post, ...prevPosts])
@@ -29,7 +32,7 @@ export default function Feed({
 
   useEffect(() => {
     let ignore = false
-    if (inView && hasMorePosts) {
+    if (bottomInView && hasMorePosts) {
       ;(async () => {
         const cursor = posts.at(-1)?.id
         setIsLoading(true)
@@ -47,19 +50,23 @@ export default function Feed({
     return () => {
       ignore = true
     }
-  }, [inView, hasMorePosts, posts, userId])
+  }, [bottomInView, hasMorePosts, posts, userId])
+
+  useEffect(() => {
+    setVisible(!formInView)
+  }, [formInView])
 
   return (
     <div>
       {withForm && (
-        <div className="p-6 border-b border-border">
+        <div className="p-6 border-b border-border" ref={form}>
           <PostForm handleAdd={addPost} />
         </div>
       )}
       {posts.map((post) => (
         <Post key={post.id} post={post} />
       ))}
-      <div ref={ref} className="h-[1px]" />
+      <div ref={bottom} className="h-[1px]" />
       {isLoading &&
         [...Array(3).keys()].map((item) => <PostSkeleton key={item} />)}
       {!hasMorePosts && (
