@@ -153,7 +153,26 @@ export async function fetchComments(postId: string) {
 export async function fetchLikes(postId: string) {
   const likes = await prisma.like.findMany({
     where: { postId },
-    include: { user: { select: { profile: true } } },
+    include: {
+      user: {
+        select: {
+          profile: {
+            include: {
+              followers: {
+                select: {
+                  id: true,
+                },
+              },
+              following: {
+                select: {
+                  id: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
     orderBy: { createdAt: "desc" },
   })
   return likes
@@ -170,7 +189,22 @@ export async function fetchIsFollowing(profileId: string) {
 export async function fetchFollowings(profileId: string) {
   const followings = await prisma.follow.findMany({
     where: { followerId: profileId },
-    include: { following: true },
+    include: {
+      following: {
+        include: {
+          followers: {
+            select: {
+              id: true,
+            },
+          },
+          following: {
+            select: {
+              id: true,
+            },
+          },
+        },
+      },
+    },
     orderBy: { createdAt: "desc" },
   })
   return followings
@@ -179,7 +213,22 @@ export async function fetchFollowings(profileId: string) {
 export async function fetchFollowers(profileId: string) {
   const followers = await prisma.follow.findMany({
     where: { followingId: profileId },
-    include: { follower: true },
+    include: {
+      follower: {
+        include: {
+          followers: {
+            select: {
+              id: true,
+            },
+          },
+          following: {
+            select: {
+              id: true,
+            },
+          },
+        },
+      },
+    },
     orderBy: { createdAt: "desc" },
   })
   return followers

@@ -34,3 +34,18 @@ export type CommentWithRelations = Prisma.CommentGetPayload<{
     likes: { select: { id: true; userId: true } }
   }
 }>
+
+export type ProfileWithRelations = Prisma.ProfileGetPayload<{
+  include: {
+    followers: {
+      select: {
+        id: true
+      }
+    }
+    following: {
+      select: {
+        id: true
+      }
+    }
+  }
+}>

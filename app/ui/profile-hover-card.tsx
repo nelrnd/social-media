@@ -10,6 +10,7 @@ import { spaceMono } from "../fonts"
 
 export default function ProfileHoverCard({
   profile,
+  withLink = true,
   children,
 }: {
   profile: Prisma.ProfileGetPayload<{
@@ -18,6 +19,7 @@ export default function ProfileHoverCard({
       following: { select: { id: true } }
     }
   }>
+  withLink?: boolean
   children: React.ReactNode
 }) {
   return (
@@ -52,10 +54,12 @@ export default function ProfileHoverCard({
           </div>
         </div>
 
-        <Link
-          href={`/profile/${profile.username}`}
-          className="absolute inset-0"
-        ></Link>
+        {withLink && (
+          <Link
+            href={`/profile/${profile.username}`}
+            className="absolute inset-0"
+          ></Link>
+        )}
       </HoverCardContent>
     </HoverCard>
   )

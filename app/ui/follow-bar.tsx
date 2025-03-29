@@ -14,6 +14,7 @@ import { fetchFollowers, fetchFollowings } from "../lib/data"
 import ProfileCard, { ProfileCardSkeleton } from "./profile-card"
 import { spaceMono } from "../fonts"
 import clsx from "clsx"
+import { ProfileWithRelations } from "../lib/definitions"
 
 export default function FollowBar({
   profile,
@@ -51,7 +52,7 @@ function FollowingDialog({
   username: string
 }) {
   const [open, setOpen] = useState(false)
-  const [profiles, setProfiles] = useState<Profile[]>([])
+  const [profiles, setProfiles] = useState<ProfileWithRelations[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -82,7 +83,7 @@ function FollowingDialog({
           </DialogDescription>
         </DialogHeader>
 
-        <div>
+        <div className="overflow-y-auto">
           {loading ? (
             [...Array(count || 3).keys()].map((item) => (
               <ProfileCardSkeleton key={item} />
@@ -112,7 +113,7 @@ function FollowersDialog({
   isFollowing?: boolean
 }) {
   const [open, setOpen] = useState(false)
-  const [profiles, setProfiles] = useState<Profile[]>([])
+  const [profiles, setProfiles] = useState<ProfileWithRelations[]>([])
   const [loading, setLoading] = useState(true)
 
   const prevCount = isFollowing ? count - 1 : count + 1
@@ -167,7 +168,7 @@ function FollowersDialog({
           </DialogDescription>
         </DialogHeader>
 
-        <div>
+        <div className="overflow-y-auto">
           {loading ? (
             [...Array(count || 3).keys()].map((item) => (
               <ProfileCardSkeleton key={item} />

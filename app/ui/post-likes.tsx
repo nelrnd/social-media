@@ -13,6 +13,7 @@ import { fetchLikes } from "../lib/data"
 import ProfileCard, { ProfileCardSkeleton } from "./profile-card"
 import { Profile } from "@prisma/client"
 import clsx from "clsx"
+import { ProfileWithRelations } from "../lib/definitions"
 
 export default function PostLikes({
   postId,
@@ -24,7 +25,7 @@ export default function PostLikes({
   className?: string
 }) {
   const [open, setOpen] = useState(false)
-  const [profiles, setProfiles] = useState<Profile[]>([])
+  const [profiles, setProfiles] = useState<ProfileWithRelations[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -32,7 +33,9 @@ export default function PostLikes({
       async function fetch() {
         setLoading(true)
         const likes = await fetchLikes(postId)
-        const profiles = likes.map((like) => like.user.profile) as Profile[]
+        const profiles = likes.map(
+          (like) => like.user.profile
+        ) as ProfileWithRelations[]
         setProfiles(profiles)
         setLoading(false)
       }
@@ -53,7 +56,7 @@ export default function PostLikes({
           </DialogDescription>
         </DialogHeader>
 
-        <div>
+        <div className="overflow-y-auto">
           {loading ? (
             [...Array(count || 3).keys()].map((item) => (
               <ProfileCardSkeleton key={item} />
