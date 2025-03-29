@@ -127,7 +127,7 @@ export function CommentButton({
   const [animating, setAnimating] = useState(false)
 
   const commentCount = comments.length
-  const prevCommentCount = commentCount - 1
+  const prevCommentCount = Math.abs(commentCount - 1)
 
   function animate() {
     setAnimating(true)
