@@ -8,6 +8,7 @@ import { useSession } from "next-auth/react"
 import CommentMenu from "./comment-menu"
 import { CommentWithRelations } from "../lib/definitions"
 import ProfileHoverCard from "./profile-hover-card"
+import { Skeleton } from "./skeleton"
 
 export default function Comment({
   comment,
@@ -66,5 +67,25 @@ export default function Comment({
 }
 
 export function CommentSkeleton() {
-  return <p>Comment skeleton</p>
+  return (
+    <div className="py-6 border-b border-subtle last:border-b-0 grid grid-cols-[auto_1fr] gap-4 relative">
+      <Skeleton className="size-12 rounded-full" />
+
+      <div>
+        <header className="flex items-center gap-2">
+          <Skeleton className="h-4 my-1 w-[3rem]" />
+          <Skeleton className="h-4 my-1 w-[3rem]" />
+          <Skeleton className="h-4 my-1 w-[2.5rem]" />
+        </header>
+
+        <section className="mb-2">
+          <Skeleton className="h-5 my-1 w-[8rem]" />
+        </section>
+
+        <footer>
+          <Skeleton className="w-[4.125rem] h-[2.375rem] rounded-full" />
+        </footer>
+      </div>
+    </div>
+  )
 }
