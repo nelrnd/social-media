@@ -312,8 +312,10 @@ export function Button({
 }
 
 export function NewPostButton() {
+  const [open, setOpen] = useState(false)
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button>New post</Button>
       </DialogTrigger>
@@ -324,7 +326,7 @@ export function NewPostButton() {
             This form allows you to create a new post
           </DialogDescription>
         </DialogHeader>
-        <PostForm />
+        <PostForm handleAdd={() => setOpen(false)} />
       </DialogContent>
     </Dialog>
   )
