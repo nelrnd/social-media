@@ -87,14 +87,15 @@ export function ProfileHeaderSkeleton() {
   return (
     <header className="p-6 space-y-4 border-b border-border">
       <div className="flex items-center gap-6">
-        <Skeleton className="size-32 min-w-32 rounded-full" />
+        <Skeleton className="size-24 sm:size-32 min-w-32 rounded-full" />
         <div className="flex-1 space-y-2">
           <Skeleton className="h-9 w-[200px] max-w-full" />
           <Skeleton className="h-4 w-[100px]" />
         </div>
-        <Skeleton className="h-10 w-24 ml-auto" />
+        <Skeleton className="h-[3.125rem] w-24 ml-auto hidden sm:block" />
       </div>
       <Skeleton className="h-6 w-[150px]" />
+      <Skeleton className="h-[3.125rem] w-full sm:hidden" />
       <div className="flex items-center gap-8">
         <Skeleton className="h-6 w-[84px]" />
         <Skeleton className="h-6 w-[84px]" />
