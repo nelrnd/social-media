@@ -3,6 +3,7 @@
 import { useActionState, useEffect } from "react"
 import { CommentFormState, commentPost } from "../lib/actions"
 import { Button } from "./buttons"
+import { usePathname } from "next/navigation"
 
 export default function CommentForm({
   postId,
@@ -20,6 +21,7 @@ export default function CommentForm({
     commentPost,
     initialState
   )
+  const pathname = usePathname()
 
   useEffect(() => {
     if (cb && state.comment) {
@@ -37,6 +39,7 @@ export default function CommentForm({
         spellCheck="false"
       ></textarea>
       <input type="hidden" name="postId" value={postId} />
+      <input type="hidden" name="currentPath" value={pathname} />
       <div aria-live="polite" aria-atomic="true">
         {state?.message && <p className="text-danger">{state.message}</p>}
       </div>

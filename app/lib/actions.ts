@@ -435,6 +435,7 @@ export type CommentFormState = {
 const CommentFormSchema = z.object({
   content: z.string().min(1, "Your comment cannot be empty"),
   postId: z.string().min(1, "Post id is required"),
+  currentPath: z.string(),
 })
 
 export async function commentPost(
@@ -444,6 +445,7 @@ export async function commentPost(
   const validatedFields = CommentFormSchema.safeParse({
     content: formData.get("content"),
     postId: formData.get("postId"),
+    currentPath: formData.get("currentPath"),
   })
 
   if (!validatedFields.success) {
@@ -457,7 +459,7 @@ export async function commentPost(
     return { message: "User must be logged in", success: false }
   }
 
-  const { content, postId } = validatedFields.data
+  const { content, postId, currentPath } = validatedFields.data
 
   const comment = await prisma.comment.create({
     data: { content, userId, postId },
@@ -469,8 +471,12 @@ export async function commentPost(
     postId,
     commentId: comment.id,
   })
-  revalidatePath("/")
-  return { message: "", success: true, comment }
+  revalidatePath("/post/" + postId)
+  if (currentPath === "/post/" + postId) {
+    redirect("/post/" + postId)
+  } else {
+    return { message: "", success: true, comment }
+  }
 }
 
 export async function deleteComment(
