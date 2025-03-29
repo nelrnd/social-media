@@ -23,22 +23,6 @@ import { LoaderCircleIcon } from "lucide-react"
 import { Skeleton } from "./skeleton"
 import { PostWithRelations } from "../lib/definitions"
 
-export function Press({
-  children,
-  light = false,
-}: {
-  children: React.ReactNode
-  light?: boolean
-}) {
-  return (
-    <div
-      className={`cursor-pointer ${light ? "active:scale-95" : "active:scale-90"} transition-transform will-change-transform relative z-10`}
-    >
-      {children}
-    </div>
-  )
-}
-
 function ActionButton({
   children,
   ...props
@@ -46,14 +30,12 @@ function ActionButton({
   children: React.ReactNode
 } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
-    <Press>
-      <button
-        className={`${spaceMono.className} text-sm py-2 px-4 rounded-full flex items-center gap-2 w-fit bg-background border border-border hover:bg-subtle disabled:opacity-50 transition-colors relative z-10`}
-        {...props}
-      >
-        {children}
-      </button>
-    </Press>
+    <button
+      className={`${spaceMono.className} text-sm py-2 px-4 rounded-full flex items-center gap-2 w-fit bg-background border border-border hover:bg-subtle disabled:opacity-50 transition-all relative z-10 press`}
+      {...props}
+    >
+      {children}
+    </button>
   )
 }
 
@@ -295,37 +277,35 @@ export function Button({
   isLoading?: boolean
 } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
-    <Press light={true}>
-      <button
+    <button
+      className={clsx(
+        "w-fit h-[3.125rem] py-3 px-6 flex items-center gap-4 justify-center  disabled:opacity-50 transition-all rounded-sm relative press",
+        {
+          "text-background dark:text-foreground bg-accent hover:bg-accent-variant":
+            variant === "default",
+          "bg-background border border-border hover:bg-subtle":
+            variant === "secondary",
+          "bg-red-600 text-white hover:bg-red-700": variant === "danger",
+        },
+        className
+      )}
+      disabled={isLoading || props.disabled}
+      {...props}
+    >
+      <div
         className={clsx(
-          "w-fit h-[3.125rem] py-3 px-6 flex items-center gap-4 justify-center  disabled:opacity-50 transition-all rounded-sm relative",
-          {
-            "text-background dark:text-foreground bg-accent hover:bg-accent-variant":
-              variant === "default",
-            "bg-background border border-border hover:bg-subtle":
-              variant === "secondary",
-            "bg-red-600 text-white hover:bg-red-700": variant === "danger",
-          },
-          className
+          "flex items-center justify-center gap-3",
+          isLoading && "invisible"
         )}
-        disabled={isLoading || props.disabled}
-        {...props}
       >
-        <div
-          className={clsx(
-            "flex items-center justify-center gap-3",
-            isLoading && "invisible"
-          )}
-        >
-          {children}
-        </div>
-        {isLoading && (
-          <LoaderCircleIcon
-            className="size-4 animate-spin absolute object-center"
-            aria-label="Loading"
-          />
-        )}
-      </button>
-    </Press>
+        {children}
+      </div>
+      {isLoading && (
+        <LoaderCircleIcon
+          className="size-4 animate-spin absolute object-center"
+          aria-label="Loading"
+        />
+      )}
+    </button>
   )
 }

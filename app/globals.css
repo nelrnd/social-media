@@ -29,6 +29,12 @@
   }
 }
 
+@layer components {
+  .press {
+    @apply scale-100 active:scale-95 will-change-transform;
+  }
+}
+
 html,
 body {
   height: 100%;
