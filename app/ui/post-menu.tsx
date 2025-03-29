@@ -108,7 +108,7 @@ function DeletePost({ postId, onSelect, onOpenChange }: DeletePostProps) {
           Do you really want to delete post? This action cannot be undone.
         </DialogDescription>
       </DialogHeader>
-      <DialogFooter>
+      <DialogFooter className="mt-4">
         <form action={action}>
           <input type="hidden" name="postId" value={postId} />
           <input
@@ -116,10 +116,7 @@ function DeletePost({ postId, onSelect, onOpenChange }: DeletePostProps) {
             name="redirectTo"
             value={pathname.startsWith("/post") ? "/" : pathname}
           />
-          <Button
-            isLoading={isPending}
-            className="bg-red-500 hover:bg-red-600 outline-none ring-red-200 focus:ring-2 ring-offset-2"
-          >
+          <Button isLoading={isPending} variant="danger">
             Delete
           </Button>
         </form>

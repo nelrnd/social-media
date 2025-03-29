@@ -1,6 +1,6 @@
 "use server"
 
-import { auth, signIn } from "@/auth"
+import { auth, signIn, signOut } from "@/auth"
 import { AuthError } from "next-auth"
 import { prisma } from "@/app/lib/prisma"
 import bcrypt from "bcrypt"
@@ -601,5 +601,6 @@ export async function deleteUser() {
   await prisma.profile.delete({ where: { userId } })
   await prisma.user.delete({ where: { id: userId } })
 
+  await signOut()
   redirect("/")
 }

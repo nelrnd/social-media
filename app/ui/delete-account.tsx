@@ -5,6 +5,7 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -29,12 +30,14 @@ export default function DeleteAccount({
             This action cannot be undone. This will permanently delete your
             account and remove your data from our servers.
           </DialogDescription>
+        </DialogHeader>
+        <DialogFooter className="mt-4">
           <form action={action}>
             <Button variant="danger" isLoading={isPending}>
               Confirm
             </Button>
           </form>
-        </DialogHeader>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   )
