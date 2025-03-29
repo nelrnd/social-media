@@ -20,7 +20,7 @@ export default function Avatar({
           "w-12 h-12": size === "sm",
           "w-16 h-16": size === "md",
           "w-24 h-24": size === "lg",
-          "w-32 h-32": size === "xl" || !size,
+          "w-24 h-24 sm:w-32 sm:h-32": size === "xl" || !size,
         },
         className
       )}

@@ -25,28 +25,30 @@ export default function ProfileHeader({
   return (
     <header className="p-6 space-y-4 border-b border-border">
       <div className="flex items-center gap-6">
-        {profile.imageUrl ? (
-          <button
-            className="w-fit h-fit rounded-full hover:brightness-90 transition-all"
-            onClick={() =>
-              openGallery({
-                images: [profile.imageUrl as string],
-                isAvatar: true,
-              })
-            }
-          >
+        <div className="shrink-0">
+          {profile.imageUrl ? (
+            <button
+              className="w-fit h-fit rounded-full hover:brightness-90 transition-all"
+              onClick={() =>
+                openGallery({
+                  images: [profile.imageUrl as string],
+                  isAvatar: true,
+                })
+              }
+            >
+              <Avatar src={profile.imageUrl} size="xl" />
+            </button>
+          ) : (
             <Avatar src={profile.imageUrl} size="xl" />
-          </button>
-        ) : (
-          <Avatar src={profile.imageUrl} size="xl" />
-        )}
+          )}
+        </div>
 
         <div className="flex-1">
-          <h1 className="text-4xl font-bold">{profile?.name}</h1>
+          <h1 className="text-2xl sm:text-4xl font-bold">{profile?.name}</h1>
           <p className="text-soft">{profile?.username}</p>
         </div>
 
-        <div className="w-fit">
+        <div className="w-fit hidden sm:block">
           {sameUser ? (
             <Link
               href="/settings/profile"
@@ -60,6 +62,22 @@ export default function ProfileHeader({
         </div>
       </div>
       <p>{profile?.bio}</p>
+      <div className="w-full sm:hidden">
+        {sameUser ? (
+          <Link
+            href="/settings/profile"
+            className="w-full h-[3.125rem] py-3 px-6 flex items-center gap-4 justify-center  disabled:opacity-50 transition-all rounded-sm relative bg-background border border-border hover:bg-subtle"
+          >
+            Edit
+          </Link>
+        ) : (
+          <FollowButton
+            profileId={profile.id}
+            isFollowing={isFollowing}
+            className="w-full"
+          />
+        )}
+      </div>
       <FollowBar profile={profile} isFollowing={isFollowing} />
     </header>
   )

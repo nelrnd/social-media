@@ -254,14 +254,17 @@ export function LikeCommentButton({
 export function FollowButton({
   profileId,
   isFollowing,
+  className,
 }: {
   profileId: string
   isFollowing: boolean
+  className?: string
 }) {
   return (
     <Button
       onClick={() => followProfile(profileId)}
       variant={isFollowing ? "secondary" : "default"}
+      className={className}
     >
       {!isFollowing ? "Follow" : "Unfollow"}
     </Button>
