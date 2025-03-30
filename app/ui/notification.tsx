@@ -2,6 +2,7 @@ import { NotificationType, Prisma } from "@prisma/client"
 import Link from "next/link"
 import Avatar from "./avatar"
 import { PostMinimized } from "./post"
+import { Skeleton } from "./skeleton"
 
 export default function Notification({
   notification,
@@ -50,4 +51,21 @@ function getText(notificationType: NotificationType) {
     default:
       break
   }
+}
+
+export function NotificationSkeleton() {
+  return (
+    <div className="p-6 border-b border-border grid grid-cols-[auto_1fr] gap-4">
+      <Skeleton className="size-12 rounded-full" />
+      <div className="mt-2.5 space-y-2.5">
+        <div>
+          <Skeleton className="h-4 my-1 w-[6rem]" />
+        </div>
+
+        {!!Math.round(Math.random()) && (
+          <Skeleton className="h-[5.125rem] w-full rounded-md" />
+        )}
+      </div>
+    </div>
+  )
 }
