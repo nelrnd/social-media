@@ -7,12 +7,14 @@ import {
   Cog6ToothIcon as Cog6ToothIconOutline,
   HomeIcon as HomeIconOutline,
   UserIcon as UserIconOutline,
+  MagnifyingGlassIcon as SearchIconOutline,
 } from "@heroicons/react/24/outline"
 import {
   BellIcon as BellIconSolid,
   Cog6ToothIcon as Cog6ToothIconSolid,
   HomeIcon as HomeIconSolid,
   UserIcon as UserIconSolid,
+  MagnifyingGlassIcon as SearchIconSolid,
 } from "@heroicons/react/24/solid"
 import { usePathname } from "next/navigation"
 import clsx from "clsx"
@@ -44,6 +46,14 @@ export default function NavLinks({ username }: { username?: string }) {
         active: <BellIconSolid />,
       },
       count,
+    },
+    {
+      href: "/search",
+      text: "Search",
+      icons: {
+        default: <SearchIconSolid />,
+        active: <SearchIconOutline />,
+      },
     },
     {
       href: `/profile/${username}`,
@@ -82,7 +92,12 @@ export default function NavLinks({ username }: { username?: string }) {
                 )}
                 {React.cloneElement(
                   isActive ? link.icons.active : link.icons.default,
-                  { className: "size-6" }
+                  {
+                    className:
+                      link.href === "/search" && isActive
+                        ? "size-6 stroke-[3]"
+                        : "size-6",
+                  }
                 )}
               </div>
               <span className="sr-only xl:not-sr-only">{link.text}</span>
