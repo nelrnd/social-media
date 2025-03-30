@@ -49,10 +49,14 @@ export default function HomePostsProvider({
 
   async function loadMore() {
     const currentCopy = { ...current }
+    const currentFeedMode = feedMode
     if (currentCopy.hasMore && !currentCopy.loading) {
       const cursor = currentCopy.posts.at(-1)?.id
       current.setLoading(true)
-      const { posts: newPosts, hasMorePosts } = await fetchPosts({ cursor })
+      const { posts: newPosts, hasMorePosts } = await fetchPosts({
+        cursor,
+        fromFollowing: currentFeedMode === "following",
+      })
       current.setPosts((prevPosts) => [...prevPosts, ...newPosts])
       current.setHasMore(hasMorePosts)
       current.setLoading(false)

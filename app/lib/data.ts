@@ -21,9 +21,11 @@ export async function getUserData() {
 export async function fetchPosts({
   cursor,
   userId,
+  fromFollowing = false,
 }: {
   cursor?: string
   userId?: string
+  fromFollowing?: boolean
 }) {
   const options: Prisma.PostFindManyArgs = {
     take: ITEMS_PER_FETCH,
@@ -35,6 +37,18 @@ export async function fetchPosts({
   }
   if (userId) {
     options.where = { userId }
+  }
+  if (fromFollowing) {
+    const { userId, profileId } = await getUserData()
+    const followings = await prisma.follow.findMany({
+      where: { followerId: profileId },
+      select: { following: { select: { user: { select: { id: true } } } } },
+    })
+    const followingIds = [
+      ...followings.map((follow) => follow.following.user.id),
+      userId,
+    ]
+    options.where = { userId: { in: followingIds } }
   }
   const posts = await prisma.post.findMany({
     ...options,
