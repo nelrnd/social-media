@@ -29,6 +29,7 @@ export default function Search({ placeholder }: { placeholder: string }) {
         placeholder={placeholder}
         onChange={(e) => handleSearch(e.target.value)}
         defaultValue={searchParams.get("query")?.toString()}
+        spellCheck={false}
       />
       <MagnifyingGlassIcon className="absolute left-3 top-1/2 size-6 h-[18px] w-[18px] -translate-y-1/2 text-soft peer-focus:text-foreground pointer-events-none" />
     </div>
