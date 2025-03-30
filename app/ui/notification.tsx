@@ -37,12 +37,19 @@ export default function Notification({
     return null
   }
 
+  let href
+  if (notification.type === "FOLLOW") {
+    href = "/profile/" + notification.from.profile.username
+  } else {
+    href = "/post/" + notification.postId
+  }
+
   return (
-    <div className="p-6 border-b border-border grid grid-cols-[auto_1fr] gap-4">
+    <div className="p-6 border-b border-border grid grid-cols-[auto_1fr] gap-4 relative hover:bg-subtle transition-colors">
       <ProfileHoverCard profile={notification.from.profile}>
         <Link
           href={`/profile/${notification.from.profile?.username}`}
-          className="w-fit h-fit"
+          className="w-fit h-fit relative z-10"
         >
           <Avatar src={notification.from.profile?.imageUrl} size="sm" />
         </Link>
@@ -52,7 +59,7 @@ export default function Notification({
           <ProfileHoverCard profile={notification.from.profile}>
             <Link
               href={`/profile/${notification.from.profile?.username}`}
-              className="font-bold hover:underline"
+              className="font-bold relative z-10 hover:underline"
             >
               {notification.from.profile?.name}
             </Link>
@@ -67,6 +74,8 @@ export default function Notification({
           <p>{notification.comment.content}</p>
         )}
       </div>
+
+      <Link href={href} className="absolute inset-0 z-0" />
     </div>
   )
 }
