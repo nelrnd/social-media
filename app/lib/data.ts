@@ -6,6 +6,8 @@ import { Prisma } from "@prisma/client"
 
 const ITEMS_PER_FETCH = 8
 
+// await new Promise((resolve) => setTimeout(resolve, 2000))
+
 export async function getUserData() {
   const session = await auth()
   const userId = session?.user.id

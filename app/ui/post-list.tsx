@@ -4,6 +4,8 @@ import { useInView } from "react-intersection-observer"
 import { useHomePosts } from "../providers/home-posts-provider"
 import Post, { PostSkeleton } from "./post"
 import { useEffect } from "react"
+import TabSwitcher from "./tab-switcher"
+import { useSession } from "next-auth/react"
 
 export function HomePostList() {
   const { posts, hasMore, loading, loadMore } = useHomePosts()
@@ -17,6 +19,7 @@ export function HomePostList() {
 
   return (
     <div>
+      <TabSwitcher />
       {posts.slice(0, -1).map((post) => (
         <Post key={post.id} post={post} />
       ))}
