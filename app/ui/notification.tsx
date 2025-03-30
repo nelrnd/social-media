@@ -4,34 +4,12 @@ import Avatar from "./avatar"
 import { PostMinimized } from "./post"
 import { Skeleton } from "./skeleton"
 import ProfileHoverCard from "./profile-hover-card"
+import { NotificationWithRelations } from "../lib/definitions"
 
 export default function Notification({
   notification,
 }: {
-  notification: Prisma.NotificationGetPayload<{
-    include: {
-      from: {
-        select: {
-          profile: {
-            include: {
-              followers: {
-                select: {
-                  id: true
-                }
-              }
-              following: {
-                select: {
-                  id: true
-                }
-              }
-            }
-          }
-        }
-      }
-      post: { include: { user: { select: { profile: true } } } }
-      comment: { include: { user: { select: { profile: true } } } }
-    }
-  }>
+  notification: NotificationWithRelations
 }) {
   if (!notification.from.profile) {
     return null

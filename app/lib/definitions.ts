@@ -49,3 +49,28 @@ export type ProfileWithRelations = Prisma.ProfileGetPayload<{
     }
   }
 }>
+
+export type NotificationWithRelations = Prisma.NotificationGetPayload<{
+  include: {
+    from: {
+      select: {
+        profile: {
+          include: {
+            followers: {
+              select: {
+                id: true
+              }
+            }
+            following: {
+              select: {
+                id: true
+              }
+            }
+          }
+        }
+      }
+    }
+    post: { include: { user: { select: { profile: true } } } }
+    comment: { include: { user: { select: { profile: true } } } }
+  }
+}>

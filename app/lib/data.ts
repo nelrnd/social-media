@@ -82,27 +82,6 @@ export async function fetchPosts({
   return { posts, hasMorePosts }
 }
 
-export async function fetchFollowingPosts() {
-  const session = await auth()
-  const profileId = session?.user?.profile?.id
-  const following = await prisma.follow.findMany({
-    where: { followerId: profileId },
-    select: { following: { select: { user: true } } },
-  })
-  const posts = await prisma.post.findMany({
-    where: {
-      userId: { in: following.map((follow) => follow.following.user.id) },
-    },
-    include: {
-      user: { select: { profile: true } },
-      likes: { select: { id: true, userId: true } },
-      comments: { select: { id: true } },
-    },
-    orderBy: { createdAt: "desc" },
-  })
-  return posts
-}
-
 export async function fetchPostById(id: string) {
   const post = await prisma.post.findUnique({
     where: { id },
@@ -130,19 +109,6 @@ export async function fetchProfile(username: string) {
     include: { following: true, followers: true },
   })
   return profile
-}
-
-export async function fetchUserPosts(userId: string) {
-  const posts = await prisma.post.findMany({
-    where: { userId },
-    include: {
-      user: { select: { profile: true } },
-      likes: { select: { id: true, userId: true } },
-      comments: { select: { id: true } },
-    },
-    orderBy: { createdAt: "desc" },
-  })
-  return posts
 }
 
 export async function fetchComments({
@@ -287,11 +253,21 @@ export async function fetchFollowers(profileId: string) {
   return followers
 }
 
-export async function fetchNotifications() {
-  const session = await auth()
-  const userId = session?.user?.id
-  const notifications = await prisma.notification.findMany({
+export async function fetchNotifications({ cursor }: { cursor?: string }) {
+  const { userId } = await getUserData()
+  const options: Prisma.NotificationFindManyArgs = {
+    take: ITEMS_PER_FETCH,
     where: { toId: userId },
+    orderBy: { createdAt: "desc" },
+  }
+  if (cursor) {
+    options.skip = 1
+    options.cursor = { id: cursor }
+  }
+  if (userId) {
+  }
+  const notifications = await prisma.notification.findMany({
+    ...options,
     include: {
       from: {
         select: {
@@ -314,9 +290,20 @@ export async function fetchNotifications() {
       post: { include: { user: { select: { profile: true } } } },
       comment: { include: { user: { select: { profile: true } } } },
     },
-    orderBy: { createdAt: "desc" },
   })
-  return notifications
+  let hasMore
+  if (notifications.length < ITEMS_PER_FETCH) {
+    hasMore = false
+  } else {
+    const lastCursor = notifications.at(-1)?.id as string
+    const nextNotification = await prisma.notification.findFirst({
+      ...options,
+      take: 1,
+      cursor: { id: lastCursor },
+    })
+    hasMore = !!nextNotification
+  }
+  return { notifications, hasMore }
 }
 
 export async function fetchUnreadNotificationsCount() {

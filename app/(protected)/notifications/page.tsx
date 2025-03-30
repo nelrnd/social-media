@@ -1,19 +1,21 @@
 import { readAllNotifications } from "@/app/lib/actions"
 import { fetchNotifications } from "@/app/lib/data"
-import Notification from "@/app/ui/notification"
+import NotificationList from "@/app/ui/notification-list"
 import PageHeader from "@/app/ui/page-header"
 
 export default async function NotificationsPage() {
-  const notifications = await fetchNotifications()
+  const { notifications: initialNotifications, hasMore } =
+    await fetchNotifications({})
 
   readAllNotifications()
 
   return (
     <main>
       <PageHeader title="Notifications" />
-      {notifications.map((notification) => (
-        <Notification key={notification.id} notification={notification} />
-      ))}
+      <NotificationList
+        initialNotifications={initialNotifications}
+        initialHasMore={hasMore}
+      />
     </main>
   )
 }
