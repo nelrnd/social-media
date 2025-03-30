@@ -4,13 +4,10 @@ import { auth, signOut } from "@/auth"
 import { ArrowLeftStartOnRectangleIcon } from "@heroicons/react/24/outline"
 import NavLinks from "./nav-links"
 import { spaceMono } from "../fonts"
-import { fetchUnreadNotificationsCount } from "../lib/data"
 
 export default async function SideBar() {
   const session = await auth()
   const username = session?.user.profile?.username
-
-  const notificationCount = await fetchUnreadNotificationsCount()
 
   return (
     <nav className="w-full xl:w-[18rem] h-20 xl:h-screen p-4 xl:p-8 border-t xl:border-r xl:border-t-0 bg-background border-border bottom-0 xl:bottom-auto fixed z-50">
@@ -25,7 +22,7 @@ export default async function SideBar() {
           </Link>
         </li>
 
-        <NavLinks username={username} notificationCount={notificationCount} />
+        <NavLinks username={username} />
 
         <li className="mt-auto -m-3 hidden xl:block">
           <form

@@ -306,12 +306,11 @@ export async function fetchNotifications({ cursor }: { cursor?: string }) {
   return { notifications, hasMore }
 }
 
-export async function fetchUnreadNotificationsCount() {
-  const session = await auth()
-  const userId = session?.user?.id
-  const notifications = await prisma.notification.findMany({
+export async function fetchUnreadNotificationCount() {
+  const { userId } = await getUserData()
+  const unreadNotifications = await prisma.notification.findMany({
     where: { toId: userId, isRead: false },
     select: { id: true },
   })
-  return notifications.length
+  return unreadNotifications.length
 }

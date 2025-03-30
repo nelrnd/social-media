@@ -6,6 +6,7 @@ import ImageGalleryProvider from "../providers/image-gallery-provider"
 import HistoryProvider from "../providers/history-provider"
 import PostFormProvider from "../providers/post-form-provider"
 import HomePostsProvider from "../providers/home-posts-provider"
+import NotificationsProvider from "../providers/notifications-provider"
 
 export default async function Layout({
   children,
@@ -20,16 +21,18 @@ export default async function Layout({
     <SessionProvider>
       <HistoryProvider>
         <ImageGalleryProvider>
-          <HomePostsProvider>
-            <PostFormProvider>
-              <div>
-                <SideBar />
-                <div className="max-w-[40rem] min-h-dvh pb-20 xl:pb-0 box-border sm:border-r sm:border-l m-auto border-border">
-                  {children}
+          <NotificationsProvider>
+            <HomePostsProvider>
+              <PostFormProvider>
+                <div>
+                  <SideBar />
+                  <div className="max-w-[40rem] min-h-dvh pb-20 xl:pb-0 box-border sm:border-r sm:border-l m-auto border-border">
+                    {children}
+                  </div>
                 </div>
-              </div>
-            </PostFormProvider>
-          </HomePostsProvider>
+              </PostFormProvider>
+            </HomePostsProvider>
+          </NotificationsProvider>
         </ImageGalleryProvider>
       </HistoryProvider>
     </SessionProvider>

@@ -16,20 +16,16 @@ import {
 } from "@heroicons/react/24/solid"
 import { usePathname } from "next/navigation"
 import clsx from "clsx"
+import { useNotifications } from "../providers/notifications-provider"
 
 function checkIfActive(pathname: string, href: string) {
   if (pathname.startsWith("/profile")) return pathname === href
   return pathname.split("/").at(-1) === href.slice(1)
 }
 
-export default function NavLinks({
-  username,
-  notificationCount,
-}: {
-  username?: string
-  notificationCount?: number
-}) {
+export default function NavLinks({ username }: { username?: string }) {
   const pathname = usePathname()
+  const { count } = useNotifications()
 
   const links = [
     {
@@ -47,7 +43,7 @@ export default function NavLinks({
         default: <BellIconOutline />,
         active: <BellIconSolid />,
       },
-      count: notificationCount,
+      count,
     },
     {
       href: `/profile/${username}`,
@@ -81,7 +77,7 @@ export default function NavLinks({
                 {!!link.count && (
                   <CountBadge
                     count={link.count}
-                    className="absolute -top-1.5 -right-1.5 outline outline-1 outline-white"
+                    className="absolute -top-1.5 -right-1.5 outline outline-1 outline-background"
                   />
                 )}
                 {React.cloneElement(
@@ -110,7 +106,7 @@ function CountBadge({
   return (
     <div
       className={clsx(
-        "size-4 rounded-full bg-black text-white grid place-content-center",
+        "size-4 rounded-full bg-accent text-background dark:text-foreground grid place-content-center",
         className
       )}
     >
