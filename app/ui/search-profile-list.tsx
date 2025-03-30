@@ -4,11 +4,19 @@ import ProfileCard, { ProfileCardSkeleton } from "./profile-card"
 export default async function SearchProfileList({ query }: { query: string }) {
   const profiles = await fetchProfiles(query)
 
+  if (!query) {
+    return <p className="text-center text-soft">Try searching for people</p>
+  }
+
   return (
     <div>
-      {profiles.map((profile) => (
-        <ProfileCard key={profile.id} profile={profile} />
-      ))}
+      {profiles.length === 0 ? (
+        <p className="text-center text-soft">No profile found</p>
+      ) : (
+        profiles.map((profile) => (
+          <ProfileCard key={profile.id} profile={profile} />
+        ))
+      )}
     </div>
   )
 }
