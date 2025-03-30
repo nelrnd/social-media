@@ -1,13 +1,13 @@
 "use client"
 
 import clsx from "clsx"
-import { useState } from "react"
+import { useHomePosts } from "../providers/home-posts-provider"
 
-export default function TabSwitcher() {
-  const [feedType, setFeedType] = useState("discover")
+export default function FeedModeSwitcher() {
+  const { feedMode, setFeedMode } = useHomePosts()
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setFeedType(event.currentTarget.value)
+    setFeedMode(event.currentTarget.value as "discover" | "following")
   }
 
   return (
@@ -20,14 +20,14 @@ export default function TabSwitcher() {
             id="discover"
             value="discover"
             onChange={handleChange}
-            checked={feedType === "discover"}
+            checked={feedMode === "discover"}
             className="absolute inset-0 appearance-none cursor-pointer"
           />
           <label
             htmlFor="discover"
             className={clsx(
               "h-[56px] flex items-center justify-center px-6 py-3 text-center rounded-lg transition-colors",
-              { underline: feedType === "discover" }
+              { underline: feedMode === "discover" }
             )}
           >
             Discover
@@ -36,18 +36,18 @@ export default function TabSwitcher() {
         <div className="relative z-10">
           <input
             type="radio"
-            name="feedType"
+            name="feedMode"
             id="following"
             value="following"
             onChange={handleChange}
-            checked={feedType === "following"}
+            checked={feedMode === "following"}
             className="absolute inset-0 appearance-none cursor-pointer"
           />
           <label
             htmlFor="following"
             className={clsx(
               "h-[56px] flex items-center justify-center px-6 py-3 text-center rounded-lg transition-colors",
-              { underline: feedType === "following" }
+              { underline: feedMode === "following" }
             )}
           >
             Following
@@ -57,8 +57,8 @@ export default function TabSwitcher() {
           className={clsx(
             "bg-subtle h-[56px] w-1/2 absolute top-0 left-0 z-0 transition-transform rounded-lg group-active:scale-95",
             {
-              "translate-x-0": feedType === "discover",
-              "translate-x-full": feedType === "following",
+              "translate-x-0": feedMode === "discover",
+              "translate-x-full": feedMode === "following",
             }
           )}
         />

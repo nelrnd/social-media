@@ -7,7 +7,7 @@ import Post, { PostSkeleton } from "./post"
 import { PostWithRelations } from "../lib/definitions"
 import PostForm from "./post-form"
 import { usePostForm } from "../providers/post-form-provider"
-import TabSwitcher from "./tab-switcher"
+import TabSwitcher from "./feed-mode-switcher"
 
 export default function Feed({
   initialPosts,

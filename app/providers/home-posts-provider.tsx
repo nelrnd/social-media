@@ -8,11 +8,12 @@ import { useSession } from "next-auth/react"
 
 type HomePostsContextType = {
   posts: PostWithRelations[]
-  setPosts(posts: PostWithRelations[]): void
   hasMore: boolean
   loading: boolean
   loadMore(): void
   likePost(postId: string): void
+  feedMode: "discover" | "following"
+  setFeedMode(mode: "discover" | "following"): void
 }
 
 const HomePostsContext = createContext<HomePostsContextType>(
@@ -26,21 +27,42 @@ export default function HomePostsProvider({
 }) {
   const session = useSession()
   const userId = session.data?.user.id
-  const [posts, setPosts] = useState<PostWithRelations[]>([])
-  const [hasMore, setHasMore] = useState(true)
-  const [loading, setLoading] = useState(false)
+  const [discoverPosts, setDiscoverPosts] = useState<PostWithRelations[]>([])
+  const [followingPosts, setFollowingPosts] = useState<PostWithRelations[]>([])
+  const [discoverHasMore, setDiscoverHasMore] = useState(true)
+  const [followingHasMore, setFollowingHasMore] = useState(true)
+  const [discoverLoading, setDiscoverLoading] = useState(false)
+  const [followingLoading, setFollowingLoading] = useState(false)
+
+  const [feedMode, setFeedMode] = useState<"discover" | "following">("discover")
+
+  const current = {
+    posts: feedMode === "discover" ? discoverPosts : followingPosts,
+    setPosts: feedMode === "discover" ? setDiscoverPosts : setFollowingPosts,
+    hasMore: feedMode === "discover" ? discoverHasMore : followingHasMore,
+    setHasMore:
+      feedMode === "discover" ? setDiscoverHasMore : setFollowingHasMore,
+    loading: feedMode === "discover" ? discoverLoading : followingLoading,
+    setLoading:
+      feedMode === "discover" ? setDiscoverLoading : setFollowingLoading,
+  }
 
   async function loadMore() {
-    if (hasMore && !loading) {
-      const cursor = posts.at(-1)?.id
-      setLoading(true)
+    const currentCopy = { ...current }
+    if (currentCopy.hasMore && !currentCopy.loading) {
+      const cursor = currentCopy.posts.at(-1)?.id
+      current.setLoading(true)
       const { posts: newPosts, hasMorePosts } = await fetchPosts({ cursor })
-      setPosts((prevPosts) => [...prevPosts, ...newPosts])
-      setHasMore(hasMorePosts)
-      setLoading(false)
+      current.setPosts((prevPosts) => [...prevPosts, ...newPosts])
+      current.setHasMore(hasMorePosts)
+      current.setLoading(false)
     }
   }
 
+  function likePost(postId: string) {
+    return "hey"
+  }
+  /*
   function likePost(postId: string) {
     const post = posts.find((post) => post.id === postId)
     const hasLiked = post?.likes.find((like) => like.userId === userId)
@@ -57,21 +79,29 @@ export default function HomePostsProvider({
       )
     )
   }
-
+*/
   useEffect(() => {
     async function loadInitial() {
-      setLoading(true)
+      setDiscoverLoading(true)
       const { posts: initialPosts, hasMorePosts } = await fetchPosts({})
-      setPosts(initialPosts)
-      setHasMore(hasMorePosts)
-      setLoading(false)
+      setDiscoverPosts(initialPosts)
+      setDiscoverHasMore(hasMorePosts)
+      setDiscoverLoading(false)
     }
     loadInitial()
   }, [])
 
   return (
     <HomePostsContext.Provider
-      value={{ posts, setPosts, hasMore, loading, loadMore, likePost }}
+      value={{
+        posts: current.posts,
+        hasMore: current.hasMore,
+        loading: current.loading,
+        loadMore,
+        likePost,
+        feedMode,
+        setFeedMode,
+      }}
     >
       {children}
     </HomePostsContext.Provider>
