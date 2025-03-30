@@ -1,6 +1,9 @@
 import PageHeader from "@/app/ui/page-header"
 import Search from "@/app/ui/search"
-import SearchProfileList from "@/app/ui/search-profile-list"
+import SearchProfileList, {
+  SearchProfileListSkeleton,
+} from "@/app/ui/search-profile-list"
+import { Suspense } from "react"
 
 export default async function SearchPage(props: {
   searchParams?: Promise<{
@@ -15,7 +18,9 @@ export default async function SearchPage(props: {
       <PageHeader title="Search" />
       <section className="p-6 space-y-6">
         <Search placeholder="Search profiles" />
-        <SearchProfileList query={query} />
+        <Suspense key={query} fallback={<SearchProfileListSkeleton />}>
+          <SearchProfileList query={query} />
+        </Suspense>
       </section>
     </main>
   )

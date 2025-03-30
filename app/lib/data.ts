@@ -316,6 +316,9 @@ export async function fetchUnreadNotificationCount() {
 }
 
 export async function fetchProfiles(term: string) {
+  if (!term) {
+    return []
+  }
   const profiles = await prisma.profile.findMany({
     where: {
       OR: [

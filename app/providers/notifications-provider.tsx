@@ -31,6 +31,7 @@ export default function NotificationsProvider({
         setCount(count)
       }
     })()
+    console.log("not")
   }, [pathname])
 
   return (
