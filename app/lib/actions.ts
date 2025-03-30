@@ -247,11 +247,15 @@ export type ProfileFormState = {
 }
 
 const CreateProfileFormSchema = z.object({
-  name: z.string().min(1, "Name is required"),
+  name: z
+    .string()
+    .min(1, "Name is required")
+    .max(20, "Name cannot exceed 20 characters"),
   username: z
     .string()
     .min(1, "Username is required")
     .min(4, "Username must be at least 4 characters")
+    .max(20, "Username cannot exceed 20 characters")
     .regex(
       /^[a-zA-Z0-9_-]+$/,
       'Username must only contain letters, numbers, "-" and "_"'
@@ -319,6 +323,7 @@ const UpdateProfileFormSchema = CreateProfileFormSchema.extend({
     .string()
     .min(1, "Username is required")
     .min(4, "Username must be at least 4 characters")
+    .max(20, "Username cannot exceed 20 characters")
     .regex(
       /^[a-zA-Z0-9_-]+$/,
       'Username must only contain letters, numbers, "-" and "_"'
