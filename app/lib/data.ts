@@ -293,7 +293,24 @@ export async function fetchNotifications() {
   const notifications = await prisma.notification.findMany({
     where: { toId: userId },
     include: {
-      from: { select: { profile: true } },
+      from: {
+        select: {
+          profile: {
+            include: {
+              followers: {
+                select: {
+                  id: true,
+                },
+              },
+              following: {
+                select: {
+                  id: true,
+                },
+              },
+            },
+          },
+        },
+      },
       post: { include: { user: { select: { profile: true } } } },
       comment: { include: { user: { select: { profile: true } } } },
     },

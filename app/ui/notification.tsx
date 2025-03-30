@@ -3,30 +3,61 @@ import Link from "next/link"
 import Avatar from "./avatar"
 import { PostMinimized } from "./post"
 import { Skeleton } from "./skeleton"
+import ProfileHoverCard from "./profile-hover-card"
 
 export default function Notification({
   notification,
 }: {
   notification: Prisma.NotificationGetPayload<{
     include: {
-      from: { select: { profile: true } }
+      from: {
+        select: {
+          profile: {
+            include: {
+              followers: {
+                select: {
+                  id: true
+                }
+              }
+              following: {
+                select: {
+                  id: true
+                }
+              }
+            }
+          }
+        }
+      }
       post: { include: { user: { select: { profile: true } } } }
       comment: { include: { user: { select: { profile: true } } } }
     }
   }>
 }) {
+  if (!notification.from.profile) {
+    return null
+  }
+
   return (
     <div className="p-6 border-b border-border grid grid-cols-[auto_1fr] gap-4">
-      <Avatar src={notification.from.profile?.imageUrl} size="sm" />
+      <ProfileHoverCard profile={notification.from.profile}>
+        <Link
+          href={`/profile/${notification.from.profile?.username}`}
+          className="w-fit h-fit"
+        >
+          <Avatar src={notification.from.profile?.imageUrl} size="sm" />
+        </Link>
+      </ProfileHoverCard>
       <div className="mt-2.5 space-y-2.5">
         <div>
-          <Link
-            href={`/profile/${notification.from.profile?.username}`}
-            className="font-bold hover:underline"
-          >
-            {notification.from.profile?.name}
-          </Link>
-          {getText(notification.type)}
+          <ProfileHoverCard profile={notification.from.profile}>
+            <Link
+              href={`/profile/${notification.from.profile?.username}`}
+              className="font-bold hover:underline"
+            >
+              {notification.from.profile?.name}
+            </Link>
+          </ProfileHoverCard>
+          <span className="text-soft">{getText(notification.type)}</span>
         </div>
 
         {["LIKE", "COMMENT"].includes(notification.type) &&
