@@ -317,7 +317,16 @@ export async function fetchUnreadNotificationCount() {
 
 export async function fetchProfiles(term: string) {
   const profiles = await prisma.profile.findMany({
-    where: { name: { search: term } },
+    where: {
+      OR: [
+        { name: { startsWith: term, mode: "insensitive" } },
+        { username: { startsWith: term, mode: "insensitive" } },
+      ],
+    },
+    include: {
+      followers: { select: { id: true } },
+      following: { select: { id: true } },
+    },
   })
   return profiles
 }
