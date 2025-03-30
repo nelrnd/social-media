@@ -67,7 +67,6 @@ export default function Feed({
           <PostForm handleAdd={addPost} />
         </div>
       )}
-      <TabSwitcher />
       {posts.map((post) => (
         <Post key={post.id} post={post} />
       ))}
@@ -92,38 +91,3 @@ export function FeedSkeleton({ size }: { size: number }) {
     </div>
   )
 }
-
-/*
-TAB SWITCHER
-<div>
-  <div className="p-1 bg-gray-100 grid grid-cols-2 border-b boder-gray-200 gap-2">
-    <label htmlFor="discover">
-      <input
-        type="radio"
-        id="discover"
-        name="feedType"
-        value="discover"
-        className="hidden peer"
-        onChange={changeFeedType}
-        checked={feedType === "discover"}
-      />
-      <div className="p-4 text-center cursor-pointer rounded-sm peer-checked:bg-white transition-colors">
-        Discover
-      </div>
-    </label>
-    <label htmlFor="following">
-      <input
-        type="radio"
-        id="following"
-        name="feedType"
-        value="following"
-        className="hidden peer"
-        onChange={changeFeedType}
-        checked={feedType === "following"}
-      />
-      <div className="p-4 text-center cursor-pointer rounded-sm peer-checked:bg-white transition-colors">
-        Following
-      </div>
-    </label>
-  </div>
-*/

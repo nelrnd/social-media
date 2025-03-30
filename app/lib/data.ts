@@ -23,7 +23,6 @@ export async function fetchPosts({
   cursor?: string
   userId?: string
 }) {
-  console.log("fetching")
   const options: Prisma.PostFindManyArgs = {
     take: ITEMS_PER_FETCH,
     orderBy: { createdAt: "desc" },

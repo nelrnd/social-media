@@ -1,18 +1,15 @@
-import { fetchPosts } from "../lib/data"
-import Feed from "../ui/feed"
 import PageHeader from "../ui/page-header"
+import PostForm from "../ui/post-form"
+import { HomePostList } from "../ui/post-list"
 
 export default async function HomePage() {
-  const { posts: initialPosts, hasMorePosts } = await fetchPosts({})
-
   return (
     <main>
       <PageHeader title="Home" />
-      <Feed
-        withForm={true}
-        initialPosts={initialPosts}
-        initialHasMorePosts={hasMorePosts}
-      />
+      <div className="p-6 border-b border-border">
+        <PostForm />
+      </div>
+      <HomePostList />
     </main>
   )
 }
