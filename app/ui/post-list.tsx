@@ -5,7 +5,6 @@ import { useHomePosts } from "../providers/home-posts-provider"
 import Post, { PostSkeleton } from "./post"
 import { useEffect } from "react"
 import TabSwitcher from "./feed-mode-switcher"
-import { useSession } from "next-auth/react"
 
 export function HomePostList() {
   const { posts, hasMore, loading, loadMore } = useHomePosts()
