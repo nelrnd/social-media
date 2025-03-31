@@ -26,6 +26,7 @@ import { LoaderCircleIcon } from "lucide-react"
 import { Skeleton } from "./skeleton"
 import { PostWithRelations } from "../lib/definitions"
 import PostForm from "./post-form"
+import { useHomePosts } from "../providers/home-posts-provider"
 
 function ActionButton({
   children,
@@ -56,6 +57,8 @@ export function LikeButton({
   const hasLiked = !!likes.find((like) => like.userId === userId)
   const [actionId, setActionId] = useState<string | null>(null)
 
+  const { likePost: likeHomePost } = useHomePosts()
+
   const likeCount = likes.length
   const prevLikeCount = hasLiked ? likeCount - 1 : likeCount + 1
 
@@ -65,6 +68,7 @@ export function LikeButton({
         if (!userId) return
         const currentActionId = uuidv4()
         setActionId(currentActionId)
+        likeHomePost(postId)
         setLikes((prevLikes) =>
           hasLiked
             ? prevLikes.filter((like) => like.userId !== userId)
@@ -72,6 +76,7 @@ export function LikeButton({
         )
         const { likes } = await likePost(postId)
         if (likes && actionId === currentActionId) {
+          likeHomePost(postId, likes)
           setLikes(likes)
         }
       }}

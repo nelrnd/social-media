@@ -5,13 +5,17 @@ import { PostWithRelations } from "../lib/definitions"
 import { fetchPosts } from "../lib/data"
 import { v4 as uuidv4 } from "uuid"
 import { useSession } from "next-auth/react"
+import { Prisma } from "@prisma/client"
 
 type HomePostsContextType = {
   posts: PostWithRelations[]
   hasMore: boolean
   loading: boolean
   loadMore(): void
-  likePost(postId: string): void
+  likePost(
+    postId: string,
+    newLikes?: Prisma.LikeGetPayload<{ select: { userId: true; id: true } }>[]
+  ): void
   feedMode: "discover" | "following"
   setFeedMode(mode: "discover" | "following"): void
 }
@@ -63,27 +67,38 @@ export default function HomePostsProvider({
     }
   }
 
-  function likePost(postId: string) {
-    return "hey"
-  }
-  /*
-  function likePost(postId: string) {
-    const post = posts.find((post) => post.id === postId)
-    const hasLiked = post?.likes.find((like) => like.userId === userId)
-    setPosts((posts) =>
-      posts.map((post) =>
+  function likePost(
+    postId: string,
+    newLikes?: Prisma.LikeGetPayload<{ select: { userId: true; id: true } }>[]
+  ) {
+    setDiscoverPosts((prevPosts) =>
+      prevPosts.map((post) =>
         post.id === postId
           ? {
               ...post,
-              likes: hasLiked
-                ? post.likes.filter((like) => like.userId !== userId)
-                : post.likes,
+              likes:
+                newLikes || !!post.likes.find((like) => like.userId === userId)
+                  ? post.likes.filter((like) => like.userId !== userId)
+                  : [...post.likes, { id: uuidv4(), userId: userId as string }],
+            }
+          : post
+      )
+    )
+    setFollowingPosts((prevPosts) =>
+      prevPosts.map((post) =>
+        post.id === postId
+          ? {
+              ...post,
+              likes:
+                newLikes || post.likes.find((like) => like.userId === userId)
+                  ? post.likes.filter((like) => like.userId !== userId)
+                  : [...post.likes, { id: uuidv4(), userId: userId as string }],
             }
           : post
       )
     )
   }
-*/
+
   useEffect(() => {
     async function loadInitial() {
       setDiscoverLoading(true)
