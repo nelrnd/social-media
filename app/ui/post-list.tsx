@@ -14,7 +14,7 @@ export function HomePostList() {
     if (inView) {
       loadMore()
     }
-  }, [inView])
+  }, [inView, loadMore])
 
   return (
     <div>

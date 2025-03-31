@@ -1,4 +1,4 @@
-import { NotificationType, Prisma } from "@prisma/client"
+import { NotificationType } from "@prisma/client"
 import Link from "next/link"
 import Avatar from "./avatar"
 import { PostMinimized } from "./post"

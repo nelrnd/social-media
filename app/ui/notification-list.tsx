@@ -40,7 +40,7 @@ export default function NotificationList({
     return () => {
       ignore = true
     }
-  }, [inView, hasMore])
+  }, [inView, hasMore, notifications])
 
   return (
     <div>
