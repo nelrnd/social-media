@@ -1,6 +1,7 @@
 import { fetchComments, fetchPostById } from "@/app/lib/data"
 import CommentForm from "@/app/ui/comment-form"
 import CommentList from "@/app/ui/comment-list"
+import NotFound from "@/app/ui/not-found"
 import PageHeader from "@/app/ui/page-header"
 import Post from "@/app/ui/post"
 
@@ -15,7 +16,9 @@ export default async function PostPage({
     postId: id,
   })
 
-  if (!post) return null
+  if (!post) {
+    return <NotFound>Could not find this post</NotFound>
+  }
 
   return (
     <main className="relative min-h-[calc(100dvh-5rem)] xl:min-h-dvh flex flex-col">

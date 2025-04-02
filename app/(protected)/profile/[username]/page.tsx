@@ -1,5 +1,6 @@
 import { fetchIsFollowing, fetchPosts, fetchProfile } from "@/app/lib/data"
 import Feed from "@/app/ui/feed"
+import NotFound from "@/app/ui/not-found"
 import PageHeader from "@/app/ui/page-header"
 import ProfileHeader from "@/app/ui/profile-header"
 import { auth } from "@/auth"
@@ -14,7 +15,7 @@ export default async function ProfilePage({
   const [session, profile] = await Promise.all([auth(), fetchProfile(username)])
 
   if (!profile) {
-    return <p>Profile not found</p>
+    return <NotFound>Could not find this profile</NotFound>
   }
 
   const authUserId = session?.user.id || ""
