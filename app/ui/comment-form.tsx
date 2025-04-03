@@ -1,6 +1,6 @@
 "use client"
 
-import { useActionState, useEffect } from "react"
+import { useActionState } from "react"
 import { CommentFormState, commentPost } from "../lib/actions"
 import { Button } from "./buttons"
 import { usePathname } from "next/navigation"
@@ -21,7 +21,7 @@ export default function CommentForm({
   const { commentPost: commentHomePost } = useHomePosts()
   const [state, formAction, isPending] = useActionState(
     (state: CommentFormState, payload: FormData) => {
-      cb && cb()
+      if (cb) cb()
       commentHomePost(postId)
       return commentPost(state, payload)
     },

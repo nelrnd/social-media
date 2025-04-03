@@ -86,12 +86,12 @@ export function ProfilePostList({
   }, [inView, hasMore, posts, userId])
 
   useEffect(() => {
-    if (userId === authUserId) {
+    if (userId === authUserId && !addCb.current) {
       addCb.current = addPost
-    } else {
+    } else if (userId !== authUserId && addCb.current) {
       addCb.current = null
     }
-  }, [userId, authUserId])
+  }, [userId, authUserId, addCb])
 
   return (
     <div>

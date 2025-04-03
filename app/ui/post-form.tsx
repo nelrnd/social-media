@@ -125,7 +125,7 @@ export function PostFormWrapper() {
 
   useEffect(() => {
     setVisible(!inView)
-  }, [inView])
+  }, [inView, setVisible])
 
   return (
     <div ref={ref}>

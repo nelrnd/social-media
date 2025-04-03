@@ -19,7 +19,7 @@ import {
 import { DialogDescription } from "@radix-ui/react-dialog"
 import CommentForm from "./comment-form"
 import { PostMinimized } from "./post"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { spaceMono } from "../fonts"
 import clsx from "clsx"
 import { LoaderCircleIcon } from "lucide-react"
