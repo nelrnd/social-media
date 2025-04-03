@@ -145,7 +145,7 @@ export default function ImageGalleryProvider({
               {asAvatar ? (
                 <Avatar
                   src={currentImage}
-                  className="w-64 h-64 max-w-full max-h-wull"
+                  className="w-64 h-64 sm:w-64 sm:h-64 max-w-full max-h-auto"
                 />
               ) : (
                 <Image
