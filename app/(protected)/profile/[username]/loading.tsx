@@ -1,5 +1,5 @@
-import { FeedSkeleton } from "@/app/ui/feed"
 import { PageHeaderSkeleton } from "@/app/ui/page-header"
+import { PostListSkeleton } from "@/app/ui/post-list"
 import { ProfileHeaderSkeleton } from "@/app/ui/profile-header"
 
 export default function Loading() {
@@ -7,7 +7,7 @@ export default function Loading() {
     <main className="h-dvh overflow-hidden">
       <PageHeaderSkeleton />
       <ProfileHeaderSkeleton />
-      <FeedSkeleton size={7} />
+      <PostListSkeleton size={7} />
     </main>
   )
 }

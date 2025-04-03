@@ -1,7 +1,7 @@
 import { fetchIsFollowing, fetchPosts, fetchProfile } from "@/app/lib/data"
-import Feed from "@/app/ui/feed"
 import NotFound from "@/app/ui/not-found"
 import PageHeader from "@/app/ui/page-header"
+import { ProfilePostList } from "@/app/ui/post-list"
 import ProfileHeader from "@/app/ui/profile-header"
 import { auth } from "@/auth"
 
@@ -32,8 +32,7 @@ export default async function ProfilePage({
         authUserId={authUserId}
         isFollowing={isFollowing}
       />
-
-      <Feed
+      <ProfilePostList
         userId={profile.userId}
         initialPosts={initialPosts}
         initialHasMorePosts={hasMorePosts}
