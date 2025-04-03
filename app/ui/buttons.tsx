@@ -28,6 +28,7 @@ import { PostWithRelations } from "../lib/definitions"
 import PostForm from "./post-form"
 import { useHomePosts } from "../providers/home-posts-provider"
 import { useToast } from "../hooks/use-toast"
+import Link from "next/link"
 
 function ActionButton({
   children,
@@ -178,7 +179,14 @@ export function CommentButton({
             setOpen(false)
             setComments([...comments, newComment])
             animate()
-            toast({ title: "Commented post" })
+            toast({
+              title: "Commented post",
+              action: (
+                <Link href="/" className="font-bold hover:underline">
+                  View
+                </Link>
+              ),
+            })
           }}
         />
       </DialogContent>
