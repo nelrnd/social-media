@@ -20,6 +20,7 @@ import { useActionState, useRef, useState } from "react"
 import { deletePost } from "../lib/actions"
 import { usePathname } from "next/navigation"
 import DialogItem, { DialogItemProps } from "./dialog-item"
+import { useToast } from "../hooks/use-toast"
 
 export default function PostMenu({
   postId,
@@ -126,18 +127,22 @@ function DeletePost({ postId, onSelect, onOpenChange }: DeletePostProps) {
 }
 
 function CopyPostLink({ postId }: { postId: string }) {
-  function handleCopy() {
+  const { toast } = useToast()
+
+  async function handleCopy() {
+    toast({ title: "Link copied!" })
     const { origin } = new URL(document.URL)
     const url = origin + "/post/" + postId
-    navigator.clipboard.writeText(url)
+    await navigator.clipboard.writeText(url)
   }
 
   return (
-    <DropdownMenuItem>
-      <button className="flex items-center gap-2" onClick={handleCopy}>
-        <LinkIcon className="size-4" />
-        Copy link
-      </button>
+    <DropdownMenuItem
+      className="flex items-center gap-2 w-full"
+      onClick={handleCopy}
+    >
+      <LinkIcon className="size-4" />
+      Copy link
     </DropdownMenuItem>
   )
 }

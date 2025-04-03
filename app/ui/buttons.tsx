@@ -64,10 +64,13 @@ export function LikeButton({
   const likeCount = likes.length
   const prevLikeCount = hasLiked ? likeCount - 1 : likeCount + 1
 
+  const { toast } = useToast()
+
   return (
     <ActionButton
       onClick={async () => {
         if (!userId) return
+        toast({ title: "Yes you liked the post" })
         const currentActionId = uuidv4()
         setActionId(currentActionId)
         likeHomePost(postId)

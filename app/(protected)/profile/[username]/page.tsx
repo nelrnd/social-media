@@ -4,16 +4,13 @@ import PageHeader from "@/app/ui/page-header"
 import { ProfilePostList } from "@/app/ui/post-list"
 import ProfileHeader from "@/app/ui/profile-header"
 import { auth } from "@/auth"
-import { Metadata, ResolvingMetadata } from "next"
+import { Metadata } from "next"
 
 type Props = {
   params: Promise<{ username: string }>
 }
 
-export async function generateMetadata(
-  { params }: Props,
-  parent: ResolvingMetadata
-): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { username } = await params
   const profile = await fetchProfile(username)
   if (!profile) {

@@ -4,16 +4,13 @@ import CommentList from "@/app/ui/comment-list"
 import NotFound from "@/app/ui/not-found"
 import PageHeader from "@/app/ui/page-header"
 import Post from "@/app/ui/post"
-import { Metadata, ResolvingMetadata } from "next"
+import { Metadata } from "next"
 
 type Props = {
   params: Promise<{ id: string }>
 }
 
-export async function generateMetadata(
-  { params }: Props,
-  parent: ResolvingMetadata
-): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params
   const post = await fetchPostById(id)
   if (!post) {
