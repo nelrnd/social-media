@@ -29,6 +29,8 @@ import PostForm from "./post-form"
 import { useHomePosts } from "../providers/home-posts-provider"
 import { useToast } from "../hooks/use-toast"
 import Link from "next/link"
+import { ToastAction } from "@radix-ui/react-toast"
+import { usePathname } from "next/navigation"
 
 function ActionButton({
   children,
@@ -64,13 +66,10 @@ export function LikeButton({
   const likeCount = likes.length
   const prevLikeCount = hasLiked ? likeCount - 1 : likeCount + 1
 
-  const { toast } = useToast()
-
   return (
     <ActionButton
       onClick={async () => {
         if (!userId) return
-        toast({ title: "Yes you liked the post" })
         const currentActionId = uuidv4()
         setActionId(currentActionId)
         likeHomePost(postId)
@@ -136,6 +135,7 @@ export function CommentButton({
     select: { id: true }
   }>[]
 }) {
+  const pathname = usePathname()
   const [comments, setComments] = useState(initialComments)
   const [open, setOpen] = useState(false)
   const [animating, setAnimating] = useState(false)
@@ -181,15 +181,22 @@ export function CommentButton({
           cb={(newComment) => {
             setOpen(false)
             setComments([...comments, newComment])
+            if (!pathname.startsWith(`/post/${post.id}`)) {
+              toast({
+                title: "Comment created!",
+                action: (
+                  <ToastAction altText="View" asChild>
+                    <Link
+                      href={`/post/${post.id}`}
+                      className="font-bold hover:underline"
+                    >
+                      View
+                    </Link>
+                  </ToastAction>
+                ),
+              })
+            }
             animate()
-            toast({
-              title: "Commented post",
-              action: (
-                <Link href="/" className="font-bold hover:underline">
-                  View
-                </Link>
-              ),
-            })
           }}
         />
       </DialogContent>

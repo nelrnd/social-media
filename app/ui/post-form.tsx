@@ -11,6 +11,9 @@ import { PostWithRelations } from "../lib/definitions"
 import { useInView } from "react-intersection-observer"
 import { usePostForm } from "../providers/post-form-provider"
 import { useHomePosts } from "../providers/home-posts-provider"
+import { useToast } from "../hooks/use-toast"
+import Link from "next/link"
+import { ToastAction } from "./toast"
 
 const MAX_IMAGES = 4
 
@@ -31,6 +34,8 @@ export default function PostForm({
     createPost.bind(null, images),
     initialState
   )
+
+  const { toast } = useToast()
 
   function addImages(images: File[]) {
     setImages((prevImages) =>
@@ -58,8 +63,23 @@ export default function PostForm({
   }, [state])
 
   useEffect(() => {
-    if (handleAdd && state.post) {
-      handleAdd(state.post)
+    if (state.post) {
+      if (handleAdd) {
+        handleAdd(state.post)
+      }
+      toast({
+        title: "Post created!",
+        action: (
+          <ToastAction altText="View" asChild>
+            <Link
+              href={`/post/${state.post.id}`}
+              className="font-bold hover:underline"
+            >
+              View
+            </Link>
+          </ToastAction>
+        ),
+      })
       state.post = null
     }
   }, [handleAdd, state])
