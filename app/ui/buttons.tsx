@@ -19,7 +19,7 @@ import {
 import { DialogDescription } from "@radix-ui/react-dialog"
 import CommentForm from "./comment-form"
 import { PostMinimized } from "./post"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { spaceMono } from "../fonts"
 import clsx from "clsx"
 import { LoaderCircleIcon } from "lucide-react"
@@ -135,6 +135,8 @@ export function CommentButton({
   const [open, setOpen] = useState(false)
   const [animating, setAnimating] = useState(false)
 
+  const { commentPost: commentHomePost } = useHomePosts()
+
   const commentCount = comments.length
   const prevCommentCount = Math.abs(commentCount - 1)
 
@@ -174,6 +176,7 @@ export function CommentButton({
           cb={(newComment) => {
             setOpen(false)
             setComments([...comments, newComment])
+            commentHomePost(post.id)
             animate()
           }}
         />

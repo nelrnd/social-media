@@ -19,7 +19,7 @@ type HomePostsContextType = {
   commentPost(
     postId: string,
     newComments?: Prisma.CommentGetPayload<{
-      select: { userId: true; id: true }
+      select: { id: true }
     }>[]
   ): void
   feedMode: "discover" | "following"
@@ -108,7 +108,7 @@ export default function HomePostsProvider({
   function commentPost(
     postId: string,
     newComments?: Prisma.CommentGetPayload<{
-      select: { userId: true; id: true }
+      select: { id: true }
     }>[]
   ) {
     setDiscoverPosts((prevPosts) =>
@@ -116,10 +116,7 @@ export default function HomePostsProvider({
         post.id === postId
           ? {
               ...post,
-              comments: newComments || [
-                ...post.comments,
-                { id: uuidv4(), userId: userId as string },
-              ],
+              comments: newComments || [...post.comments, { id: uuidv4() }],
             }
           : post
       )
@@ -129,10 +126,7 @@ export default function HomePostsProvider({
         post.id === postId
           ? {
               ...post,
-              comments: newComments || [
-                ...post.comments,
-                { id: uuidv4(), userId: userId as string },
-              ],
+              comments: newComments || [...post.comments, { id: uuidv4() }],
             }
           : post
       )

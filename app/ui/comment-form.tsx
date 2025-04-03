@@ -18,17 +18,22 @@ export default function CommentForm({
     comment: null,
   }
   const [state, formAction, isPending] = useActionState(
-    commentPost,
+    (state: CommentFormState, payload: FormData) => {
+      cb && cb()
+      return commentPost(state, payload)
+    },
     initialState
   )
   const pathname = usePathname()
 
+  /*
   useEffect(() => {
     if (cb && state.comment) {
       cb(state.comment)
       state.comment = null
     }
   }, [cb, state])
+  */
 
   return (
     <form action={formAction}>
