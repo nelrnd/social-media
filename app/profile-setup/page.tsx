@@ -2,6 +2,11 @@ import { auth } from "@/auth"
 import ProfileForm from "../ui/profile-form"
 import { redirect } from "next/navigation"
 import { createProfile } from "../lib/actions"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Setup profile",
+}
 
 export default async function ProfileSetupPage() {
   const session = await auth()

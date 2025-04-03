@@ -3,7 +3,12 @@ import Search from "@/app/ui/search"
 import SearchProfileList, {
   SearchProfileListSkeleton,
 } from "@/app/ui/search-profile-list"
+import { Metadata } from "next"
 import { Suspense } from "react"
+
+export const metadata: Metadata = {
+  title: "Search",
+}
 
 export default async function SearchPage(props: {
   searchParams?: Promise<{

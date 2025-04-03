@@ -4,13 +4,30 @@ import PageHeader from "@/app/ui/page-header"
 import { ProfilePostList } from "@/app/ui/post-list"
 import ProfileHeader from "@/app/ui/profile-header"
 import { auth } from "@/auth"
+import { Metadata, ResolvingMetadata } from "next"
 
-export default async function ProfilePage({
-  params,
-}: {
+type Props = {
   params: Promise<{ username: string }>
-}) {
-  const username = (await params).username
+}
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const { username } = await params
+  const profile = await fetchProfile(username)
+  if (!profile) {
+    return {
+      title: "Profile not found",
+    }
+  }
+  return {
+    title: `${profile?.name}'s profile`,
+  }
+}
+
+export default async function ProfilePage({ params }: Props) {
+  const { username } = await params
 
   const [session, profile] = await Promise.all([auth(), fetchProfile(username)])
 

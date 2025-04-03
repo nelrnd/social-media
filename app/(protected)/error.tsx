@@ -2,6 +2,11 @@
 
 import { useEffect } from "react"
 import { Button } from "../ui/buttons"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Something went wrong",
+}
 
 export default function Error({
   error,

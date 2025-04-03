@@ -4,13 +4,30 @@ import CommentList from "@/app/ui/comment-list"
 import NotFound from "@/app/ui/not-found"
 import PageHeader from "@/app/ui/page-header"
 import Post from "@/app/ui/post"
+import { Metadata, ResolvingMetadata } from "next"
 
-export default async function PostPage({
-  params,
-}: {
+type Props = {
   params: Promise<{ id: string }>
-}) {
-  const id = (await params).id
+}
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const { id } = await params
+  const post = await fetchPostById(id)
+  if (!post) {
+    return {
+      title: "Post not found",
+    }
+  }
+  return {
+    title: `Post by ${post?.user.profile?.name}`,
+  }
+}
+
+export default async function PostPage({ params }: Props) {
+  const { id } = await params
   const post = await fetchPostById(id)
   const { comments: initialComments, hasMoreComments } = await fetchComments({
     postId: id,

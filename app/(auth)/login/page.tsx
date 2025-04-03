@@ -2,6 +2,11 @@ import Link from "next/link"
 import LoginForm from "@/app/ui/login-form"
 import SocialLogin from "@/app/ui/social-login"
 import { Suspense } from "react"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Login",
+}
 
 export default function LoginPage() {
   return (

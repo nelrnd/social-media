@@ -4,8 +4,11 @@ import { spaceGrotesk } from "./fonts"
 import { ThemeProvider } from "next-themes"
 
 export const metadata: Metadata = {
-  title: "AHSI - Social Media",
-  description: "AHSI is a social media app",
+  title: {
+    template: "%s | AHSI",
+    default: "AHSI Social Media",
+  },
+  description: "AHSI is the best social media app",
 }
 
 export default function RootLayout({

@@ -3,6 +3,11 @@ import { fetchProfile } from "@/app/lib/data"
 import PageHeader from "@/app/ui/page-header"
 import ProfileForm from "@/app/ui/profile-form"
 import { auth } from "@/auth"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Edit profile",
+}
 
 export default async function EditProfilePage() {
   const session = await auth()

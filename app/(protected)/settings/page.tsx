@@ -3,6 +3,11 @@ import DeleteAccount from "@/app/ui/delete-account"
 import PageHeader from "@/app/ui/page-header"
 import ThemeSwitcher from "@/app/ui/theme-switcher"
 import { signOut } from "@/auth"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Settings",
+}
 
 export default function SettingsPage() {
   return (
