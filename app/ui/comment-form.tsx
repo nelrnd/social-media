@@ -4,6 +4,7 @@ import { useActionState, useEffect } from "react"
 import { CommentFormState, commentPost } from "../lib/actions"
 import { Button } from "./buttons"
 import { usePathname } from "next/navigation"
+import { useHomePosts } from "../providers/home-posts-provider"
 
 export default function CommentForm({
   postId,
@@ -17,23 +18,16 @@ export default function CommentForm({
     success: false,
     comment: null,
   }
+  const { commentPost: commentHomePost } = useHomePosts()
   const [state, formAction, isPending] = useActionState(
     (state: CommentFormState, payload: FormData) => {
       cb && cb()
+      commentHomePost(postId)
       return commentPost(state, payload)
     },
     initialState
   )
   const pathname = usePathname()
-
-  /*
-  useEffect(() => {
-    if (cb && state.comment) {
-      cb(state.comment)
-      state.comment = null
-    }
-  }, [cb, state])
-  */
 
   return (
     <form action={formAction}>

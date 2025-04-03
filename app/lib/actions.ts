@@ -477,8 +477,11 @@ export async function commentPost(
     commentId: comment.id,
   })
   revalidatePath("/post/" + postId)
-  return { message: "", success: true, comment }
-  redirect("/post/" + postId)
+  if (currentPath === "/post/" + postId) {
+    redirect("/post/" + postId)
+  } else {
+    return { message: "", success: true, comment }
+  }
 }
 
 export async function deleteComment(

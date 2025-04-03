@@ -135,8 +135,6 @@ export function CommentButton({
   const [open, setOpen] = useState(false)
   const [animating, setAnimating] = useState(false)
 
-  const { commentPost: commentHomePost } = useHomePosts()
-
   const commentCount = comments.length
   const prevCommentCount = Math.abs(commentCount - 1)
 
@@ -176,7 +174,6 @@ export function CommentButton({
           cb={(newComment) => {
             setOpen(false)
             setComments([...comments, newComment])
-            commentHomePost(post.id)
             animate()
           }}
         />
