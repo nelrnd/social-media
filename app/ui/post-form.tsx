@@ -10,6 +10,7 @@ import { Button } from "./buttons"
 import { PostWithRelations } from "../lib/definitions"
 import { useInView } from "react-intersection-observer"
 import { usePostForm } from "../providers/post-form-provider"
+import { useHomePosts } from "../providers/home-posts-provider"
 
 const MAX_IMAGES = 4
 
@@ -120,6 +121,7 @@ export default function PostForm({
 export function PostFormWrapper() {
   const { ref, inView } = useInView({ threshold: 0.3 })
   const { setVisible } = usePostForm()
+  const { addPost } = useHomePosts()
 
   useEffect(() => {
     setVisible(!inView)
@@ -127,7 +129,7 @@ export function PostFormWrapper() {
 
   return (
     <div ref={ref}>
-      <PostForm />
+      <PostForm handleAdd={addPost} />
     </div>
   )
 }

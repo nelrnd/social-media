@@ -324,6 +324,7 @@ export function Button({
 
 export function NewPostButton() {
   const [open, setOpen] = useState(false)
+  const { addPost } = useHomePosts()
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -341,7 +342,12 @@ export function NewPostButton() {
             This form allows you to create a new post
           </DialogDescription>
         </DialogHeader>
-        <PostForm handleAdd={() => setOpen(false)} />
+        <PostForm
+          handleAdd={(newPost) => {
+            addPost(newPost)
+            setOpen(false)
+          }}
+        />
       </DialogContent>
     </Dialog>
   )
