@@ -8,6 +8,8 @@ import { v4 as uuidv4 } from "uuid"
 import ImagePreview from "./image-preview"
 import { Button } from "./buttons"
 import { PostWithRelations } from "../lib/definitions"
+import { useInView } from "react-intersection-observer"
+import { usePostForm } from "../providers/post-form-provider"
 
 const MAX_IMAGES = 4
 
@@ -112,5 +114,20 @@ export default function PostForm({
         <Button isLoading={isPending}>Post</Button>
       </div>
     </form>
+  )
+}
+
+export function PostFormWrapper() {
+  const { ref, inView } = useInView({ threshold: 0.3 })
+  const { setVisible } = usePostForm()
+
+  useEffect(() => {
+    setVisible(!inView)
+  }, [inView])
+
+  return (
+    <div ref={ref}>
+      <PostForm />
+    </div>
   )
 }

@@ -1,5 +1,6 @@
+import { useInView } from "react-intersection-observer"
 import PageHeader from "../ui/page-header"
-import PostForm from "../ui/post-form"
+import PostForm, { PostFormWrapper } from "../ui/post-form"
 import { HomePostList } from "../ui/post-list"
 
 export default async function HomePage() {
@@ -7,7 +8,7 @@ export default async function HomePage() {
     <main>
       <PageHeader title="Home" />
       <div className="p-6 border-b border-border">
-        <PostForm />
+        <PostFormWrapper />
       </div>
       <HomePostList />
     </main>
