@@ -16,6 +16,12 @@ type HomePostsContextType = {
     postId: string,
     newLikes?: Prisma.LikeGetPayload<{ select: { userId: true; id: true } }>[]
   ): void
+  commentPost(
+    postId: string,
+    newComments?: Prisma.CommentGetPayload<{
+      select: { userId: true; id: true }
+    }>[]
+  ): void
   feedMode: "discover" | "following"
   setFeedMode(mode: "discover" | "following"): void
 }
@@ -99,6 +105,40 @@ export default function HomePostsProvider({
     )
   }
 
+  function commentPost(
+    postId: string,
+    newComments?: Prisma.CommentGetPayload<{
+      select: { userId: true; id: true }
+    }>[]
+  ) {
+    setDiscoverPosts((prevPosts) =>
+      prevPosts.map((post) =>
+        post.id === postId
+          ? {
+              ...post,
+              comments: newComments || [
+                ...post.comments,
+                { id: uuidv4(), userId: userId as string },
+              ],
+            }
+          : post
+      )
+    )
+    setFollowingPosts((prevPosts) =>
+      prevPosts.map((post) =>
+        post.id === postId
+          ? {
+              ...post,
+              comments: newComments || [
+                ...post.comments,
+                { id: uuidv4(), userId: userId as string },
+              ],
+            }
+          : post
+      )
+    )
+  }
+
   useEffect(() => {
     async function loadInitial() {
       setDiscoverLoading(true)
@@ -118,6 +158,7 @@ export default function HomePostsProvider({
         loading: current.loading,
         loadMore,
         likePost,
+        commentPost,
         feedMode,
         setFeedMode,
       }}
