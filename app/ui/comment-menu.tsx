@@ -15,6 +15,7 @@ import { useActionState, useRef, useState } from "react"
 import { deleteComment } from "../lib/actions"
 import { usePathname } from "next/navigation"
 import DialogItem, { DialogItemProps } from "./dialog-item"
+import { useToast } from "../hooks/use-toast"
 
 export default function CommentMenu({
   commentId,
@@ -90,7 +91,14 @@ function DeleteComment({
   onOpenChange,
 }: DeleteCommentProps) {
   const pathname = usePathname()
-  const [, action, isPending] = useActionState(deleteComment, undefined)
+  const { toast } = useToast()
+  const [, action, isPending] = useActionState(
+    (state: string | undefined, payload: FormData) => {
+      toast({ title: "Comment deleted" })
+      return deleteComment(state, payload)
+    },
+    undefined
+  )
 
   return (
     <DialogItem

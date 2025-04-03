@@ -23,6 +23,7 @@ type HomePostsContextType = {
     }>[]
   ): void
   addPost(newPost: PostWithRelations): void
+  deletePost(postId: string): void
   feedMode: "discover" | "following"
   setFeedMode(mode: "discover" | "following"): void
 }
@@ -139,6 +140,15 @@ export default function HomePostsProvider({
     setFollowingPosts((prevPosts) => [newPost, ...prevPosts])
   }
 
+  function deletePost(postId: string) {
+    setDiscoverPosts((prevPosts) =>
+      prevPosts.filter((post) => post.id !== postId)
+    )
+    setFollowingPosts((prevPosts) =>
+      prevPosts.filter((post) => post.id !== postId)
+    )
+  }
+
   useEffect(() => {
     async function loadInitial() {
       setDiscoverLoading(true)
@@ -160,6 +170,7 @@ export default function HomePostsProvider({
         likePost,
         commentPost,
         addPost,
+        deletePost,
         feedMode,
         setFeedMode,
       }}

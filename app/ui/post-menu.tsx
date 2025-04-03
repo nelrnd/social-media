@@ -21,6 +21,7 @@ import { deletePost } from "../lib/actions"
 import { usePathname } from "next/navigation"
 import DialogItem, { DialogItemProps } from "./dialog-item"
 import { useToast } from "../hooks/use-toast"
+import { useHomePosts } from "../providers/home-posts-provider"
 
 export default function PostMenu({
   postId,
@@ -90,7 +91,16 @@ type DeletePostProps = Omit<DialogItemProps, "triggerChildren" | "children"> & {
 
 function DeletePost({ postId, onSelect, onOpenChange }: DeletePostProps) {
   const pathname = usePathname()
-  const [, action, isPending] = useActionState(deletePost, undefined)
+  const { deletePost: deleteHomePost } = useHomePosts()
+  const { toast } = useToast()
+  const [, action, isPending] = useActionState(
+    (state: string | undefined, payload: FormData) => {
+      toast({ title: "Post deleted" })
+      deleteHomePost(postId)
+      return deletePost(state, payload)
+    },
+    undefined
+  )
 
   return (
     <DialogItem
