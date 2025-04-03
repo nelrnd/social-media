@@ -30,6 +30,7 @@ export default function Avatar({
         alt={username ? username + "'s avatar" : "avatar"}
         fill={true}
         className="object-cover"
+        quality={100}
       />
     </div>
   )
