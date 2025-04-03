@@ -82,7 +82,7 @@ export default function PostForm({
       })
       state.post = null
     }
-  }, [handleAdd, state])
+  }, [handleAdd, state, toast])
 
   return (
     <form action={action} className="space-y-2">
