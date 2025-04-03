@@ -1,11 +1,12 @@
 "use client"
 
-import { createContext, useContext, useEffect, useState } from "react"
+import { createContext, useContext, useEffect, useRef, useState } from "react"
 import { NewPostButton } from "../ui/buttons"
 import { usePathname } from "next/navigation"
 
 interface PostFormContextType {
   setVisible(visible: boolean): void
+  addCb: any
 }
 
 const PostFormContext = createContext<PostFormContextType>(
@@ -24,6 +25,8 @@ export default function PostFormProvider({
     !disabledPathnames.includes(pathname) && !pathname.startsWith("/post/")
   )
 
+  const addCb = useRef(null)
+
   useEffect(() => {
     setVisible(
       !disabledPathnames.includes(pathname) && !pathname.startsWith("/post/")
@@ -31,12 +34,12 @@ export default function PostFormProvider({
   }, [pathname])
 
   return (
-    <PostFormContext.Provider value={{ setVisible }}>
+    <PostFormContext.Provider value={{ setVisible, addCb }}>
       {children}
 
       {visible && (
         <div className="fixed right-8 bottom-[7rem] xl:bottom-8 z-50">
-          <NewPostButton />
+          <NewPostButton addCb={addCb.current} />
         </div>
       )}
     </PostFormContext.Provider>

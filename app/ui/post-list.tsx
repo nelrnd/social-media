@@ -7,6 +7,8 @@ import { useEffect, useState } from "react"
 import TabSwitcher from "./feed-mode-switcher"
 import { PostWithRelations } from "../lib/definitions"
 import { fetchPosts } from "../lib/data"
+import { usePostForm } from "../providers/post-form-provider"
+import { useSession } from "next-auth/react"
 
 export function HomePostList() {
   const { posts, hasMore, loading, loadMore } = useHomePosts()
@@ -47,10 +49,18 @@ export function ProfilePostList({
   initialHasMorePosts: boolean
   userId?: string
 }) {
+  const session = useSession()
+  const authUserId = session.data?.user.id
   const [posts, setPosts] = useState(initialPosts)
   const [hasMore, setHasMore] = useState(initialHasMorePosts)
   const { ref, inView } = useInView()
   const [isLoading, setIsLoading] = useState(inView && hasMore)
+
+  const { addCb } = usePostForm()
+
+  function addPost(newPost: PostWithRelations) {
+    setPosts((prevPosts) => [newPost, ...prevPosts])
+  }
 
   useEffect(() => {
     let ignore = false
@@ -74,6 +84,14 @@ export function ProfilePostList({
       ignore = true
     }
   }, [inView, hasMore, posts, userId])
+
+  useEffect(() => {
+    if (userId === authUserId) {
+      addCb.current = addPost
+    } else {
+      addCb.current = null
+    }
+  }, [userId, authUserId])
 
   return (
     <div>

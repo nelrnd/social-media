@@ -322,7 +322,7 @@ export function Button({
   )
 }
 
-export function NewPostButton() {
+export function NewPostButton({ addCb }: { addCb?: any }) {
   const [open, setOpen] = useState(false)
   const { addPost } = useHomePosts()
 
@@ -345,6 +345,7 @@ export function NewPostButton() {
         <PostForm
           handleAdd={(newPost) => {
             addPost(newPost)
+            if (addCb) addCb(newPost)
             setOpen(false)
           }}
         />
