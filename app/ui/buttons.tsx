@@ -27,6 +27,7 @@ import { Skeleton } from "./skeleton"
 import { PostWithRelations } from "../lib/definitions"
 import PostForm from "./post-form"
 import { useHomePosts } from "../providers/home-posts-provider"
+import { useToast } from "../hooks/use-toast"
 
 function ActionButton({
   children,
@@ -138,6 +139,8 @@ export function CommentButton({
   const commentCount = comments.length
   const prevCommentCount = Math.abs(commentCount - 1)
 
+  const { toast } = useToast()
+
   function animate() {
     setAnimating(true)
     setTimeout(() => {
@@ -175,6 +178,7 @@ export function CommentButton({
             setOpen(false)
             setComments([...comments, newComment])
             animate()
+            toast({ title: "Commented post" })
           }}
         />
       </DialogContent>

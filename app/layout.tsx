@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import "./globals.css"
 import { spaceGrotesk } from "./fonts"
 import { ThemeProvider } from "next-themes"
+import { Toaster } from "./ui/toaster"
 
 export const metadata: Metadata = {
   title: {
@@ -23,6 +24,7 @@ export default function RootLayout({
           <div className="bg-background text-primary min-h-full">
             {children}
           </div>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>
