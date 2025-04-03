@@ -616,3 +616,41 @@ export async function deleteUser() {
   await signOut()
   redirect("/")
 }
+
+export type VerifyEmailState = {
+  errors?: {
+    email?: string[]
+  }
+  success?: boolean
+  exists?: boolean
+}
+
+const VerifyEmailSchema = z.object({
+  email: z
+    .string()
+    .trim()
+    .min(1, "Email is required")
+    .email("Email format in invalid"),
+})
+
+export async function verifyEmail(
+  prevState: VerifyEmailState,
+  formData: FormData
+) {
+  const validatedFields = VerifyEmailSchema.safeParse({
+    email: formData.get("email"),
+  })
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      success: false,
+    }
+  }
+
+  const { email } = validatedFields.data
+
+  const user = await prisma.user.findUnique({ where: { email } })
+
+  return { success: true, exists: !!user }
+}
