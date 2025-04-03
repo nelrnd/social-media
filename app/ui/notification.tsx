@@ -5,6 +5,7 @@ import { PostMinimized } from "./post"
 import { Skeleton } from "./skeleton"
 import ProfileHoverCard from "./profile-hover-card"
 import { NotificationWithRelations } from "../lib/definitions"
+import clsx from "clsx"
 
 export default function Notification({
   notification,
@@ -23,7 +24,12 @@ export default function Notification({
   }
 
   return (
-    <div className="p-6 border-b border-border grid grid-cols-[auto_1fr] gap-4 relative hover:bg-subtle transition-colors">
+    <div
+      className={clsx(
+        "p-6 border-b border-border grid grid-cols-[auto_1fr] gap-4 relative hover:bg-subtle transition-colors",
+        { "animate-new": notification.isRead === false }
+      )}
+    >
       <ProfileHoverCard profile={notification.from.profile}>
         <Link
           href={`/profile/${notification.from.profile?.username}`}

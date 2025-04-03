@@ -30,9 +30,14 @@ export default {
           "0%": { transform: "translateY(0%)" },
           "100%": { transform: "translateY(-50%)" },
         },
+        new: {
+          "0%": { "background-color": "var(--subtle)" },
+          "100%": { "background-color": "var(--background)" },
+        },
       },
       animation: {
         rise: "rise 150ms ease-in-out both",
+        new: "new 500ms ease-in both",
       },
     },
   },
