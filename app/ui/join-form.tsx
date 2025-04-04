@@ -9,7 +9,10 @@ export default function JoinForm() {
   const [verificationEmail, setVerificationEmail] = useState("")
 
   return verificationEmail ? (
-    <JoinForm_OTPVerification verificationEmail={verificationEmail} />
+    <JoinForm_OTPVerification
+      verificationEmail={verificationEmail}
+      setVerificationEmail={setVerificationEmail}
+    />
   ) : (
     <JoinForm_EmailVerification setVerificationEmail={setVerificationEmail} />
   )
@@ -60,6 +63,7 @@ function JoinForm_OTPVerification({
   return (
     <form className="space-y-4">
       <button
+        type="button"
         onClick={() => setVerificationEmail("")}
         className="size-8 bg-background hover:bg-subtle transition-colors flex items-center justify-center rounded-full"
         aria-label="Go back"
@@ -97,8 +101,8 @@ function JoinForm_OTPVerification({
         />
       </div>
       <p className="text-sm text-soft">
-        We just sent you an email to your inbox. The code expires shortly, so
-        please enter it soon.
+        We just sent you an email to your inbox. The code expires in 3 minutes,
+        so please enter it soon.
       </p>
       <Button className="w-full">Login</Button>
     </form>

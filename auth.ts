@@ -8,6 +8,8 @@ import bcrypt from "bcrypt"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import { prisma } from "@/app/lib/prisma"
 import { Profile } from "@prisma/client"
+import { randomInt } from "crypto"
+import { createTransport } from "nodemailer"
 
 async function getUser(email: string) {
   try {
@@ -40,6 +42,26 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     Nodemailer({
       server: process.env.EMAIL_SERVER,
       from: process.env.EMAIL_FROM,
+      async generateVerificationToken() {
+        return generateOTP().toString()
+      },
+      maxAge: 3 * 60, // 3 minutes
+      async sendVerificationRequest({
+        identifier: email,
+        token,
+        url,
+        provider: { server, from },
+      }) {
+        const { host } = new URL(url)
+        const transport = createTransport(server)
+        await transport.sendMail({
+          to: email,
+          from,
+          subject: `AHSI confirmation code: ${token}`,
+          text: text({ token, host }),
+          html: html({ token, host }),
+        })
+      },
     }),
     Google,
     GitHub,
@@ -67,3 +89,57 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     },
   },
 })
+
+function generateOTP() {
+  return randomInt(100000, 999999)
+}
+
+function html(params: { token: string; host: string }) {
+  const { token, host } = params
+  const escapedHost = host.replace(/\\./g, "&#8203;.")
+
+  const color = {
+    background: "#f9f9f9",
+    text: "#444",
+    mainBackground: "#fff",
+  }
+
+  return `
+<body style="background: ${color.background};">
+  <table width="100%" border="0" cellspacing="20" cellpadding="0"
+    style="background: ${color.mainBackground}; max-width: 600px; margin: auto; border-radius: 10px;">
+    <tr>
+      <td align="center"
+        style="padding: 10px 0px; font-size: 22px; font-family: Helvetica, Arial, sans-serif; color: ${color.text};">
+        Sign in to AHSI
+      </td>
+    </tr>
+    <tr>
+      <td align="center" style="padding: 20px 0;">
+        <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td align="center"><strong>Sign in code:</strong> ${token}</td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td align="center"
+        style="padding: 0px 0px 10px 0px; font-size: 16px; line-height: 22px; font-family: Helvetica, Arial, sans-serif; color: ${color.text};">
+        Keep in mind that this code will expire after <strong><em>3 minutes</em></strong>. If you did not request this email you can safely ignore it.
+      </td>
+    </tr>
+  </table>
+</body>
+  `
+}
+
+function text(params: { token: string; host: string }) {
+  return `
+  Sign in to ${params.host}
+
+  Sign in code: ${params.token}
+
+  Keep in mind that this code will expire after 3 minutes. If you did not request this email you can safely ignore it.
+  `
+}
