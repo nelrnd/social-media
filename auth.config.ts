@@ -2,14 +2,14 @@ import type { NextAuthConfig } from "next-auth"
 
 export const authConfig = {
   pages: {
-    signIn: "/login",
+    signIn: "/join",
     newUser: "/profile-setup",
   },
   providers: [],
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user
-      const isOnProtectedRoute = !["/login", "/register"].includes(
+      const isOnProtectedRoute = !["/join"].includes(
         nextUrl.pathname.split("?")[0]
       )
       if (isOnProtectedRoute) {

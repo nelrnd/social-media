@@ -1,6 +1,6 @@
 import NextAuth, { Session } from "next-auth"
 import { authConfig } from "./auth.config"
-import Credentials from "next-auth/providers/credentials"
+import Nodemailer from "next-auth/providers/nodemailer"
 import Google from "next-auth/providers/google"
 import GitHub from "next-auth/providers/github"
 import { z } from "zod"
@@ -37,26 +37,9 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
   providers: [
-    Credentials({
-      async authorize(credentials) {
-        const parsedCredentials = z
-          .object({ email: z.string().email(), password: z.string().min(6) })
-          .safeParse(credentials)
-
-        if (parsedCredentials.success) {
-          const { email, password } = parsedCredentials.data
-          const user = await getUser(email)
-          if (!user) return null
-          const passwordsMatch = await bcrypt.compare(
-            password,
-            user.password || ""
-          )
-          if (passwordsMatch) return user
-        }
-
-        console.log("Invalid credentials")
-        return null
-      },
+    Nodemailer({
+      server: process.env.EMAIL_SERVER,
+      from: process.env.EMAIL_FROM,
     }),
     Google,
     GitHub,
