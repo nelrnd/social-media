@@ -1,28 +1,13 @@
-import NextAuth, { Session } from "next-auth"
+import NextAuth from "next-auth"
 import { authConfig } from "./auth.config"
 import Nodemailer from "next-auth/providers/nodemailer"
 import Google from "next-auth/providers/google"
 import GitHub from "next-auth/providers/github"
-import { z } from "zod"
-import bcrypt from "bcrypt"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import { prisma } from "@/app/lib/prisma"
 import { Profile } from "@prisma/client"
 import { randomInt } from "crypto"
 import { createTransport } from "nodemailer"
-
-async function getUser(email: string) {
-  try {
-    const user = await prisma.user.findUnique({
-      where: { email },
-      include: { profile: true },
-    })
-    return user
-  } catch (error) {
-    console.error("Failed to fetch user:", error)
-    throw new Error("Failed to fetch user")
-  }
-}
 
 async function getProfile(userId: string) {
   try {

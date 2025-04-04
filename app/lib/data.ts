@@ -3,7 +3,6 @@
 import { auth } from "@/auth"
 import { prisma } from "./prisma"
 import { Prisma } from "@prisma/client"
-import { z } from "zod"
 
 const ITEMS_PER_FETCH = 8
 

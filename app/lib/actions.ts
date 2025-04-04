@@ -1,9 +1,7 @@
 "use server"
 
 import { auth, signIn, signOut } from "@/auth"
-import { AuthError } from "next-auth"
 import { prisma } from "@/app/lib/prisma"
-import bcrypt from "bcrypt"
 import { z } from "zod"
 import { revalidatePath } from "next/cache"
 import { NotificationType, Prisma } from "@prisma/client"
@@ -26,105 +24,6 @@ const ACCEPTED_IMAGE_TYPES = [
   "image/png",
   "image/webp",
 ]
-
-export type AuthState = {
-  errors?: {
-    email?: string[]
-    password?: string[]
-  }
-  message?: string | null
-  data?: FormData
-}
-
-const LoginFormSchema = z.object({
-  email: z.string().min(1, "Email is required"),
-  password: z.string().min(1, "Password is required"),
-})
-
-export async function authenticate(prevState: AuthState, formData: FormData) {
-  const validatedFields = LoginFormSchema.safeParse({
-    email: formData.get("email"),
-    password: formData.get("password"),
-  })
-
-  if (!validatedFields.success) {
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
-      data: formData,
-    }
-  }
-
-  try {
-    await signIn("credentials", formData)
-  } catch (error) {
-    if (error instanceof AuthError) {
-      switch (error.type) {
-        case "CredentialsSignin":
-          return { message: "Invalid credentials", data: formData }
-        default:
-          return { message: "Something went wrong", data: formData }
-      }
-    }
-    throw error
-  }
-
-  return { message: "Logged in with success" }
-}
-
-export async function emailSignIn(
-  prevState: string | undefined,
-  formData: FormData
-) {
-  console.log(formData.get("email"))
-  await signIn("nodemailer", formData)
-
-  return "Success"
-}
-
-const RegisterFormSchema = z.object({
-  email: z
-    .string()
-    .min(1, "Email is required")
-    .email("Email format is invalid")
-    .refine(async (email) => {
-      const user = await prisma.user.findUnique({ where: { email } })
-      return !user
-    }, "Email is already used"),
-  password: z
-    .string()
-    .min(1, "Password is required")
-    .min(6, "Password must be at least 6 characters"),
-})
-
-export async function register(prevState: AuthState, formData: FormData) {
-  const validatedFields = await RegisterFormSchema.safeParseAsync({
-    email: formData.get("email"),
-    password: formData.get("password"),
-  })
-
-  if (!validatedFields.success) {
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
-      data: formData,
-    }
-  }
-
-  const { email, password } = validatedFields.data
-  const hashedPassword = await bcrypt.hash(password, 12)
-
-  try {
-    await prisma.user.create({ data: { email, password: hashedPassword } })
-    await signIn("credentials", formData)
-  } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      return { message: "Something went wrong", data: formData }
-    }
-    console.error(error)
-    throw error
-  }
-
-  return { message: "Registered with success" }
-}
 
 export interface Image {
   file: File
@@ -627,15 +526,14 @@ export async function deleteUser() {
   redirect("/")
 }
 
-export type VerifyEmailState = {
+export type SendConfirmationCodeState = {
   errors?: {
     email?: string[]
   }
   success?: boolean
-  exists?: boolean
 }
 
-const VerifyEmailSchema = z.object({
+const sendConfirmationCodeSchema = z.object({
   email: z
     .string()
     .trim()
@@ -643,11 +541,11 @@ const VerifyEmailSchema = z.object({
     .email("Email format in invalid"),
 })
 
-export async function verifyEmail(
-  prevState: VerifyEmailState,
+export async function sendConfirmationCode(
+  prevState: SendConfirmationCodeState,
   formData: FormData
 ) {
-  const validatedFields = VerifyEmailSchema.safeParse({
+  const validatedFields = sendConfirmationCodeSchema.safeParse({
     email: formData.get("email"),
   })
 
@@ -660,7 +558,68 @@ export async function verifyEmail(
 
   const { email } = validatedFields.data
 
-  const user = await prisma.user.findUnique({ where: { email } })
+  const response = await signIn("nodemailer", { email, redirect: false })
 
-  return { success: true, exists: !!user }
+  if (response.error) {
+    if (response.url) {
+      redirect(response.url)
+    } else {
+      redirect(`/join?error=${encodeURIComponent(response.error)}`)
+    }
+  } else {
+    return { success: true }
+  }
+}
+
+export type VerifyConfirmationCodeState = {
+  errors?: {
+    email?: string[]
+    otp?: string[]
+    redirectTo?: string[]
+  }
+  requestUrl?: string
+}
+
+const verifyConfirmationCodeSchema = z.object({
+  email: z
+    .string()
+    .trim()
+    .min(1, "Email is required")
+    .email("Email format is invalid"),
+  otp: z
+    .string()
+    .trim()
+    .min(6, "Confirmation code is 6 characters long")
+    .max(6, "Confirmation code is 6 characters long"),
+  redirectTo: z
+    .string()
+    .min(1, "Callback url is required")
+    .url("Callback url format is invalid"),
+})
+
+export async function verifyConfirmationCode(
+  prevState: VerifyConfirmationCodeState,
+  formData: FormData
+) {
+  const validatedFields = verifyConfirmationCodeSchema.safeParse({
+    email: formData.get("email"),
+    otp: formData.get("otp"),
+    redirectTo: formData.get("redirectTo"),
+  })
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      success: false,
+    }
+  }
+
+  const { email, otp, redirectTo } = validatedFields.data
+
+  const formattedEmail = encodeURIComponent(email.toLowerCase())
+  const formattedOtp = encodeURIComponent(otp)
+  const formattedCallback = encodeURIComponent(redirectTo)
+  const otpRequestURL = `/api/auth/callback/nodemailer?email=${formattedEmail}&token=${formattedOtp}&callbackUrl=${formattedCallback}`
+
+  return { requestUrl: otpRequestURL }
 }

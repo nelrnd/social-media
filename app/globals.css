@@ -31,7 +31,7 @@
 
 @layer components {
   .press {
-    @apply scale-100 active:scale-95 will-change-transform;
+    @apply scale-100 active:scale-95 will-change-transform disabled:active:scale-100;
   }
 }
 
