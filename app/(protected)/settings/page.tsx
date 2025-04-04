@@ -19,7 +19,7 @@ export default function SettingsPage() {
         <form
           action={async () => {
             "use server"
-            await signOut({ redirectTo: "/" })
+            await signOut({ redirectTo: "/join" })
           }}
         >
           <Button className="w-full" variant="secondary">
