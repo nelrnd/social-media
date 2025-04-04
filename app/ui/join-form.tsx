@@ -1,7 +1,7 @@
 "use client"
 
 import { useActionState } from "react"
-import { verifyEmail, VerifyEmailState } from "../lib/actions"
+import { emailSignIn, verifyEmail, VerifyEmailState } from "../lib/actions"
 import { Button } from "./buttons"
 
 export default function JoinForm() {
@@ -13,8 +13,7 @@ export default function JoinForm() {
 }
 
 function JoinForm_EmailVerification() {
-  const initialState: VerifyEmailState = { errors: {} }
-  const [state, action, isPending] = useActionState(verifyEmail, initialState)
+  const [state, action, isPending] = useActionState(emailSignIn, undefined)
 
   return (
     <form action={action} className="space-y-4">
@@ -31,13 +30,6 @@ function JoinForm_EmailVerification() {
           aria-labelledby="email-error"
           spellCheck="false"
         />
-        <div id="email-error" aria-live="polite" aria-atomic="true">
-          {state?.errors?.email && (
-            <p className="text-danger text-sm mt-1">
-              {state.errors.email.at(0)}
-            </p>
-          )}
-        </div>
       </div>
       <Button className="w-full" isLoading={isPending}>
         Continue

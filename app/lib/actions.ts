@@ -71,6 +71,16 @@ export async function authenticate(prevState: AuthState, formData: FormData) {
   return { message: "Logged in with success" }
 }
 
+export async function emailSignIn(
+  prevState: string | undefined,
+  formData: FormData
+) {
+  console.log(formData.get("email"))
+  await signIn("nodemailer", formData)
+
+  return "Success"
+}
+
 const RegisterFormSchema = z.object({
   email: z
     .string()
