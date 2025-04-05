@@ -634,3 +634,11 @@ export async function verifyConfirmationCode(
 
   return { requestUrl: otpRequestURL }
 }
+
+export async function signInWithGoogle(formData: FormData) {
+  await signIn("google", { redirectTo: formData.get("redirectTo") as string })
+}
+
+export async function signInWithGithub(formData: FormData) {
+  await signIn("github", { redirectTo: formData.get("redirectTo") as string })
+}

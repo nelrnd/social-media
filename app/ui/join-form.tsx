@@ -209,6 +209,7 @@ function JoinForm_OTPVerification({
 }
 
 const ERROR_MESSAGES = {
+  OAuthAccountNotLinked: "",
   Configuration:
     "There is a problem with the server configuration. Please contact the site administrator.",
   AccessDenied: "You don't have permission to sigin or register on this site.",
@@ -221,7 +222,7 @@ function VerificationAlert() {
   const params = useSearchParams()
   const error = params.get("error") as keyof typeof ERROR_MESSAGES
 
-  return error ? (
+  return error && ERROR_MESSAGES[error] ? (
     <div className="bg-subtle border-l-4 border-danger text-sm text-danger mb-3 p-4">
       {ERROR_MESSAGES[error] || ERROR_MESSAGES.Default}
     </div>

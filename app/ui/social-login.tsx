@@ -1,9 +1,16 @@
-import { signIn } from "@/auth"
+"use client"
+
 import { JSX, Suspense } from "react"
 import SocialLoginError from "./social-login-error"
 import { Button } from "./buttons"
+import { signInWithGithub, signInWithGoogle } from "../lib/actions"
+import { useSearchParams } from "next/navigation"
 
 export default function SocialLogin() {
+  const searchParams = useSearchParams()
+  const callbackUrl =
+    searchParams.get("callbackUrl") || new URL(document.URL).origin + "/"
+
   return (
     <div className="space-y-3">
       <div className="relative select-none mb-6">
@@ -13,24 +20,16 @@ export default function SocialLogin() {
         <div className="h-[1px] w-full bg-border absolute top-1/2"></div>
       </div>
 
-      <form
-        action={async () => {
-          "use server"
-          await signIn("google")
-        }}
-      >
+      <form action={signInWithGoogle}>
+        <input type="hidden" name="redirectTo" value={callbackUrl} />
         <Button type="submit" variant="secondary" className="w-full">
           <GoogleIcon />
           Sign in with Google
         </Button>
       </form>
 
-      <form
-        action={async () => {
-          "use server"
-          await signIn("github")
-        }}
-      >
+      <form action={signInWithGithub}>
+        <input type="hidden" name="redirectTo" value={callbackUrl} />
         <Button type="submit" variant="secondary" className="w-full">
           <GithubIcon />
           Sign in with GitHub
