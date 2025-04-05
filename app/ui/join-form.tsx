@@ -36,6 +36,9 @@ function JoinForm_EmailVerification({
 }: {
   setVerificationEmail: (email: string) => void
 }) {
+  const searchParams = useSearchParams()
+  const callbackUrl =
+    searchParams.get("callbackUrl") || new URL(document.URL).origin + "/"
   const initialState: SendConfirmationCodeState = { errors: {} }
   const [state, action, isPending] = useActionState(
     sendConfirmationCode,
@@ -75,6 +78,7 @@ function JoinForm_EmailVerification({
           )}
         </div>
       </div>
+      <input type="hidden" name="redirectTo" value={callbackUrl} />
       <Button className="w-full" isLoading={isPending}>
         Continue
       </Button>
@@ -122,11 +126,7 @@ function JoinForm_OTPVerification({
         setIsLoading(true)
         const response = await fetch(state.requestUrl)
         if (response) {
-          console.log(state.requestUrl)
-          console.log(response)
-          if (response.url.includes(encodeURIComponent(callbackUrl))) {
-            console.log("requestUrl: ", state.requestUrl)
-            console.log("responseUrl: ", response.url)
+          if (response.url.includes(callbackUrl)) {
             push(response.url)
           } else {
             setOtp("")

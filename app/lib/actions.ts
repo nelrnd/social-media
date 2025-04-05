@@ -539,6 +539,10 @@ const sendConfirmationCodeSchema = z.object({
     .trim()
     .min(1, "Email is required")
     .email("Email format in invalid"),
+  redirectTo: z
+    .string()
+    .min(1, "Callback url is required")
+    .url("Callback url format is invalid"),
 })
 
 export async function sendConfirmationCode(
@@ -547,6 +551,7 @@ export async function sendConfirmationCode(
 ) {
   const validatedFields = sendConfirmationCodeSchema.safeParse({
     email: formData.get("email"),
+    redirectTo: formData.get("redirectTo"),
   })
 
   if (!validatedFields.success) {
@@ -556,9 +561,15 @@ export async function sendConfirmationCode(
     }
   }
 
-  const { email } = validatedFields.data
+  const { email, redirectTo } = validatedFields.data
 
-  const response = await signIn("nodemailer", { email, redirect: false })
+  console.log(redirectTo)
+
+  const response = await signIn("nodemailer", {
+    email,
+    redirectTo,
+    redirect: false,
+  })
 
   if (response.error) {
     if (response.url) {
