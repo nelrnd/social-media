@@ -15,7 +15,9 @@ export default function JoinPage() {
         <Suspense>
           <JoinForm />
         </Suspense>
-        <SocialLogin />
+        <Suspense>
+          <SocialLogin />
+        </Suspense>
       </div>
     </main>
   )
